@@ -1,0 +1,8 @@
+verbosity=1
+extraargs=coherent_pool=2M video=HDMI-A-1:d
+bootlogo=false
+overlay_prefix=rk322x
+fdtfile=rk322x-box.dtb
+rootdev=UUID=589d5961-24fe-423d-8db5-dda29cc5ed64
+rootfstype=ext4
+usbstoragequirks=0x2537:0x1066:u,0x2537:0x1068:u

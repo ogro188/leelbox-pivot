@@ -1,0 +1,5 @@
+# Reporte diario de senales PIVOT -> ntfy
+# Acierto real por detector y banda de confianza (velas cerradas).
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+30 22 * * * root /opt/pivot/scripts/reporte_diario.py > /var/log/pivot/reporte.log 2>&1

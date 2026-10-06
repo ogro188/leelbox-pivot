@@ -1,0 +1,22 @@
+{
+  "simbolo": "XAUUSD",
+  "nombre": "Oro/Dólar",
+  "point": 0.01,
+  "decimales": 2,
+  "pip": 0.1,
+  "fuente_tipo": "deriv",
+  "fuente_config": {
+    "instrumento": "frxXAUUSD"
+  },
+  "timeframes": [
+    "M15",
+    "H1",
+    "H4",
+    "D1"
+  ],
+  "horario_broker_utc": 2,
+  "ntfy": {
+    "topic": "radar_XAUUSD",
+    "server": "http://127.0.0.1:8081"
+  }
+}

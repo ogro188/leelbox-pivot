@@ -1,0 +1,40 @@
+# ============================================================
+#  ntfy privado en la Leelbox
+#  Servidor de mensajeria accesible por tunel, sin pasar por
+#  ntfy.sh ni por Google.
+# ============================================================
+
+# URL publica. Cloudflare Tunnel da HTTPS delante de este servidor.
+# PENDIENTE: cambiar por https://ntfy.<TU-DOMINIO> antes de exponerlo.
+base-url: "https://leelbox-pivot.taila46fc1.ts.net"
+
+# Solo escucha en local en el puerto 8081 (no privilegiado): nobody
+listen-http: "127.0.0.1:8081"
+
+# Necesario: cloudflared manda X-Forwarded-For, sin esto ntfy cree
+# que todas las visitas vienen de 127.0.0.1 y aplica un solo limite.
+behind-proxy: true
+
+# Persistencia
+cache-file: "/var/lib/ntfy/cache.db"
+auth-file: "/var/lib/ntfy/user.db"
+attachment-cache-dir: "/var/lib/ntfy/attachments"
+attachment-file-size-limit: "20M"
+
+# Sin esto cualquiera podria crear su propia cuenta.
+enable-login: true
+enable-signup: false
+enable-reservations: false
+
+# Nadie entra sin credenciales.
+auth-default-access: "deny-all"
+
+# ---- PRIVACIDAD ----
+# Upstream activo: el push instantaneo a Android viaja por Firebase (Google).
+# El celular del usuario consulta esta caja directamente, por eso las
+# alertas pueden tardar mas que una notificacion normal.
+upstream-base-url: "https://ntfy.sh"
+
+log-level: "info"
+
+# Limites por visitante: se usan los de ntfy (burst 60).

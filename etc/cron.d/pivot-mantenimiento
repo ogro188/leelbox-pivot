@@ -1,0 +1,12 @@
+# Vigia (Tailscale + feed Deriv) y respaldos del Leelbox
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Vigia: cada 5 min
+*/5 * * * * root /usr/bin/python3 /opt/pivot/scripts/vigia.py >> /var/log/pivot/vigia.log 2>&1
+
+# Respaldos de bases de datos: diario 23:00 (retiene 7 dias)
+0 23 * * * root /usr/bin/python3 /opt/pivot/scripts/respaldos.py db >> /var/log/pivot/respaldos.log 2>&1
+
+# Tarball de codigo+config: domingos 03:30 (retiene 4)
+30 3 * * 0 root /usr/bin/python3 /opt/pivot/scripts/respaldos.py sistema >> /var/log/pivot/respaldos.log 2>&1

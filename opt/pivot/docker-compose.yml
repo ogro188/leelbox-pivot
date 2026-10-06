@@ -1,0 +1,48 @@
+services:
+  # API Backend + Backtest Engine
+  pivot-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pivot-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=sqlite:///app/data/pivot.db
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DERIV_APP_ID=${DERIV_APP_ID:-}
+      - DERIV_API_TOKEN=${DERIV_API_TOKEN:-}
+      - DERIV_SYMBOL=${DERIV_SYMBOL:-1HZ100V}
+      - DERIV_TIMEFRAMES=${DERIV_TIMEFRAMES:-M15,H1,H4,D1}
+      - DERIV_ACCOUNT_TYPE=${DERIV_ACCOUNT_TYPE:-virtual}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - pivot_network
+
+  # Frontend React
+  pivot-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: pivot-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - pivot-api
+    restart: unless-stopped
+    networks:
+      - pivot_network
+
+networks:
+  pivot_network:
+    driver: bridge
