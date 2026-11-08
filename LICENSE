@@ -1,22 +1,31 @@
-# Licencia de revisión — PIVOT
+# Licencia de investigación — PIVOT
 
 Copyright (c) 2026. Todos los derechos reservados.
 
-Este repositorio se comparte **exclusivamente** con revisores externos autorizados para una auditoría técnica y metodológica del sistema PIVOT, sus datos y sus resultados.
+Este repositorio se publica como **material de investigación abierta** para que
+cualquier persona pueda auditarlo, reproducirlo y discutirlo.
 
 Se permite:
 
-1. leer, ejecutar y modificar el código en una copia local o en un fork privado;
-2. usar los datos y resultados para el análisis solicitado;
-3. citar conclusiones agregadas en un informe de auditoría.
+1. leer, ejecutar y modificar el código en una copia local o en un fork;
+2. usar los datos y resultados para análisis, docencia o revisión técnica;
+3. citar conclusiones agregadas en un informe, artículo o discusión pública,
+   indicando la fuente.
 
 No se permite:
 
-1. redistribuir, publicar o compartir el código, los datos o los resultados con terceros no autorizados;
-2. usar el sistema, los datos o los resultados con fines comerciales;
-3. operar con dinero real, promover productos de inversión o presentar el sistema como una estrategia rentable;
-4. eliminar o alterar este aviso de licencia.
+1. usar el sistema, los datos o los resultados con fines comerciales;
+2. operar con dinero real, promover productos de inversión o presentar el
+   sistema como una estrategia rentable;
+3. eliminar o alterar este aviso de licencia.
 
-El software se proporciona "tal cual", sin garantía de ningún tipo, expresa o implícita, incluidas las garantías de comerciabilidad, idoneidad para un fin particular y no infracción. En ningún caso los autores serán responsables de daños directos, indirectos, incidentales o consecuentes derivados del uso del software o de los datos.
+El software se proporciona "tal cual", sin garantía de ningún tipo, expresa o
+implícita, incluidas las garantías de comerciabilidad, idoneidad para un fin
+particular y no infracción. En ningún caso los autores serán responsables de
+daños directos, indirectos, incidentales o consecuentes derivados del uso del
+software o de los datos.
 
-Las opciones binarias implican riesgo de pérdida total y están restringidas en muchas jurisdicciones. Este repositorio es material de investigación; no es asesoramiento financiero.
+Las opciones binarias implican riesgo de pérdida total y están restringidas en
+muchas jurisdicciones. Este repositorio es material de investigación; no es
+asesoramiento financiero. **No hay edge confirmado** y nada de lo publicado
+autoriza a operar.
