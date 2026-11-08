@@ -1,0 +1,42 @@
+===== XAUUSD | split 2026-10-01 =====
+descubrimiento: 6952 senales (2026-05-12..2026-09-29)
+holdout:        1908 senales (2026-10-01..2026-11-06)
+  BASE      TODAS                          h3 n=1908 WR= 47.8 IC=45.6-50.0 EV=-13.01% boot=[-16.97, -8.57] p=1.0000
+
+Supervivientes estrictos en descubrimiento: 0
+
+Hipotesis a priori en holdout (sin seleccion):
+  APRIORI   h4_alineado                    h1 n= 961 WR= 47.0 IC=43.9-50.2 EV=-14.87% boot=[-21.53, -8.86] p=1.0000
+  APRIORI   h4_alineado                    h2 n= 961 WR= 48.8 IC=45.7-52.0 EV=-11.18% boot=[-19.18, -3.33] p=0.9999
+  APRIORI   h4_alineado                    h3 n= 961 WR= 46.6 IC=43.5-49.8 EV=-15.16% boot=[-22.85, -7.90] p=1.0000
+  APRIORI   h4_alineado                    h4 n= 961 WR= 46.6 IC=43.5-49.8 EV=-14.69% boot=[-21.88, -7.60] p=1.0000
+  APRIORI   h1_alineado                    h1 n= 990 WR= 47.7 IC=44.6-50.8 EV=-13.71% boot=[-20.92, -6.76] p=1.0000
+  APRIORI   h1_alineado                    h2 n= 990 WR= 48.1 IC=45.0-51.2 EV=-12.49% boot=[-19.94, -5.58] p=1.0000
+  APRIORI   h1_alineado                    h3 n= 990 WR= 47.1 IC=44.0-50.2 EV=-14.33% boot=[-21.38, -7.11] p=1.0000
+  APRIORI   h1_alineado                    h4 n= 990 WR= 46.2 IC=43.1-49.3 EV=-15.52% boot=[-21.68, -9.17] p=1.0000
+  APRIORI   h4_y_h1_alineados              h1 n= 695 WR= 47.8 IC=44.1-51.5 EV=-13.54% boot=[-21.77, -5.75] p=1.0000
+  APRIORI   h4_y_h1_alineados              h2 n= 695 WR= 48.3 IC=44.6-52.1 EV=-12.01% boot=[-21.33, -3.25] p=0.9998
+  APRIORI   h4_y_h1_alineados              h3 n= 695 WR= 46.6 IC=42.9-50.3 EV=-15.15% boot=[-23.42, -6.78] p=1.0000
+  APRIORI   h4_y_h1_alineados              h4 n= 695 WR= 45.8 IC=42.1-49.5 EV=-16.27% boot=[-23.85, -7.67] p=1.0000
+  APRIORI   h4_pullback                    h1 n= 226 WR= 45.1 IC=38.8-51.6 EV=-18.31% boot=[-32.13, -6.13] p=0.9989
+  APRIORI   h4_pullback                    h2 n= 226 WR= 47.8 IC=41.4-54.3 EV=-13.03% boot=[-30.00, +1.68] p=0.9847
+  APRIORI   h4_pullback                    h3 n= 226 WR= 43.4 IC=37.1-49.9 EV=-21.08% boot=[-39.89, -4.71] p=0.9998
+  APRIORI   h4_pullback                    h4 n= 226 WR= 46.0 IC=39.6-52.5 EV=-15.79% boot=[-31.89, -1.67] p=0.9954
+  APRIORI   h4_contra                      h1 n= 947 WR= 48.9 IC=45.7-52.1 EV=-11.51% boot=[-18.56, -4.63] p=1.0000
+  APRIORI   h4_contra                      h2 n= 947 WR= 48.3 IC=45.1-51.4 EV=-12.17% boot=[-20.18, -5.14] p=1.0000
+  APRIORI   h4_contra                      h3 n= 947 WR= 49.0 IC=45.8-52.2 EV=-10.83% boot=[-19.26, -2.84] p=0.9999
+  APRIORI   h4_contra                      h4 n= 947 WR= 47.0 IC=43.8-50.2 EV=-14.01% boot=[-22.12, -6.56] p=1.0000
+  APRIORI   h1_contra                      h1 n= 918 WR= 48.3 IC=45.0-51.5 EV=-12.65% boot=[-19.44, -5.79] p=1.0000
+  APRIORI   h1_contra                      h2 n= 918 WR= 49.0 IC=45.8-52.3 EV=-10.78% boot=[-19.70, -2.47] p=0.9998
+  APRIORI   h1_contra                      h3 n= 918 WR= 48.6 IC=45.4-51.8 EV=-11.58% boot=[-20.92, -2.49] p=0.9999
+  APRIORI   h1_contra                      h4 n= 918 WR= 47.5 IC=44.3-50.7 EV=-13.08% boot=[-22.39, -3.89] p=1.0000
+  APRIORI   d1_alineado                    h1 n= 970 WR= 47.5 IC=44.4-50.7 EV=-13.98% boot=[-20.43, -7.83] p=1.0000
+  APRIORI   d1_alineado                    h2 n= 970 WR= 49.6 IC=46.4-52.7 EV= -9.75% boot=[-17.83, -2.28] p=0.9996
+  APRIORI   d1_alineado                    h3 n= 970 WR= 47.7 IC=44.6-50.9 EV=-13.13% boot=[-20.81, -5.90] p=1.0000
+  APRIORI   d1_alineado                    h4 n= 970 WR= 47.2 IC=44.1-50.4 EV=-13.59% boot=[-21.18, -6.03] p=1.0000
+  APRIORI   estructura_alineada            h1 n= 437 WR= 49.7 IC=45.0-54.3 EV=-10.12% boot=[-21.66, -0.43] p=0.9906
+  APRIORI   estructura_alineada            h2 n= 437 WR= 47.4 IC=42.7-52.1 EV=-13.79% boot=[-27.98, -0.76] p=0.9993
+  APRIORI   estructura_alineada            h3 n= 437 WR= 43.9 IC=39.4-48.6 EV=-20.04% boot=[-35.29, -6.36] p=1.0000
+  APRIORI   estructura_alineada            h4 n= 437 WR= 43.9 IC=39.4-48.6 EV=-19.60% boot=[-34.40, -4.75] p=1.0000
+
+Guardado results/holdout_xauusd.csv

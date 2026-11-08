@@ -1,0 +1,7 @@
+XAUUSD: replay=8932 db_ids_con_resultado=2611 comunes=2611
+  signo coincide: 98.74%
+  dif media: 15.551513 puntos | p95: 58.000000 | max: 643.000000
+  exactos (<1e-6): 25.78%
+  h1: n=  919 signo= 98.69% dif_media=17.3145 p95=60.0000
+  h2: n=  860 signo= 98.95% dif_media=14.9198 p95=56.0000
+  h3: n=  832 signo= 98.56% dif_media=14.2572 p95=57.0000

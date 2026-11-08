@@ -1,0 +1,22 @@
+# Licencia de revisión — PIVOT
+
+Copyright (c) 2026. Todos los derechos reservados.
+
+Este repositorio se comparte **exclusivamente** con revisores externos autorizados para una auditoría técnica y metodológica del sistema PIVOT, sus datos y sus resultados.
+
+Se permite:
+
+1. leer, ejecutar y modificar el código en una copia local o en un fork privado;
+2. usar los datos y resultados para el análisis solicitado;
+3. citar conclusiones agregadas en un informe de auditoría.
+
+No se permite:
+
+1. redistribuir, publicar o compartir el código, los datos o los resultados con terceros no autorizados;
+2. usar el sistema, los datos o los resultados con fines comerciales;
+3. operar con dinero real, promover productos de inversión o presentar el sistema como una estrategia rentable;
+4. eliminar o alterar este aviso de licencia.
+
+El software se proporciona "tal cual", sin garantía de ningún tipo, expresa o implícita, incluidas las garantías de comerciabilidad, idoneidad para un fin particular y no infracción. En ningún caso los autores serán responsables de daños directos, indirectos, incidentales o consecuentes derivados del uso del software o de los datos.
+
+Las opciones binarias implican riesgo de pérdida total y están restringidas en muchas jurisdicciones. Este repositorio es material de investigación; no es asesoramiento financiero.

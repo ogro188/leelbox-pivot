@@ -1,0 +1,24 @@
+{
+  "simbolo": "XAUUSD-OTC",
+  "nombre": "Oro/Dólar OTC (sintético)",
+  "point": 0.01,
+  "decimales": 2,
+  "pip": 0.1,
+  "fuente_tipo": "iqoption_public",
+  "fuente_config": {
+    "active_id": 1857,
+    "provider_name": "XAUUSD-OTC"
+  },
+  "timeframes": [
+    "M15",
+    "H1",
+    "H4",
+    "D1"
+  ],
+  "horario_broker_utc": 0,
+  "visible": false,
+  "ntfy": {
+    "topic": "pivot_EJEMPLO_XAUUSD",
+    "server": "http://127.0.0.1:8081"
+  }
+}
