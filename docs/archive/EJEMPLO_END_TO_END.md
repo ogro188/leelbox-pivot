@@ -442,10 +442,10 @@ open htmlcov/index.html
 
 ## 📚 Recursos Adicionales
 
-- [Documentación Completa](docs/)
-- [Manual Técnico](docs/MANUAL.md)
-- [Ejemplos de Estrategias](estrategias/)
-- [Reportes de Backtest](data/reports/)
+- [Documentación Completa](../)
+- [Manual Técnico](MANUAL_SISTEMA.md)
+- [Ejemplos de Estrategias](../../estrategias/)
+- [Reportes de Backtest](../../results/)
 
 ---
 
