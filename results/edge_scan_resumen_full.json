@@ -1,0 +1,22 @@
+{
+  "n_filas": 8932,
+  "desde": null,
+  "hasta": null,
+  "por_symbol": {
+    "XAUUSD": 8932
+  },
+  "payout": 0.85,
+  "payouts_by_h": [
+    0.81,
+    0.82,
+    0.82,
+    0.83,
+    0.83,
+    0.83,
+    0.83,
+    0.83
+  ],
+  "q": 0.1,
+  "tests": 456,
+  "sobrevivientes": []
+}

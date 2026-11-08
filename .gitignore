@@ -1,7 +1,51 @@
+# Python
 __pycache__/
-*.pyc
-*.bak*
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Entornos
+.venv/
+venv/
+env/
+
+# Secretos y configuración local
 .env
-*.db
-*.log
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Bases de datos, logs y estado efímero
 pivotradar_data/
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.log
+*.bak
+*.bak-*
+*.tmp
+*.swp
+
+# Salidas grandes que no forman parte del corpus de auditoría
+# (los CSV de data/ y results/ sí se versionan)
+results/otc_features_raw.csv
+results/*_raw.csv
+
+# Sistema
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/

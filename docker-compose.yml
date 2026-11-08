@@ -1,0 +1,30 @@
+services:
+  pivot-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pivot-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DATABASE_URL: sqlite:////app/data/pivot.db
+      PIVOT_ALERTAS_LIVE: "0"
+      LOG_LEVEL: INFO
+    volumes:
+      - ./data:/app/data
+      - ./activos:/app/activos:ro
+      - ./pivotradar_data:/app/pivotradar_data
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health', timeout=5)"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
