@@ -11,7 +11,7 @@ Salidas de los análisis. **Ningún archivo de esta carpeta constituye una recom
 | `eurusd_signals.csv` / `xauusd_signals.csv` | 8.959 / 8.932 señales con 176 columnas de features y etiquetas. |
 | `eurusd_meta.json` / `xauusd_meta.json` | Rango, número de velas, configuración y validación de etiquetas. |
 | `edge_scan_*_disc.csv` / `*_full.csv` | Tests de señales PIVOT en descubrimiento y ventana completa. |
-| `edge_scan_all_disc.csv` / `*_full.csv` | Concatenación de ambos activos. |
+| `edge_scan_all_disc.csv` / `*_full.csv` | **Solo XAUUSD** (artefacto de la última corrida por activo). Los archivos canónicos son los `edge_scan_<activo>_*`. |
 | `scan_*_disc.txt` / `scan_*_full.txt` | Salidas legibles de los escaneos. |
 | `ablation_*.csv` / `.txt` | Ablación de capas de contexto. |
 | `holdout_*.csv` / `.txt` | Holdout temporal. |
