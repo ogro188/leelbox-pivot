@@ -1,7 +1,1 @@
-EURUSD: replay=8959 db_ids_con_resultado=2877 comunes=2877
-  signo coincide: 99.34%
-  dif media: 1.019117 puntos | p95: 4.000000 | max: 82.000000
-  exactos (<1e-6): 61.80%
-  h1: n= 1008 signo= 98.61% dif_media=1.1429 p95=5.0000
-  h2: n=  953 signo= 99.69% dif_media=0.9664 p95=4.0000
-  h3: n=  916 signo= 99.78% dif_media=0.9378 p95=4.0000
+EURUSD: replay=8957 db_ids_con_resultado=0 comunes=0

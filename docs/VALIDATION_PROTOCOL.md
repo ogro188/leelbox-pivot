@@ -60,7 +60,8 @@ win_h = 1 si ret_h > 0, si no 0     # empate = 0
 ```
 
 - `direction = +1` (CALL/long) o `−1` (PUT/short).
-- La señal se emite al cierre de la vela `t`; el timestamp `entry_time` es el **inicio** de esa vela.
+- La señal se emite al cierre de la vela `t`; el timestamp `entry_time` es el **inicio** de esa vela y `decision_time = entry_time + 15 min` es su cierre. La alerta, la sesión y cualquier medición de latencia usan `decision_time`.
+- El contexto H1/H4/D1 es causal: velas cerradas + bucket en formación agregado solo con M15 cuyo cierre es `<= decision_time` (`kernel/contexto_superior.py`). No se usa el OHLC completo del bucket con M15 futuras.
 - La entrada de referencia es el **close de la vela de señal**, no el open de `t+1`. Es un supuesto optimista: el open siguiente suele coincidir, pero puede saltar; no se modela gap ni slippage.
 - No hay chequeo explícito de continuidad temporal: el horizonte se cuenta por **posición** en el CSV (`pos + h`). Si faltara una vela, el horizonte se desplazaría. Los M15 incluidos no tienen duplicados ni nulos, pero los fines de semana no existen.
 - No se usa el high/low para la etiqueta principal. `mfe_h*`/`mae_h*` se calculan desde `pos` hasta `pos+h` **incluyendo la vela de señal**, por lo que pueden capturar excursiones anteriores a la entrada; se usan solo para análisis de salidas, nunca para win/loss.
@@ -104,7 +105,7 @@ Familias pre-registradas:
 - EMA50: distancia en ATR y estrategia de tendencia/reversión;
 - cuerpo/rango: body ratio y rango/ATR.
 
-Cada condición se evalúa en largo y corto para h1–h4. **464 tests EURUSD / 454 XAUUSD**, FDR 10 % sobre todos los tests primarios del activo.
+Cada condición se evalúa en largo y corto para h1–h4. **464 tests EURUSD / 462 XAUUSD**, FDR 10 % sobre todos los tests primarios del activo. La corrida usa 12 meses de M15; el baseline anterior de 454 tests XAUUSD usaba ~6 meses y no es comparable (ver `docs/REFERENCE_FIX.md`).
 
 ### 4.3 Patrones intradía (`pattern_edge.py`)
 

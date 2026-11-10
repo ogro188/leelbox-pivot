@@ -29,6 +29,7 @@ sys.path.insert(0, ".")
 
 from core.motor_v8 import PivotRadarEngine, MAX_PENDING_SIGNALS  # noqa: E402
 from kernel.feeds.csv_resample import resamplear_ohlc  # noqa: E402
+from kernel.contexto_superior import ContextoSuperiorCausal  # noqa: E402
 from core.estructuras import Signal  # noqa: E402
 import dataclasses  # noqa: E402
 import fast_engine  # noqa: E402
@@ -84,6 +85,14 @@ def scalarizar(sig):
             out[f.name] = v.isoformat()
         elif isinstance(v, (list, tuple)):
             out[f.name] = ",".join(str(x) for x in v)
+    # ``entry_time`` sigue siendo la apertura de la vela (identidad y unión
+    # con producción). ``decision_time`` explicita el cierre, que es cuando
+    # el sistema realmente decide y cuando se calculan sesión y alerta.
+    out["decision_time"] = (
+        sig.decision_time.isoformat()
+        if sig.entry_time is not None and sig.entry_time.year >= 2000
+        else ""
+    )
     return out
 
 
@@ -166,7 +175,7 @@ def features_contexto(eng, sig):
     out["ctx_g2"] = eng.g_g2
     out["ctx_g3"] = eng.g_g3
     out["ctx_g4"] = eng.g_g4
-    dt = pd.Timestamp(sig.entry_time)
+    dt = pd.Timestamp(sig.decision_time)
     out["ctx_hour"] = dt.hour
     out["ctx_weekday"] = dt.weekday()
     return out
@@ -274,6 +283,10 @@ def main():
     symbol = args.symbol.upper()
 
     m15, h1, h4, d1 = cargar(symbol, args.m15 or None, args.d1 or None)
+    # Contexto superior causal: mismas velas H1/H4/D1 que vería el motor live
+    # al cierre de cada M15. El D1 de historia larga se usa como base para que
+    # EMA50/EMA200 existan desde el inicio del replay.
+    contexto = ContextoSuperiorCausal(m15, bases={"D1": d1})
     os.makedirs(args.out_dir, exist_ok=True)
     fast_engine.install_fast_engine(PivotRadarEngine)
 
@@ -370,9 +383,9 @@ def main():
         corte = m15.index[i]
         return (
             m15.iloc[max(0, i - 999):i + 1],
-            h1[h1.index <= corte].tail(500),
-            h4[h4.index <= corte].tail(300),
-            d1[d1.index <= corte].tail(300),
+            contexto.frame("H1", corte, tail=500),
+            contexto.frame("H4", corte, tail=300),
+            contexto.frame("D1", corte, tail=300),
         )
 
     t0 = time.time()

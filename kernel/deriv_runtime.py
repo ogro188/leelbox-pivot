@@ -422,13 +422,21 @@ class AssetDerivStream:
         """
         try:
             ts = int(sig.entry_time.timestamp() * 1000) if sig.entry_time else int(datetime.now(timezone.utc).timestamp() * 1000)
+            decision_ts = int(sig.decision_time.timestamp() * 1000) if sig.decision_time else ts
             precio = float(sig.entry_price)
             objetivo = float(sig.hipotesis_objetivo) if sig.hipotesis_objetivo else None
             invalidez = float(sig.invalidez_estructural) if sig.invalidez_estructural else None
-            narrativa = self.engine.alertas.build_alert_text(sig)
+            precio_actual = None
+            if self._current:
+                try:
+                    precio_actual = float(self._current.get("close", 0.0)) or None
+                except (TypeError, ValueError):
+                    precio_actual = None
+            narrativa = self.engine.alertas.build_alert_text(sig, precio_actual=precio_actual)
             return {
                 "id": str(sig.id),
                 "ts": ts,
+                "decision_ts": decision_ts,
                 "asset": sig.symbol or self.simbolo,
                 "estrategia": "PIVOT",
                 "etiqueta": sig.tipo or f"{sig.detector}",

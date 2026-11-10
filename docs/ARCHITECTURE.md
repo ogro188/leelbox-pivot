@@ -18,7 +18,7 @@
 ┌────────────────────────────────────────────────────────────────────┐
 │                    FEEDS Y RESAMPLE                                │
 │  kernel/feeds/csv.py · csv_resample.py · deriv.py · iqoption_public│
-│  M15 → H1/H4/D1 (solo velas cerradas)                              │
+│  M15 → H1/H4/D1 (cerradas + bucket parcial causal)                │
 └───────────────┬────────────────────────────────────────────────────┘
                 │
                 ▼
@@ -60,7 +60,8 @@
 ### 2.1 Datos
 
 - **`kernel/feeds/csv.py`**: carga CSV y sincroniza M15/H1/H4/D1.
-- **`kernel/feeds/csv_resample.py`**: agrega velas M15 a H1/H4/D1 sin look-ahead.
+- **`kernel/feeds/csv_resample.py`**: agrega velas M15 a H1/H4/D1 por resample.
+- **`kernel/contexto_superior.py`**: construye el contexto H1/H4/D1 causal (velas cerradas + bucket en formación solo con M15 ≤ `decision_time`).
 - **`kernel/feeds/deriv.py`**: WebSocket de Deriv; historial y ticks; autenticación opcional por token.
 - **`kernel/feeds/iqoption_public.py`**: feed público de IQ Option para OTC; **solo lectura**.
 - **`kernel/feeds/iq_public_backfill.py`**: relleno de historia OTC.
@@ -146,7 +147,7 @@ El frontend no se incluye. La API es opcional para la revisión; el foco es el m
 
 1. Llega una vela M15 cerrada.
 2. Se actualizan buffers de indicadores (ATR, EMA, RSI, volumen).
-3. Se recortan H1/H4/D1 con `searchsorted(side="left")` para usar solo velas cerradas.
+3. Se construye el contexto H1/H4/D1 causal: velas cerradas + bucket en formación agregado solo con M15 cuyo cierre es `<= decision_time`.
 4. Se ejecutan D0–D5.
 5. Se calculan calidad, confluencia, salud tendencial y contexto.
 6. Se aplica el gate de dirección (`direction != 0`).
@@ -156,8 +157,9 @@ El frontend no se incluye. La API es opcional para la revisión; el foco es el m
 
 ### Zero look-ahead
 
-- Los timeframes superiores se recortan con `searchsorted(side="left")`; la vela en curso no se incluye.
-- La señal se emite al cierre de `t`. En `feature_replay.py` la referencia de entrada es `close[t]` (supuesto optimista) y la salida es `close[t+h]`, contada por posición (`pos+h`); no hay chequeo explícito de continuidad.
+- Los timeframes superiores usan `kernel/contexto_superior.py`: velas cerradas + bucket en formación agregado solo con M15 cuyo cierre es `<= decision_time`. Nunca se usa el OHLC completo del bucket con M15 futuras.
+- La señal se emite al cierre de `t`. `entry_time` es la apertura; `decision_time = entry_time + 15 min` es el cierre y el instante que usan alerta, sesión y latencia.
+- En `feature_replay.py` la referencia de entrada es `close[t]` (supuesto optimista) y la salida es `close[t+h]`, contada por posición (`pos+h`); no hay chequeo explícito de continuidad.
 - `pattern_edge.py` sí usa `open[t+1]` como entrada y `close[t+h]` como salida, con chequeo de continuidad por `epoch`. `bar_edge.py` usa `close[t]` → `close[t+h]`.
 - El replay usa un motor en proceso, DB nula y alertas desactivadas.
 
@@ -202,7 +204,8 @@ El frontend no se incluye. La API es opcional para la revisión; el foco es el m
 | `core/scoring.py` | G1–G4, calidad, confluencia. |
 | `core/hipotesis.py` | Expiry, objetivo, probabilidad, narrativa. |
 | `kernel/contrato.py` | Esquema de señal y contexto. |
-| `kernel/backtest.py` | Replay, zero look-ahead, métricas. |
+| `kernel/contexto_superior.py` | Contexto H1/H4/D1 causal. |
+| `kernel/backtest.py` | Replay, contexto causal, métricas. |
 | `kernel/binary/engine.py` | Resolución binaria y PnL. |
 | `kernel/binary/payout.py` | Payouts usados en el análisis. |
 | `tools/feature_replay.py` | Features y etiquetas del replay. |

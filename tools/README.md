@@ -39,7 +39,7 @@ python tools/<script>.py --help
 ### Datos y replay
 
 - **`fetch_history.py`** — descarga velas M15/H1/H4/D1 desde Deriv. Solo lectura. La API limita M15 a 12 meses.
-- **`feature_replay.py`** — recorre las velas con el motor real en proceso, captura 176 columnas por señal y calcula etiquetas h1–h8. Es el paso más lento (~26 min por activo en el host original).
+- **`feature_replay.py`** — recorre las velas con el motor real en proceso, captura 177 columnas por señal (incluye `decision_time`) y calcula etiquetas h1–h8. Usa contexto superior causal. Tiempo: ~3,5 min EURUSD y ~3,2 min XAUUSD en la máquina x86 del re-baseline; ~26 min por activo en el host ARM original.
 - **`fast_engine.py`** — aceleradores del motor usados por el replay. No cambia la lógica; se valida contra el motor sin acelerar.
 - **`replay_harness.py` / `replay_fast_test.py` / `replay_profile.py`** — utilidades de desarrollo para comparar y perfilar el replay.
 - **`replay_report.py`** — compara el replay con la base de producción. Requiere `pivotradar_data/`; no está incluido.

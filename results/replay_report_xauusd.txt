@@ -1,0 +1,19 @@
+XAUUSD: produccion=0 replay=8933 comunes=0
+  match sobre produccion=0.0% | sobre replay=0.0%
+  detector/direccion distinto en comunes: 0
+
+  conviccion (comunes):
+    coincidencia exacta=0.0%
+
+  regimen (comunes):
+
+  senales por detector (replay):
+    D1                2880
+    D3_DEF            2567
+    D2_ANTICIPACION   2565
+    D2                 564
+    D5                 306
+    D3                  32
+    D4                  19
+  senales/dia: min=10 mediana=70 max=95 dias=129
+  filas sin ret_h4: 0

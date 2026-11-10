@@ -1,35 +1,35 @@
 ===== XAUUSD | split 2026-10-01 =====
-descubrimiento: 6952 senales (2026-05-12..2026-09-29)
-holdout:        1908 senales (2026-10-01..2026-11-06)
-  BASE      TODAS                          h3 n=1908 WR= 47.8 IC=45.6-50.0 EV=-13.01% boot=[-16.97, -8.57] p=1.0000
+descubrimiento: 6950 senales (2026-05-12..2026-09-29)
+holdout:        1911 senales (2026-10-01..2026-11-06)
+  BASE      TODAS                          h3 n=1911 WR= 47.8 IC=45.5-50.0 EV=-13.05% boot=[-17.01, -8.59] p=1.0000
 
 Supervivientes estrictos en descubrimiento: 0
 
 Hipotesis a priori en holdout (sin seleccion):
-  APRIORI   h4_alineado                    h1 n= 961 WR= 47.0 IC=43.9-50.2 EV=-14.87% boot=[-21.53, -8.86] p=1.0000
-  APRIORI   h4_alineado                    h2 n= 961 WR= 48.8 IC=45.7-52.0 EV=-11.18% boot=[-19.18, -3.33] p=0.9999
-  APRIORI   h4_alineado                    h3 n= 961 WR= 46.6 IC=43.5-49.8 EV=-15.16% boot=[-22.85, -7.90] p=1.0000
-  APRIORI   h4_alineado                    h4 n= 961 WR= 46.6 IC=43.5-49.8 EV=-14.69% boot=[-21.88, -7.60] p=1.0000
-  APRIORI   h1_alineado                    h1 n= 990 WR= 47.7 IC=44.6-50.8 EV=-13.71% boot=[-20.92, -6.76] p=1.0000
-  APRIORI   h1_alineado                    h2 n= 990 WR= 48.1 IC=45.0-51.2 EV=-12.49% boot=[-19.94, -5.58] p=1.0000
-  APRIORI   h1_alineado                    h3 n= 990 WR= 47.1 IC=44.0-50.2 EV=-14.33% boot=[-21.38, -7.11] p=1.0000
-  APRIORI   h1_alineado                    h4 n= 990 WR= 46.2 IC=43.1-49.3 EV=-15.52% boot=[-21.68, -9.17] p=1.0000
-  APRIORI   h4_y_h1_alineados              h1 n= 695 WR= 47.8 IC=44.1-51.5 EV=-13.54% boot=[-21.77, -5.75] p=1.0000
-  APRIORI   h4_y_h1_alineados              h2 n= 695 WR= 48.3 IC=44.6-52.1 EV=-12.01% boot=[-21.33, -3.25] p=0.9998
-  APRIORI   h4_y_h1_alineados              h3 n= 695 WR= 46.6 IC=42.9-50.3 EV=-15.15% boot=[-23.42, -6.78] p=1.0000
-  APRIORI   h4_y_h1_alineados              h4 n= 695 WR= 45.8 IC=42.1-49.5 EV=-16.27% boot=[-23.85, -7.67] p=1.0000
-  APRIORI   h4_pullback                    h1 n= 226 WR= 45.1 IC=38.8-51.6 EV=-18.31% boot=[-32.13, -6.13] p=0.9989
-  APRIORI   h4_pullback                    h2 n= 226 WR= 47.8 IC=41.4-54.3 EV=-13.03% boot=[-30.00, +1.68] p=0.9847
-  APRIORI   h4_pullback                    h3 n= 226 WR= 43.4 IC=37.1-49.9 EV=-21.08% boot=[-39.89, -4.71] p=0.9998
-  APRIORI   h4_pullback                    h4 n= 226 WR= 46.0 IC=39.6-52.5 EV=-15.79% boot=[-31.89, -1.67] p=0.9954
-  APRIORI   h4_contra                      h1 n= 947 WR= 48.9 IC=45.7-52.1 EV=-11.51% boot=[-18.56, -4.63] p=1.0000
-  APRIORI   h4_contra                      h2 n= 947 WR= 48.3 IC=45.1-51.4 EV=-12.17% boot=[-20.18, -5.14] p=1.0000
-  APRIORI   h4_contra                      h3 n= 947 WR= 49.0 IC=45.8-52.2 EV=-10.83% boot=[-19.26, -2.84] p=0.9999
-  APRIORI   h4_contra                      h4 n= 947 WR= 47.0 IC=43.8-50.2 EV=-14.01% boot=[-22.12, -6.56] p=1.0000
-  APRIORI   h1_contra                      h1 n= 918 WR= 48.3 IC=45.0-51.5 EV=-12.65% boot=[-19.44, -5.79] p=1.0000
-  APRIORI   h1_contra                      h2 n= 918 WR= 49.0 IC=45.8-52.3 EV=-10.78% boot=[-19.70, -2.47] p=0.9998
-  APRIORI   h1_contra                      h3 n= 918 WR= 48.6 IC=45.4-51.8 EV=-11.58% boot=[-20.92, -2.49] p=0.9999
-  APRIORI   h1_contra                      h4 n= 918 WR= 47.5 IC=44.3-50.7 EV=-13.08% boot=[-22.39, -3.89] p=1.0000
+  APRIORI   h4_alineado                    h1 n= 965 WR= 46.9 IC=43.8-50.1 EV=-15.03% boot=[-21.64, -9.13] p=1.0000
+  APRIORI   h4_alineado                    h2 n= 965 WR= 48.4 IC=45.3-51.5 EV=-11.92% boot=[-19.65, -3.99] p=1.0000
+  APRIORI   h4_alineado                    h3 n= 965 WR= 46.0 IC=42.9-49.2 EV=-16.26% boot=[-23.61, -9.19] p=1.0000
+  APRIORI   h4_alineado                    h4 n= 965 WR= 46.0 IC=42.9-49.2 EV=-15.80% boot=[-22.81, -8.76] p=1.0000
+  APRIORI   h1_alineado                    h1 n= 989 WR= 47.5 IC=44.4-50.6 EV=-13.98% boot=[-21.00, -7.06] p=1.0000
+  APRIORI   h1_alineado                    h2 n= 989 WR= 47.9 IC=44.8-51.0 EV=-12.77% boot=[-20.14, -5.84] p=1.0000
+  APRIORI   h1_alineado                    h3 n= 989 WR= 46.7 IC=43.6-49.8 EV=-14.98% boot=[-21.90, -7.80] p=1.0000
+  APRIORI   h1_alineado                    h4 n= 989 WR= 45.7 IC=42.6-48.8 EV=-16.36% boot=[-22.61, -9.93] p=1.0000
+  APRIORI   h4_y_h1_alineados              h1 n= 706 WR= 47.5 IC=43.8-51.1 EV=-14.11% boot=[-22.07, -6.71] p=1.0000
+  APRIORI   h4_y_h1_alineados              h2 n= 706 WR= 48.0 IC=44.4-51.7 EV=-12.61% boot=[-22.17, -3.56] p=0.9999
+  APRIORI   h4_y_h1_alineados              h3 n= 706 WR= 46.0 IC=42.4-49.7 EV=-16.22% boot=[-24.65, -8.08] p=1.0000
+  APRIORI   h4_y_h1_alineados              h4 n= 706 WR= 45.2 IC=41.5-48.9 EV=-17.31% boot=[-25.01, -8.63] p=1.0000
+  APRIORI   h4_pullback                    h1 n= 217 WR= 44.7 IC=38.2-51.4 EV=-19.09% boot=[-32.49, -6.34] p=0.9991
+  APRIORI   h4_pullback                    h2 n= 217 WR= 46.1 IC=39.6-52.7 EV=-16.13% boot=[-32.24, -3.97] p=0.9957
+  APRIORI   h4_pullback                    h3 n= 217 WR= 41.5 IC=35.1-48.1 EV=-24.52% boot=[-41.80,-10.33] p=1.0000
+  APRIORI   h4_pullback                    h4 n= 217 WR= 44.2 IC=37.8-50.9 EV=-19.04% boot=[-33.19, -7.39] p=0.9990
+  APRIORI   h4_contra                      h1 n= 946 WR= 49.2 IC=46.0-52.3 EV=-11.03% boot=[-18.32, -4.06] p=0.9999
+  APRIORI   h4_contra                      h2 n= 946 WR= 48.8 IC=45.7-52.0 EV=-11.12% boot=[-18.88, -3.93] p=0.9999
+  APRIORI   h4_contra                      h3 n= 946 WR= 49.6 IC=46.4-52.8 EV= -9.77% boot=[-18.26, -1.84] p=0.9995
+  APRIORI   h4_contra                      h4 n= 946 WR= 47.5 IC=44.3-50.6 EV=-13.14% boot=[-21.09, -5.61] p=1.0000
+  APRIORI   h1_contra                      h1 n= 922 WR= 48.6 IC=45.4-51.8 EV=-12.05% boot=[-18.86, -5.07] p=1.0000
+  APRIORI   h1_contra                      h2 n= 922 WR= 49.3 IC=46.1-52.6 EV=-10.18% boot=[-18.98, -1.80] p=0.9997
+  APRIORI   h1_contra                      h3 n= 922 WR= 48.9 IC=45.7-52.1 EV=-10.97% boot=[-20.22, -1.81] p=0.9999
+  APRIORI   h1_contra                      h4 n= 922 WR= 47.8 IC=44.6-51.1 EV=-12.47% boot=[-21.49, -3.23] p=1.0000
   APRIORI   d1_alineado                    h1 n= 970 WR= 47.5 IC=44.4-50.7 EV=-13.98% boot=[-20.43, -7.83] p=1.0000
   APRIORI   d1_alineado                    h2 n= 970 WR= 49.6 IC=46.4-52.7 EV= -9.75% boot=[-17.83, -2.28] p=0.9996
   APRIORI   d1_alineado                    h3 n= 970 WR= 47.7 IC=44.6-50.9 EV=-13.13% boot=[-20.81, -5.90] p=1.0000
@@ -39,4 +39,4 @@ Hipotesis a priori en holdout (sin seleccion):
   APRIORI   estructura_alineada            h3 n= 437 WR= 43.9 IC=39.4-48.6 EV=-20.04% boot=[-35.29, -6.36] p=1.0000
   APRIORI   estructura_alineada            h4 n= 437 WR= 43.9 IC=39.4-48.6 EV=-19.60% boot=[-34.40, -4.75] p=1.0000
 
-Guardado results/holdout_xauusd.csv
+Guardado /tmp/opencode/pivot-rebase/results/holdout_xauusd.csv

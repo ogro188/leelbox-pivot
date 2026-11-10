@@ -1,9 +1,9 @@
 {
-  "n_filas": 6952,
+  "n_filas": 6950,
   "desde": null,
   "hasta": "2026-09-30",
   "por_symbol": {
-    "XAUUSD": 6952
+    "XAUUSD": 6950
   },
   "payout": 0.85,
   "payouts_by_h": [

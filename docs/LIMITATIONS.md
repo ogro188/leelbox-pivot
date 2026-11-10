@@ -17,18 +17,19 @@
 
 ## 2. Replay y fidelidad
 
-1. **El replay cubre ~82,5 % (EURUSD) y ~80,6 % (XAUUSD) de las señales de producción.** Emite además señales extra. Las conclusiones se apoyan en el replay **y** en los resultados reales de producción, pero el sesgo de selección del replay no es cero.
+1. **El replay cubre ~82,5 % (EURUSD) y ~80,6 % (XAUUSD) de las señales de producción.** Emite además señales extra. El porcentaje se midió sobre el replay anterior; el replay corregido cambia 2–3 señales de borde por activo. Las conclusiones se apoyan en el replay **y** en los resultados reales de producción, pero el sesgo de selección del replay no es cero.
 2. **h4 no está validado contra producción.** Solo hay 3 filas EURUSD y 6 XAUUSD con `h4` medido en producción; las conclusiones de h4 son replay-only.
-3. **El replay original usó 6 meses, no 12.** Los CSV de señales cubren 2026-05-12 → 2026-11-06. El M15 de 12 meses incluido es un superconjunto; para reproducir exactamente hay que usar el subconjunto descrito en `docs/REPRODUCIBILITY.md`.
+3. **El replay publicado usó 6 meses, no 12.** Los CSV de señales cubren 2026-05-12 → 2026-11-06. El M15 de 12 meses incluido es un superconjunto; para reproducir exactamente hay que usar el subconjunto descrito en `docs/REPRODUCIBILITY.md`.
 4. **El replay usa `fast_engine.py`.** Se validó contra el motor sin acelerar, pero una diferencia sutil de implementación podría afectar los conteos. El auditor debe revisar esa equivalencia.
 5. **D1 EMA200 no existe antes de ~septiembre 2026.** `trend_d1` es `NEUTRO` en los primeros meses; los filtros D1 no son utilizables en toda la muestra.
 6. **El motor no se ejecutó con la misma versión de pandas/numpy en todos los entornos.** Diferencias de redondeo o de resample pueden cambiar algunas señales de borde.
+7. **El contexto superior ya es causal, pero la auditoría externa debe verificarlo.** `kernel/contexto_superior.py` agrega el bucket H1/H4/D1 en formación solo con M15 cerradas hasta `decision_time`; los tests envenenan velas futuras. Aun así, es el punto más delicado del replay.
 
 ---
 
 ## 3. Etiquetas y ejecución
 
-1. **La entrada de referencia es el close de la vela de señal, no el open siguiente.** `feature_replay.py` usa `entry_price = close[t]`. Es un supuesto **optimista**: en la práctica se entraría en el open de `t+1` o después; el open suele coincidir con el close, pero puede saltar. No se modela gap ni slippage.
+1. **La entrada de referencia es el close de la vela de señal, no el open siguiente.** `feature_replay.py` usa `entry_price = close[t]`. `entry_time` es la apertura de esa vela y `decision_time` su cierre. Es un supuesto **optimista**: en la práctica se entraría en el open de `t+1` o después; el open suele coincidir con el close, pero puede saltar. No se modela gap ni slippage.
 2. **El horizonte se cuenta por posición (`pos+h`), no por diferencia de timestamps.** Si faltara una vela, el horizonte se desplazaría. Los M15 incluidos no tienen duplicados ni nulos, pero los fines de semana no existen.
 3. **`mfe_h*`/`mae_h*` incluyen la vela de señal.** Pueden capturar excursiones anteriores a la entrada; no se usan para win/loss.
 4. **`pattern_edge.py` no usa el mismo esquema de entrada.** Ese escaneo entra en `open[t+1]` y sale en `close[t+h]`, con chequeo de continuidad por `epoch`. Sus resultados no son directamente comparables con las etiquetas de `feature_replay.py`, que usan `close[t]` y cuentan el horizonte por posición.
@@ -93,8 +94,8 @@
 
 ## 8. Sesgos que el auditor debe buscar
 
-1. Look-ahead en el resample H1/H4/D1 o en los detectores.
-2. Uso del close de la vela de señal como entrada y del high/low de esa vela en MFE/MAE.
+1. Look-ahead en el resample H1/H4/D1, en `kernel/contexto_superior.py` o en los detectores.
+2. Uso del close de la vela de señal como entrada y del high/low de esa vela en MFE/MAE; coherencia entre `entry_time` (apertura) y `decision_time` (cierre).
 3. Fuga entre descubrimiento y holdout, o selección de condiciones después de ver el holdout.
 4. Familia de tests mal definida o FDR aplicado solo a un subconjunto.
 5. Bootstrap que trata señales del mismo día como independientes.
