@@ -14,6 +14,7 @@ from copy import deepcopy
 from kernel.contrato import Contexto, Señal, ActivoInfo, Estrategia, Overlay, Metrica
 from typing import Any
 from kernel.feeds.csv import CSVFeed, MultiTimeframeFeed
+from kernel.contexto_superior import ContextoSuperiorCausal
 
 logger = logging.getLogger(__name__)
 
@@ -277,22 +278,15 @@ class BacktestEngine:
             }
         col_arrays = self._col_arrays
 
-        def _slice_tf(tf: str) -> Optional[pd.DataFrame]:
-            full = self._precalc.get(tf)
-            if full is None or full.empty:
-                return None
-            # FIX look-ahead (borde de hora/4h/día): usar side="left" para que
-            # solo se incluyan velas YA CERRADAS (estrictamente < current_time).
-            # side="right" incluía la vela H1/H4/D1 que recién abría en el instante
-            # exacto del cambio de periodo (bug conocido, ~32% de barras afectadas).
-            n = full.index.searchsorted(pd.Timestamp(current_time), side="left")
-            if n <= 0:
-                return None
-            return full.iloc[max(0, n - 500):n]
-
-        df_h1 = _slice_tf("H1")
-        df_h4 = _slice_tf("H4")
-        df_d1 = _slice_tf("D1")
+        # Contexto superior causal: incluye la vela H1/H4/D1 en formación
+        # agregada solo con las M15 <= cierre de la barra actual, igual que
+        # el runtime live. No incluye el OHLC completo del bucket futuro.
+        if getattr(self, "_contexto", None) is None:
+            self._contexto = ContextoSuperiorCausal(df_full)
+        bar_time = pd.Timestamp(current_time)
+        df_h1 = self._contexto.frame("H1", bar_time, tail=500)
+        df_h4 = self._contexto.frame("H4", bar_time, tail=500)
+        df_d1 = self._contexto.frame("D1", bar_time, tail=500)
 
         # Buffers de indicadores desde columnas precalculadas (causales, índice 0 = más reciente)
         BUF = 55
@@ -313,38 +307,23 @@ class BacktestEngine:
         g_ema50_buffer = _buf("ema50")
         g_rsi14_buffer = _buf("rsi14")
 
-        # Buffers de EMAs D1/H4 para tendencia
-        if getattr(self, "_ema_arrays", None) is None:
-            self._ema_arrays = {
-                tf: {k: v.to_numpy(dtype=float) for k, v in emas.items()}
-                for tf, emas in getattr(self, "_precalc_emas", {}).items()
-            }
-        ema_arrays = self._ema_arrays
-
+        # Buffers de EMAs D1/H4 calculados sobre el frame causal (incluye la
+        # vela en formación parcial). No se reutilizan EMAs precalculadas con
+        # el OHLC completo del bucket, porque eso filtraba el futuro.
         g_ema50_d1_buffer: List[float] = []
         g_ema200_d1_buffer: List[float] = []
         g_ema20_h4_buffer: List[float] = []
         g_ema50_h4_buffer: List[float] = []
 
-        if df_d1 is not None:
-            d1_emas = ema_arrays.get("D1") or {}
-            # FIX look-ahead: side="left" → solo velas D1 ya cerradas.
-            n_d1 = self._precalc["D1"].index.searchsorted(pd.Timestamp(current_time), side="left")
-            for key, buf in (("ema50", g_ema50_d1_buffer), ("ema200", g_ema200_d1_buffer)):
-                arr = d1_emas.get(key)
-                if arr is not None and n_d1 > 0:
-                    seg = arr[max(0, n_d1 - 5):n_d1]
-                    buf.extend([float(x) if not np.isnan(x) else 0.0 for x in seg[::-1]])
+        if df_d1 is not None and len(df_d1) >= 205:
+            close = df_d1["close"].astype(float)
+            g_ema50_d1_buffer = close.ewm(span=50, adjust=False).mean().iloc[-5:].tolist()[::-1]
+            g_ema200_d1_buffer = close.ewm(span=200, adjust=False).mean().iloc[-5:].tolist()[::-1]
 
-        if df_h4 is not None:
-            h4_emas = ema_arrays.get("H4") or {}
-            # FIX look-ahead: side="left" → solo velas H4 ya cerradas.
-            n_h4 = self._precalc["H4"].index.searchsorted(pd.Timestamp(current_time), side="left")
-            for key, buf in (("ema20", g_ema20_h4_buffer), ("ema50", g_ema50_h4_buffer)):
-                arr = h4_emas.get(key)
-                if arr is not None and n_h4 > 0:
-                    seg = arr[max(0, n_h4 - 5):n_h4]
-                    buf.extend([float(x) if not np.isnan(x) else 0.0 for x in seg[::-1]])
+        if df_h4 is not None and len(df_h4) >= 20:
+            close = df_h4["close"].astype(float)
+            g_ema20_h4_buffer = close.ewm(span=20, adjust=False).mean().iloc[-20:].tolist()[::-1]
+            g_ema50_h4_buffer = close.ewm(span=50, adjust=False).mean().iloc[-20:].tolist()[::-1]
 
         ctx = Contexto(
             activo=self.activo,
@@ -766,7 +745,7 @@ class BacktestEngine:
         self.equity_curve = []
         self.señales_generadas = []
         self._col_arrays = None
-        self._ema_arrays = None
+        self._contexto = None
         
         # Setup de la estrategia
         self.estrategia.setup(params_estrategia or {}, self.activo)
@@ -775,35 +754,10 @@ class BacktestEngine:
         ref_timeframe = min(feeds.keys(), key=lambda tf: CSVFeed.TIMEFRAME_MAP.get(tf, 999999))
         ref_feed = feeds[ref_timeframe]
         
-        # Precalcular timeframes superiores UNA sola vez desde todo el M15.
-        # NO es look-ahead: cada barra recorta estos DataFrames a su timestamp actual.
-        from kernel.feeds.csv_resample import resamplear_ohlc
+        # Contexto superior causal construido UNA vez. Cada barra recibe solo
+        # las velas cerradas + el bucket en formación agregado hasta su cierre.
         df_full = ref_feed.df
-        self._precalc: Dict[str, Optional[pd.DataFrame]] = {}
-        for tf in ["H1", "H4", "D1"]:
-            if tf == ref_timeframe:
-                continue
-            try:
-                self._precalc[tf] = resamplear_ohlc(df_full, tf)
-            except Exception as e:
-                logger.warning(f"No se pudo precalcular {tf}: {e}")
-                self._precalc[tf] = None
-        
-        # Precalcular series de EMA para tendencias D1/H4 (también recortadas por barra)
-        self._precalc_emas: Dict[str, Dict[str, pd.Series]] = {}
-        for tf in ["H1", "H4", "D1"]:
-            df_tf = self._precalc.get(tf)
-            if df_tf is None or df_tf.empty:
-                continue
-            close = df_tf["close"]
-            emas: Dict[str, pd.Series] = {}
-            if tf == "D1":
-                emas["ema50"] = close.ewm(span=50, adjust=False).mean()
-                emas["ema200"] = close.ewm(span=200, adjust=False).mean()
-            if tf == "H4":
-                emas["ema20"] = close.ewm(span=20, adjust=False).mean()
-                emas["ema50"] = close.ewm(span=50, adjust=False).mean()
-            self._precalc_emas[tf] = emas
+        self._contexto = ContextoSuperiorCausal(df_full)
         
         self._broker_tz = self._resolve_broker_tz()
         

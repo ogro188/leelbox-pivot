@@ -35,7 +35,7 @@ class AlertasEngine:
         digits = max(0, int(round(-math.log10(self.point)))) if self.point > 0 else 5
         return f"{value:.{digits}f}"
 
-    def build_alert_text(self, sig: Signal) -> str:
+    def build_alert_text(self, sig: Signal, precio_actual: float = None) -> str:
         dir_text = "CALL" if sig.direction == 1 else "PUT"
         dir_emoji = "🟢" if sig.direction == 1 else "🔴"
         sep = "━━━━━━━━━━━━━━━━━━━━"
@@ -44,9 +44,12 @@ class AlertasEngine:
         if sig.tipo:
             msg += f" · {sig.tipo}"
         msg += "\n" + sep + "\n"
-        et = sig.entry_time
+        # La señal se decide al cierre de la vela M15. Mostrar la apertura
+        # desfasaba 15 min la hora visible respecto de la sesión y del precio
+        # de referencia (que es el cierre).
+        et = sig.decision_time
         hora = f"{et.hour:02d}:{et.minute:02d}" if et else "00:00"
-        msg += f"⚡ {hora} {sig.session}"
+        msg += f"⚡ {hora} UTC · {sig.session}"
         if sig.kill_zone != "NONE":
             msg += f" · {sig.kill_zone}"
         msg += "\n" + sep + "\n"
@@ -98,7 +101,11 @@ class AlertasEngine:
         msg += sep + "\n"
 
         msg += f"⏱️ VENCIMIENTO: {sig.hipotesis_expiry_velas} vela(s) M15 ({sig.hipotesis_expiry_minutos} min)\n" + sep + "\n"
-        msg += f"💰 REFERENCIA: {self._fmt_price(sig.entry_price)} | Objetivo: {self._fmt_price(sig.hipotesis_objetivo)}\n" + sep + "\n"
+        msg += f"💰 REFERENCIA: {self._fmt_price(sig.entry_price)} (cierre {hora} UTC) | Objetivo: {self._fmt_price(sig.hipotesis_objetivo)}\n"
+        if precio_actual is not None and float(precio_actual) > 0:
+            deriva = (float(precio_actual) - float(sig.entry_price)) / self.point if self.point else 0.0
+            msg += f"📉 PRECIO AL ENVIAR: {self._fmt_price(float(precio_actual))} | Deriva: {deriva:+.1f} pts\n"
+        msg += sep + "\n"
         msg += f"📊 PROBABILIDAD: {sig.hipotesis_prob_min}-{sig.hipotesis_prob_max}%\n"
         conv_emoji = {"ALTA": "🔥", "MEDIA": "⚡", "BAJA": "💤"}.get(sig.conviccion, "⚡")
         msg += f"{conv_emoji} CONVICCIÓN: {sig.conviccion}\n" + sep + "\n"
@@ -113,9 +120,11 @@ class AlertasEngine:
     _RE_DIR = re.compile(r"(\U0001F7E2|\U0001F534)\s*(CALL|PUT)\s*\u2014\s*([A-Z0-9-]+)(?:\s*\u2014\s*([A-Za-z0-9_]+))?")
     _RE_CONV = re.compile(r"CONVICCI\u00d3N:\s*(\w+)")
     _RE_PROB = re.compile(r"PROBABILIDAD:\s*(\d+)\s*-\s*(\d+)\s*%")
-    _RE_HORA = re.compile(r"\u26a1\s*(\d{2}:\d{2})\s*(\w*)")
+    _RE_HORA = re.compile(
+        r"\u26a1\s*(\d{2}:\d{2})\s*(?:UTC\s*\u00b7\s*)?(\w*)")
     _RE_SEP = re.compile(r"^[\u2501\u2500\s]{4,}$", re.M)
-    _RE_CAB = re.compile(r"^\u26a1\s*(\d{2}:\d{2})\s*(\w*)\s*"
+    _RE_CAB = re.compile(r"^\u26a1\s*(\d{2}:\d{2})\s*"
+                        r"(?:UTC\s*\u00b7\s*)?(\w*)\s*"
                         r"(?:\u00b7\s*([A-Z_]+))?\s*$")
     _RE_SECCION = re.compile(
         r"^(?:(\U0001F52E|\u2705|\U0001F50D|\U0001F4CA|\U0001F4B0|\u23f1\ufe0f|\U0001F4CD)"

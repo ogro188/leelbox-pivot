@@ -1,0 +1,19 @@
+EURUSD: produccion=0 replay=8957 comunes=0
+  match sobre produccion=0.0% | sobre replay=0.0%
+  detector/direccion distinto en comunes: 0
+
+  conviccion (comunes):
+    coincidencia exacta=0.0%
+
+  regimen (comunes):
+
+  senales por detector (replay):
+    D1                2900
+    D3_DEF            2657
+    D2_ANTICIPACION   2411
+    D2                 588
+    D5                 324
+    D3                  73
+    D4                   4
+  senales/dia: min=19 mediana=69 max=92 dias=129
+  filas sin ret_h4: 0

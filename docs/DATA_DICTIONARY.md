@@ -2,7 +2,7 @@
 
 **Corte:** 2026-11-07 UTC. **Fuente:** Deriv (`frxEURUSD`, `frxXAUUSD`) e IQ Option público para OTC.
 
-Este documento describe los CSV de `data/`, las 176 columnas de `results/*_signals.csv` y las columnas derivadas de los archivos de resultados.
+Este documento describe los CSV de `data/`, las 177 columnas de `results/*_signals.csv` y las columnas derivadas de los archivos de resultados.
 
 ---
 
@@ -28,11 +28,12 @@ Los M15 incluidos no tienen duplicados de `epoch` ni valores nulos. Los fines de
 
 ## 2. Señales (`results/*_signals.csv`)
 
-Una fila por señal. **176 columnas.** Las etiquetas `ret_h*`, `win_h*`, `mfe_h*` y `mae_h*` se calculan después del replay, con el M15 completo.
+Una fila por señal. **177 columnas.** Las etiquetas `ret_h*`, `win_h*`, `mfe_h*` y `mae_h*` se calculan después del replay, con el M15 completo.
 
 Convenciones:
 
 - `entry_time` es el **inicio** de la vela de señal; la señal se emite al cierre.
+- `decision_time` es el **cierre** de esa vela (`entry_time + 15 min`) y el instante real de decisión. La alerta, la sesión y la latencia deben usar esta columna.
 - `entry_price` es el **close** de esa vela. No es el open siguiente.
 - `ret_h*` y `mfe/mae` están en **puntos** del activo, no en porcentaje.
 - `hipotesis_prob_*` son heurísticas del motor, no probabilidades calibradas.
@@ -44,6 +45,7 @@ Convenciones:
 |---|---|
 | `id` | Identificador único de la señal (entero de 64 bits serializado como cadena). |
 | `entry_time` | Inicio de la vela M15 que genera la señal (UTC, ISO 8601). La señal se emite al cierre de esa vela. |
+| `decision_time` | Cierre de la vela M15 de señal (`entry_time + 15 min`, UTC, ISO 8601). Es el instante real de decisión y el que usan alerta, sesión y latencia. |
 | `entry_bar_shift` | Desplazamiento de la señal en la cola de medición. **Constante 0 en esta exportación** porque se captura al emitir; no usar. |
 | `symbol` | `EURUSD` o `XAUUSD`. |
 | `direction` | `1` = CALL/long; `−1` = PUT/short. |
@@ -209,10 +211,12 @@ Convenciones:
 | `ctx_g2` | Copia de G2 en el contexto. |
 | `ctx_g3` | Copia de G3 en el contexto. |
 | `ctx_g4` | Copia de G4 en el contexto. |
-| `ctx_hour` | Hora UTC (0–23). |
-| `ctx_weekday` | Día de la semana (0=lunes). |
+| `ctx_hour` | Hora UTC de `decision_time` (0–23), es decir, el cierre de la vela de señal. |
+| `ctx_weekday` | Día de la semana de `decision_time` (0=lunes). |
 
-### 2.8 Etiquetas
+**Contexto superior causal:** `ctx_h4_*`, `ctx_h1_*` y `ctx_d1_*` se calculan con `kernel/contexto_superior.py`. Para cada corte se usan velas superiores cerradas más el bucket en formación agregado solo con velas M15 cuyo cierre es `<= decision_time`. No se usa el OHLC completo del bucket con M15 futuras. Ver `docs/REFERENCE_FIX.md`.
+
+### 2.7 Etiquetas
 
 | Columna | Descripción |
 |---|---|

@@ -678,8 +678,13 @@ class PivotRadarEngine:
         self.update_atr_history()
 
         current_bar = self._i_time(self.df_m15, 0)
-        session = self.get_session(current_bar)
-        kill_zone = self.get_kill_zone(current_bar)
+        # La vela M15 se decide en su cierre, no en su apertura. La sesión y
+        # la kill zone deben corresponder al instante de decisión para que la
+        # alerta no mezcle la hora UTC visible con una etiqueta de sesión
+        # calculada 15 minutos antes.
+        decision_time = current_bar + timedelta(minutes=15)
+        session = self.get_session(decision_time)
+        kill_zone = self.get_kill_zone(decision_time)
         vol_exp = self.is_volatility_expanding()
         vol_comp = self.is_volatility_compressing()
         trend_d1 = self.get_trend_d1()

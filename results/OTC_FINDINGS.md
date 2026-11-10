@@ -14,6 +14,8 @@
 
 Todas las señales cumplen `created_at >= entry_time + 15 min` (señal limpia); el retraso máximo es 60,8 min en 3 y 2 señales, despreciable.
 
+**Convención de latencia:** `entry_time` es la apertura de la vela M15; la señal se crea al cierre. Por eso `created_at − entry_time` tiene un p50 estructural de ~15 min. Medida contra `decision_time = entry_time + 15 min`, la latencia real es de ~0,1 min (p50) y el máximo ronda 45,8 min en los casos extremos. La tabla anterior usa `entry_time` porque el análisis OTC se congeló antes del re-baseline; no afecta a las etiquetas ni al EV.
+
 ## Resultados h3 (45 min) con payout real
 
 | Activo | Filtro | n | WR | IC95 Wilson | Payout | EV | Bootstrap 95 % |

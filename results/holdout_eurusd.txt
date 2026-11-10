@@ -1,42 +1,42 @@
 ===== EURUSD | split 2026-10-01 =====
-descubrimiento: 6929 senales (2026-05-12..2026-09-29)
-holdout:        1959 senales (2026-10-01..2026-11-06)
-  BASE      TODAS                          h3 n=1959 WR= 48.7 IC=46.5-50.9 EV= -9.42% boot=[-15.36, -3.49] p=1.0000
+descubrimiento: 6926 senales (2026-05-12..2026-09-29)
+holdout:        1960 senales (2026-10-01..2026-11-06)
+  BASE      TODAS                          h3 n=1960 WR= 48.7 IC=46.5-50.9 EV= -9.47% boot=[-15.41, -3.55] p=1.0000
 
 Supervivientes estrictos en descubrimiento: 0
 
 Hipotesis a priori en holdout (sin seleccion):
-  APRIORI   h4_alineado                    h1 n= 979 WR= 50.2 IC=47.0-53.3 EV= -7.22% boot=[-11.87, -2.46] p=0.9928
-  APRIORI   h4_alineado                    h2 n= 979 WR= 47.0 IC=43.9-50.1 EV=-12.60% boot=[-20.09, -5.10] p=1.0000
-  APRIORI   h4_alineado                    h3 n= 979 WR= 47.9 IC=44.8-51.0 EV=-10.89% boot=[-19.14, -3.09] p=0.9999
-  APRIORI   h4_alineado                    h4 n= 979 WR= 50.4 IC=47.2-53.5 EV= -5.83% boot=[-13.56, +1.79] p=0.9748
-  APRIORI   h1_alineado                    h1 n=1030 WR= 49.1 IC=46.1-52.2 EV= -9.12% boot=[-14.23, -4.22] p=0.9992
-  APRIORI   h1_alineado                    h2 n=1030 WR= 48.5 IC=45.5-51.6 EV= -9.71% boot=[-18.13, -2.04] p=0.9996
-  APRIORI   h1_alineado                    h3 n=1030 WR= 49.2 IC=46.2-52.3 EV= -8.44% boot=[-15.37, -1.63] p=0.9983
-  APRIORI   h1_alineado                    h4 n=1030 WR= 50.1 IC=47.0-53.1 EV= -6.32% boot=[-13.80, +1.10] p=0.9851
-  APRIORI   h4_y_h1_alineados              h1 n= 653 WR= 50.7 IC=46.9-54.5 EV= -6.23% boot=[-12.48, -0.55] p=0.9578
-  APRIORI   h4_y_h1_alineados              h2 n= 653 WR= 48.2 IC=44.4-52.1 EV=-10.28% boot=[-19.59, -1.25] p=0.9977
-  APRIORI   h4_y_h1_alineados              h3 n= 653 WR= 50.7 IC=46.9-54.5 EV= -5.72% boot=[-14.66, +2.43] p=0.9425
-  APRIORI   h4_y_h1_alineados              h4 n= 653 WR= 51.8 IC=47.9-55.6 EV= -3.21% boot=[-12.12, +5.08] p=0.8102
-  APRIORI   h4_pullback                    h1 n= 250 WR= 50.4 IC=44.2-56.5 EV= -6.76% boot=[-14.25, -0.28] p=0.8768
-  APRIORI   h4_pullback                    h2 n= 250 WR= 42.4 IC=36.4-48.6 EV=-21.14% boot=[-31.23,-10.78] p=0.9998
-  APRIORI   h4_pullback                    h3 n= 250 WR= 39.6 IC=33.7-45.8 EV=-26.34% boot=[-40.94,-12.96] p=1.0000
-  APRIORI   h4_pullback                    h4 n= 250 WR= 45.2 IC=39.1-51.4 EV=-15.48% boot=[-28.40, -2.28] p=0.9956
-  APRIORI   h4_contra                      h1 n= 980 WR= 49.1 IC=46.0-52.2 EV= -9.20% boot=[-15.35, -3.48] p=0.9991
-  APRIORI   h4_contra                      h2 n= 980 WR= 49.9 IC=46.8-53.0 EV= -7.19% boot=[-16.13, +1.40] p=0.9924
-  APRIORI   h4_contra                      h3 n= 980 WR= 49.5 IC=46.4-52.6 EV= -7.95% boot=[-17.00, +0.55] p=0.9964
-  APRIORI   h4_contra                      h4 n= 980 WR= 49.0 IC=45.9-52.1 EV= -8.41% boot=[-18.66, +1.17] p=0.9976
-  APRIORI   h1_contra                      h1 n= 929 WR= 50.2 IC=47.0-53.4 EV= -7.20% boot=[-13.19, -1.57] p=0.9914
-  APRIORI   h1_contra                      h2 n= 929 WR= 48.3 IC=45.1-51.5 EV=-10.10% boot=[-17.87, -2.85] p=0.9996
-  APRIORI   h1_contra                      h3 n= 929 WR= 48.1 IC=44.9-51.3 EV=-10.50% boot=[-19.98, -1.77] p=0.9997
-  APRIORI   h1_contra                      h4 n= 929 WR= 49.2 IC=46.0-52.4 EV= -8.01% boot=[-17.95, +1.51] p=0.9956
-  APRIORI   d1_alineado                    h1 n=1002 WR= 49.9 IC=46.8-53.0 EV= -7.68% boot=[-11.85, -3.47] p=0.9958
-  APRIORI   d1_alineado                    h2 n=1002 WR= 47.8 IC=44.7-50.9 EV=-11.08% boot=[-19.26, -2.84] p=0.9999
-  APRIORI   d1_alineado                    h3 n=1002 WR= 48.3 IC=45.2-51.4 EV=-10.16% boot=[-18.31, -2.26] p=0.9997
-  APRIORI   d1_alineado                    h4 n=1002 WR= 50.9 IC=47.8-54.0 EV= -4.82% boot=[-12.66, +3.54] p=0.9491
-  APRIORI   estructura_alineada            h1 n= 326 WR= 46.3 IC=41.0-51.7 EV=-14.31% boot=[-24.82, -3.95] p=0.9975
-  APRIORI   estructura_alineada            h2 n= 326 WR= 43.6 IC=38.3-49.0 EV=-18.98% boot=[-32.65, -4.00] p=0.9999
-  APRIORI   estructura_alineada            h3 n= 326 WR= 42.3 IC=37.1-47.8 EV=-21.26% boot=[-34.84, -7.00] p=1.0000
-  APRIORI   estructura_alineada            h4 n= 326 WR= 41.4 IC=36.2-46.8 EV=-22.56% boot=[-36.43, -8.19] p=1.0000
+  APRIORI   h4_alineado                    h1 n= 983 WR= 50.1 IC=46.9-53.2 EV= -7.41% boot=[-11.85, -2.71] p=0.9941
+  APRIORI   h4_alineado                    h2 n= 983 WR= 46.7 IC=43.6-49.8 EV=-13.15% boot=[-20.51, -5.70] p=1.0000
+  APRIORI   h4_alineado                    h3 n= 983 WR= 47.2 IC=44.1-50.3 EV=-12.20% boot=[-20.81, -4.10] p=1.0000
+  APRIORI   h4_alineado                    h4 n= 983 WR= 49.6 IC=46.5-52.8 EV= -7.17% boot=[-15.29, +0.75] p=0.9920
+  APRIORI   h1_alineado                    h1 n=1023 WR= 49.0 IC=45.9-52.0 EV= -9.40% boot=[-14.74, -4.21] p=0.9994
+  APRIORI   h1_alineado                    h2 n=1023 WR= 48.0 IC=44.9-51.1 EV=-10.73% boot=[-18.90, -3.03] p=0.9999
+  APRIORI   h1_alineado                    h3 n=1023 WR= 48.7 IC=45.6-51.7 EV= -9.45% boot=[-16.72, -2.59] p=0.9994
+  APRIORI   h1_alineado                    h4 n=1023 WR= 49.6 IC=46.5-52.6 EV= -7.32% boot=[-14.79, +0.07] p=0.9940
+  APRIORI   h4_y_h1_alineados              h1 n= 652 WR= 50.5 IC=46.6-54.3 EV= -6.65% boot=[-13.27, -1.13] p=0.9672
+  APRIORI   h4_y_h1_alineados              h2 n= 652 WR= 47.4 IC=43.6-51.2 EV=-11.85% boot=[-22.00, -2.17] p=0.9994
+  APRIORI   h4_y_h1_alineados              h3 n= 652 WR= 49.5 IC=45.7-53.4 EV= -7.86% boot=[-17.12, +1.24] p=0.9847
+  APRIORI   h4_y_h1_alineados              h4 n= 652 WR= 50.6 IC=46.8-54.4 EV= -5.35% boot=[-14.62, +3.47] p=0.9286
+  APRIORI   h4_pullback                    h1 n= 251 WR= 50.2 IC=44.1-56.3 EV= -7.13% boot=[-14.17, -0.96] p=0.8898
+  APRIORI   h4_pullback                    h2 n= 251 WR= 41.4 IC=35.5-47.6 EV=-22.93% boot=[-33.12,-13.08] p=1.0000
+  APRIORI   h4_pullback                    h3 n= 251 WR= 37.5 IC=31.7-43.6 EV=-30.34% boot=[-44.12,-17.14] p=1.0000
+  APRIORI   h4_pullback                    h4 n= 251 WR= 43.0 IC=37.1-49.2 EV=-19.54% boot=[-32.58, -6.11] p=0.9995
+  APRIORI   h4_contra                      h1 n= 977 WR= 49.2 IC=46.1-52.4 EV= -8.92% boot=[-14.54, -3.57] p=0.9988
+  APRIORI   h4_contra                      h2 n= 977 WR= 50.3 IC=47.1-53.4 EV= -6.52% boot=[-15.00, +1.62] p=0.9861
+  APRIORI   h4_contra                      h3 n= 977 WR= 50.2 IC=47.0-53.3 EV= -6.71% boot=[-15.70, +1.57] p=0.9882
+  APRIORI   h4_contra                      h4 n= 977 WR= 49.6 IC=46.5-52.8 EV= -7.17% boot=[-17.48, +2.26] p=0.9919
+  APRIORI   h1_contra                      h1 n= 937 WR= 50.4 IC=47.2-53.6 EV= -6.81% boot=[-13.11, -1.38] p=0.9881
+  APRIORI   h1_contra                      h2 n= 937 WR= 49.0 IC=45.8-52.2 EV= -8.89% boot=[-16.80, -0.57] p=0.9983
+  APRIORI   h1_contra                      h3 n= 937 WR= 48.7 IC=45.5-51.9 EV= -9.48% boot=[-19.17, -0.13] p=0.9991
+  APRIORI   h1_contra                      h4 n= 937 WR= 49.7 IC=46.5-52.9 EV= -7.00% boot=[-17.50, +2.87] p=0.9892
+  APRIORI   d1_alineado                    h1 n=1002 WR= 49.9 IC=46.8-53.0 EV= -7.68% boot=[-11.89, -3.22] p=0.9958
+  APRIORI   d1_alineado                    h2 n=1002 WR= 47.8 IC=44.7-50.9 EV=-11.08% boot=[-19.26, -2.83] p=0.9999
+  APRIORI   d1_alineado                    h3 n=1002 WR= 48.3 IC=45.2-51.4 EV=-10.16% boot=[-18.45, -2.36] p=0.9997
+  APRIORI   d1_alineado                    h4 n=1002 WR= 50.9 IC=47.8-54.0 EV= -4.82% boot=[-13.26, +2.95] p=0.9491
+  APRIORI   estructura_alineada            h1 n= 326 WR= 46.3 IC=41.0-51.7 EV=-14.31% boot=[-24.70, -4.09] p=0.9975
+  APRIORI   estructura_alineada            h2 n= 326 WR= 43.6 IC=38.3-49.0 EV=-18.98% boot=[-32.36, -3.92] p=0.9999
+  APRIORI   estructura_alineada            h3 n= 326 WR= 42.3 IC=37.1-47.8 EV=-21.26% boot=[-34.96, -7.00] p=1.0000
+  APRIORI   estructura_alineada            h4 n= 326 WR= 41.4 IC=36.2-46.8 EV=-22.56% boot=[-36.68, -7.94] p=1.0000
 
-Guardado results/holdout_eurusd.csv
+Guardado /tmp/opencode/pivot-rebase/results/holdout_eurusd.csv

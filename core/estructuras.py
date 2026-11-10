@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """Estructuras de datos compartidas (antes estaban en motor.py)."""
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Tuple, Optional, Set
 
 
@@ -145,6 +145,18 @@ class Signal:
     filtro_mss_aligned: bool = False
     filtro_mss_reciente: bool = False
     filtro_confluencias: int = 0
+
+    @property
+    def decision_time(self) -> datetime:
+        """Cierre de la vela M15 de señal (instante real de decisión).
+
+        ``entry_time`` sigue siendo la apertura de la vela para no romper IDs,
+        uniones ni el esquema de ``senales_core``. La alerta y cualquier
+        medición de latencia deben usar ``decision_time``.
+        """
+        if self.entry_time is None or self.entry_time.year < 2000:
+            return self.entry_time
+        return self.entry_time + timedelta(minutes=15)
 
 
 @dataclass

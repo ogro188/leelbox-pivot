@@ -3,7 +3,7 @@
 **Proyecto:** PIVOT — sistema de señales para opciones binarias / forex.
 **Objetivo:** auditoría independiente del motor, los datos y el pipeline de validación.
 **Estado:** shadow, sin dinero real. No hay edge confirmado.
-**Fecha del corte:** 2026-11-07.
+**Fecha del corte:** 2026-11-07; re-baseline con contexto causal: 2026-11-09.
 
 ---
 
@@ -27,7 +27,7 @@ Los análisis realizados hasta ahora concluyen que **no hay edge demostrado**. E
    - `core/motor_v8.py` y detectores D0–D5,
    - `tools/bar_edge.py` y `tools/pattern_edge.py`.
 2. **Etiquetas**: la implementación usa el **close de la vela de señal** como precio de entrada y el close de `t+h` como salida; el MFE/MAE incluye la vela de señal. ¿Es ejecutable? ¿Introduce sesgo optimista? ¿Debería usarse el open de `t+1`?
-3. **Resample H1/H4/D1**: que solo use velas cerradas y que el índice temporal sea correcto.
+3. **Resample H1/H4/D1**: que use solo velas cerradas más el bucket en formación agregado con M15 cuyo cierre es `<= decision_time`, sin M15 futuras (`kernel/contexto_superior.py`).
 4. **Replay vs producción**: el replay cubre ~82 % de las señales de producción y emite señales extra. ¿El sesgo de selección invalida las conclusiones? ¿Las diferencias son solo de timing/entrada?
 
 ### 2.2 Prioridad alta — estadística
@@ -47,7 +47,7 @@ Los análisis realizados hasta ahora concluyen que **no hay edge demostrado**. E
 ### 2.4 Prioridad media — hipótesis abiertas
 
 13. **EURUSD NYOR13 fade h1**: n=118, WR 58,5 %, EV +8,18 %, p=0,168. ¿Tiene mecanismo o es ruido de selección?
-14. **EURUSD `hora_20_L` h4 / `ema_gt_2_S` h4**: nominalmente positivos en descubrimiento y holdout, sin FDR. ¿Sobreviven a una prueba no solapada?
+14. **EURUSD `hora_20_L` h4 / `ema_gt_2_S` h4**: eran nominalmente positivos con la muestra de 6 meses del baseline anterior. Con 12 meses no se reproducen como mejores; los top nominales actuales son `rsi_lt30_L` h3 y `hora_16_S` h4, ninguno sobrevive FDR. ¿La inestabilidad es ruido de selección?
 15. **XAUUSD LOR4 fade h8**: n=71, WR 70,4 %, EV +28,9 %, p=0,0037, q=0,697. ¿Es solo muestra pequeña?
 16. **XAUUSD-OTC h1 alineado h3**: n=133, WR 60,9 %, EV +13,3 %, IC95 inferior 52,4 % < BE 53,76 %, 5 días. ¿Merece forward test?
 
@@ -87,7 +87,7 @@ No se espera una estrategia rentable. Se espera una auditoría honesta y especí
 
 ## 5. Acceso y límites
 
-- El repositorio es privado; se comparte con el analista por invitación.
+- El repositorio es **público**: <https://github.com/ogro188/leelbox-pivot>. No requiere invitación.
 - **No hay acceso a producción ni a bases de datos live.** Los CSV de señales y los resultados son la fuente de verdad para la revisión.
 - No se debe operar con dinero real ni promover el sistema a demo durante la revisión.
 - Cualquier cambio de código debe hacerse en una rama/forks del repo, no en producción.
