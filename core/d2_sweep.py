@@ -42,8 +42,8 @@ class DetectorD2(Detector):
             if ri <= 0:
                 continue
 
-            ph = ctx._i_high(ctx.df_m15, i + 2)
-            pl = ctx._i_low(ctx.df_m15, i + 2)
+            ph = ctx._i_high(ctx.df_m15, i + 1)
+            pl = ctx._i_low(ctx.df_m15, i + 1)
             for k in range(i + 2, i + ctx.inp_sweep_n + 1):
                 hk = ctx._i_high(ctx.df_m15, k)
                 lk = ctx._i_low(ctx.df_m15, k)

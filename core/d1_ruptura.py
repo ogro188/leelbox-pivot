@@ -22,7 +22,7 @@ class DetectorD1(Detector):
 
         highest_high = ctx._i_high(ctx.df_m15, 1)
         lowest_low = ctx._i_low(ctx.df_m15, 1)
-        for k in range(2, ctx.inp_n_ruptura + 2):
+        for k in range(2, ctx.inp_n_ruptura + 1):
             h = ctx._i_high(ctx.df_m15, k)
             l = ctx._i_low(ctx.df_m15, k)
             if h == 0 or l == 0:
