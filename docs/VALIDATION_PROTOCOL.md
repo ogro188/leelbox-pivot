@@ -1,7 +1,7 @@
 # Protocolo de validación
 
-**Versión:** 2026-11-07
-**Estado:** pre-registrado antes de mirar los resultados de cada familia. Cualquier cambio posterior debe documentarse y volver a correr el análisis completo.
+**Versión:** 2026-11-10
+**Estado:** pre-registrado antes de mirar los resultados de cada familia. Cualquier cambio posterior debe documentarse y volver a correr el análisis completo. La extensión forward del 9–10/N no cambió reglas ni filtros; se documenta en `docs/UPDATE_2026-11-10.md`.
 
 Este documento describe cómo se evaluó PIVOT y qué reglas debe cumplir cualquier hipótesis nueva antes de pasar a demo o dinero real.
 
@@ -24,22 +24,25 @@ Este documento describe cómo se evaluó PIVOT y qué reglas debe cumplir cualqu
 
 ### 2.1 Historia M15
 
-- **Rango:** 2025-11-07 → 2026-11-06.
-- **EURUSD:** 24.202 velas M15.
-- **XAUUSD:** 23.140 velas M15.
+- **Rango:** 2025-11-10 → 2026-11-10 (ventana móvil de 12 meses).
+- **EURUSD:** 24.226 velas M15.
+- **XAUUSD:** 23.160 velas M15.
 - **Fuente:** Deriv (`frxEURUSD`, `frxXAUUSD`), velas públicas.
 - **Máximo disponible:** la API devolvió 12 meses para M15; no se pudieron obtener 24.
+- Al actualizar el corpus se pierden los primeros días y se ganan los últimos; por eso los escaneos de velas y patrones no son comparables 1:1 entre cortes.
 
 ### 2.2 Cortes por estudio
 
 | Estudio | Descubrimiento | Purga | Validación / holdout | Test |
 |---|---|---|---|---|
-| Señales PIVOT (6 meses) | 2026-05-12 → 2026-09-29 | 2026-09-30 | 2026-10-01 → 2026-11-06 | — |
-| Velas M15 (12 meses) | 2025-11-07 → 2026-09-30 | — | 2026-10-01 → 2026-11-06 | — |
-| Patrones intradía (12 meses) | 2025-11-07 → 2026-04-30 | — | 2026-05-01 → 2026-07-31 | 2026-08-01 → 2026-11-06 |
-| OTC | — | — | — | 2026-11-01 → 2026-11-07 (retrospectivo) |
+| Señales PIVOT (ventana fija desde 2026-05-05) | 2026-05-12 → 2026-09-29 | 2026-09-30 | 2026-10-01 → 2026-11-10 | — |
+| Velas M15 (12 meses móviles) | 2025-11-10 → 2026-09-30 | — | 2026-10-01 → 2026-11-10 | — |
+| Patrones intradía (12 meses móviles) | 2025-11-10 → 2026-04-30 | — | 2026-05-01 → 2026-07-31 | 2026-08-01 → 2026-11-10 |
+| OTC | — | — | — | 2026-11-01 → 2026-11-07 (retrospectivo, congelado) |
 
-**Importante:** los cortes no son intercambiables. El escaneo de señales PIVOT usa 6 meses porque el replay con el motor real en proceso se hizo sobre esa ventana (82,5 %/80,6 % de overlap con producción); los escaneos de velas y patrones usan los 12 meses completos y tienen sus propios cortes. No se debe comparar un p-valor de un estudio con el q-valor de otro.
+**Importante:** los cortes no son intercambiables. El escaneo de señales PIVOT usa una ventana con **inicio fijo** (2026-05-05) para que el descubrimiento no cambie al actualizar datos; el holdout crece solo por delante. Los escaneos de velas y patrones usan la ventana móvil de 12 meses y tienen sus propios cortes. No se debe comparar un p-valor de un estudio con el q-valor de otro.
+
+**Holdout pre-registrado vs extendido:** el holdout original terminaba el 2026-11-06. La extensión 2026-11-09/10 se añadió sin cambiar reglas, filtros, umbrales ni payout, y se reporta por separado. La extensión es confirmación débil de dos días de mercado, no un holdout nuevo e independiente.
 
 ---
 
@@ -90,8 +93,8 @@ Condiciones pre-registradas, agrupadas por hipótesis:
 
 Cada condición se evalúa en h1–h8. **La familia primaria es h1–h4.** h5–h8 se reportan como exploratorias y no entran en el FDR.
 
-- **Tests por activo:** 456 EURUSD / 448 XAUUSD.
-- **Primarios con n ≥ 100:** 220 por activo (el resto se reporta pero no se usa para el criterio estricto).
+- **Tests por activo:** 456 EURUSD / 448 XAUUSD en descubrimiento; 456 / 456 en ventana completa.
+- **Primarios con n ≥ 100:** 220 por activo en descubrimiento; 224 EURUSD y 220 XAUUSD en ventana completa (el resto se reporta pero no se usa para el criterio estricto).
 - **FDR:** Benjamini–Hochberg al 10 % sobre todos los tests primarios del activo.
 
 ### 4.2 Velas M15 (`bar_edge.py`)
@@ -105,7 +108,7 @@ Familias pre-registradas:
 - EMA50: distancia en ATR y estrategia de tendencia/reversión;
 - cuerpo/rango: body ratio y rango/ATR.
 
-Cada condición se evalúa en largo y corto para h1–h4. **464 tests EURUSD / 462 XAUUSD**, FDR 10 % sobre todos los tests primarios del activo. La corrida usa 12 meses de M15; el baseline anterior de 454 tests XAUUSD usaba ~6 meses y no es comparable (ver `docs/REFERENCE_FIX.md`).
+Cada condición se evalúa en largo y corto para h1–h4. **464 tests EURUSD / 462 XAUUSD**, FDR 10 % sobre todos los tests primarios del activo. La corrida usa la ventana móvil de 12 meses; el baseline anterior de 454 tests XAUUSD usaba ~6 meses y no es comparable (ver `docs/REFERENCE_FIX.md` y `docs/UPDATE_2026-11-10.md`).
 
 ### 4.3 Patrones intradía (`pattern_edge.py`)
 
@@ -200,6 +203,7 @@ No se acepta “p < 0,05” sin FDR. No se acepta un IC que cruce el break-even.
 - Los umbrales (terciles) se calculan **solo** en descubrimiento y se congelan.
 - El holdout no se usa para elegir condiciones, direcciones, horarios ni payouts.
 - Si no hay supervivientes, el holdout se reporta igual como confirmación negativa del baseline.
+- La ventana pre-registrada (2026-10-01 → 2026-11-06) se conserva como referencia. La ventana extendida (hasta 2026-11-10) se reporta aparte y no se usa para seleccionar nada.
 
 ### Ablación
 

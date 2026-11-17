@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Extrae la ventana exacta de M15 usada por el replay original.
+"""Extrae la ventana exacta de M15 usada por el replay.
 
-El replay de 6 meses no usó el CSV completo de 12 meses: usó las últimas
-12.506 filas (EURUSD) o 12.014 filas (XAUUSD), que empiezan el
-2026-05-05 08:30 UTC. Este script copia ese subconjunto sin reescribir los
-valores, para que `feature_replay.py --m15 ...` reproduzca el mismo rango.
+Desde el corte 2026-11-10 el replay usa una fecha de inicio fija
+(2026-05-05 08:30 UTC) y se extiende hasta el final del corpus. Así el
+descubrimiento no cambia y el holdout crece solo por delante.
+
+El modo `--rows` queda para reproducir el corte histórico del 2026-11-06
+(12.506 filas EURUSD / 12.014 XAUUSD), que ya no es el vigente.
 
 No toca producción. Solo lee `data/` y escribe en `--out-dir`.
 """
@@ -13,10 +15,7 @@ import argparse
 import csv
 import os
 
-ROWS_POR_DEFECTO = {
-    "EURUSD": 12506,
-    "XAUUSD": 12014,
-}
+INICIO_POR_DEFECTO = "2026-05-05T08:30:00+00:00"
 
 
 def main():
@@ -24,8 +23,12 @@ def main():
     ap.add_argument("--symbol", required=True, choices=["EURUSD", "XAUUSD"])
     ap.add_argument("--out-dir", required=True)
     ap.add_argument(
+        "--desde", default=INICIO_POR_DEFECTO,
+        help="fecha/hora ISO de inicio de la ventana (por defecto 2026-05-05 08:30 UTC)",
+    )
+    ap.add_argument(
         "--rows", type=int, default=0,
-        help="número de velas finales (0 = valor histórico del replay)",
+        help="modo histórico: número de velas finales (0 = usar --desde)",
     )
     ap.add_argument(
         "--source", default="",
@@ -38,7 +41,6 @@ def main():
     args = ap.parse_args()
 
     symbol = args.symbol.upper()
-    rows = args.rows or ROWS_POR_DEFECTO[symbol]
     source = args.source or os.path.join("data", f"{symbol.lower()}_M15.csv")
     out_dir = args.out_dir
     os.makedirs(out_dir, exist_ok=True)
@@ -49,14 +51,20 @@ def main():
         cabecera = next(lector)
         filas = list(lector)
 
-    if rows > len(filas):
-        raise SystemExit(
-            f"{source} tiene {len(filas)} velas; no se pueden extraer {rows}"
-        )
     if "datetime" not in cabecera:
         raise SystemExit(f"{source} no tiene columna datetime: {cabecera}")
+    idx = cabecera.index("datetime")
 
-    seleccion = filas[-rows:]
+    if args.rows:
+        if args.rows > len(filas):
+            raise SystemExit(
+                f"{source} tiene {len(filas)} velas; no se pueden extraer {args.rows}"
+            )
+        seleccion = filas[-args.rows:]
+    else:
+        seleccion = [fila for fila in filas if fila[idx] >= args.desde]
+    if not seleccion:
+        raise SystemExit(f"{source} no tiene velas desde {args.desde}")
     with open(destino, "w", newline="", encoding="utf-8") as f:
         escritor = csv.writer(f, lineterminator="\n")
         escritor.writerow(cabecera)

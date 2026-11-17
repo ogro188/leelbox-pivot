@@ -6,8 +6,8 @@ audience: [ai-agent, human-auditor]
 language: es
 status: shadow
 verdict: no-edge-confirmed
-data_cutoff_utc: 2026-11-07
-data_window_utc: 2025-11-07/2026-11-06
+data_cutoff_utc: 2026-11-10
+data_window_utc: 2025-11-10/2026-11-10
 assets: [EURUSD, XAUUSD]
 timeframes: [M15, H1, H4, D1]
 signal_horizons_min: {h1: 15, h2: 30, h3: 45, h4: 60, h5: 75, h6: 90, h7: 105, h8: 120}
@@ -30,7 +30,7 @@ Si eres un agente automatizado, ejecuta este protocolo:
 2. **No infieras edge por resultados nominales.** Un `p` bruto bajo no es un hallazgo: solo cuenta el criterio estricto de la sección 7.
 3. **Distingue tres estados:** `confirmado`, `no confirmado`, `falsificado`. La sección 1.2 tiene la tabla de estado de cada afirmación.
 4. **Verifica los datos antes de analizarlos.** Los SHA-256 de la sección 6.3 permiten comprobar que los CSV no fueron alterados.
-5. **Respeta las fechas.** El holdout (`2026-10-01 → 2026-11-06`) ya fue observado una vez; no lo reutilices para seleccionar hipótesis.
+5. **Respeta las fechas.** El holdout pre-registrado (`2026-10-01 → 2026-11-06`) fue extendido hacia adelante hasta `2026-11-10` sin cambiar reglas. Ya fue observado; no lo reutilices para seleccionar hipótesis.
 6. **No mezcles familias de tests.** Señales PIVOT, velas M15, patrones intradía y OTC tienen correcciones FDR independientes.
 7. **No optimices TP/SL ni pruebes cientos de variantes.** El protocolo prohíbe ambas cosas en la fase de descubrimiento.
 8. **Reporta con evidencia reproducible:** archivo, línea, comando, valor esperado, valor obtenido.
@@ -42,13 +42,15 @@ Si eres un agente automatizado, ejecuta este protocolo:
 | 1 | `README.md` (este) | Contexto, hechos, veredicto | 10 min |
 | 2 | [`docs/VALIDATION_PROTOCOL.md`](docs/VALIDATION_PROTOCOL.md) | Reglas pre-registradas y criterios | 15 min |
 | 3 | [`docs/EDGE_FINDINGS.md`](docs/EDGE_FINDINGS.md) | Resultados live, holdout y ablación | 15 min |
-| 4 | [`docs/OTC_FINDINGS.md`](docs/OTC_FINDINGS.md) | Validación OTC con payout real | 10 min |
-| 5 | [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) | Sesgos y deuda técnica | 10 min |
-| 6 | [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md) | Comandos y checksums | 10 min |
-| 7 | [`docs/DATA_DICTIONARY.md`](docs/DATA_DICTIONARY.md) | Las 177 columnas | consulta |
-| 8 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Diseño interno del motor | consulta |
-| 9 | [`docs/ANALYST_BRIEF.md`](docs/ANALYST_BRIEF.md) | Preguntas y entregables de la auditoría | 10 min |
-| 10 | [`docs/REFERENCE_FIX.md`](docs/REFERENCE_FIX.md) | Corrección de referencias temporales y re-baseline | 10 min |
+| 4 | [`docs/DETECTOR_PRECISION.md`](docs/DETECTOR_PRECISION.md) | Reglas, bugs de ventana y gates de detectores | 15 min |
+| 5 | [`docs/OTC_FINDINGS.md`](docs/OTC_FINDINGS.md) | Validación OTC con payout real | 10 min |
+| 6 | [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md) | Sesgos y deuda técnica | 10 min |
+| 7 | [`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md) | Comandos y checksums | 10 min |
+| 8 | [`docs/DATA_DICTIONARY.md`](docs/DATA_DICTIONARY.md) | Las 177 columnas | consulta |
+| 9 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Diseño interno del motor | consulta |
+| 10 | [`docs/ANALYST_BRIEF.md`](docs/ANALYST_BRIEF.md) | Preguntas y entregables de la auditoría | 10 min |
+| 11 | [`docs/REFERENCE_FIX.md`](docs/REFERENCE_FIX.md) | Corrección de referencias temporales y re-baseline | 10 min |
+| 12 | [`docs/UPDATE_2026-11-10.md`](docs/UPDATE_2026-11-10.md) | Extensión forward y ventana móvil de 12 meses | 5 min |
 
 ### 0.2 Verificación mínima en 4 comandos
 
@@ -71,16 +73,17 @@ python tools/edge_scan.py --inputs results/eurusd_signals.csv \
 | Hecho | Valor | Dónde verificarlo |
 |---|---|---|
 | Activos analizados | EURUSD, XAUUSD | `data/` |
-| Velas M15 | 24.202 EURUSD / 23.140 XAUUSD | `data/*_M15.csv` |
-| Periodo M15 | 2025-11-07 03:00 UTC → 2026-11-06 20:45 UTC | ídem |
-| Señales PIVOT del replay | 8.957 EURUSD / 8.933 XAUUSD | `results/*_signals.csv` |
+| Velas M15 | 24.226 EURUSD / 23.160 XAUUSD | `data/*_M15.csv` |
+| Periodo M15 | 2025-11-10 22:15 UTC → 2026-11-10 22:00 UTC | ídem |
+| Señales PIVOT del replay | 9.104 EURUSD / 9.070 XAUUSD | `results/*_signals.csv` |
 | Columnas por señal | 177 | `docs/DATA_DICTIONARY.md` |
-| Ventana del replay | últimas 12.506 / 12.014 velas M15 desde 2026-05-05 08:30 UTC | `results/*_meta.json` |
+| Ventana del replay | 12.691 / 12.194 velas M15 desde 2026-05-05 08:30 UTC (inicio fijo) | `results/*_meta.json` |
 | Warmup | 500 velas; primera señal 2026-05-12 | ídem |
 | Tests unitarios | 120/120 pasan | `tests/unit/` |
 | Supervivientes FDR | **0** en todos los escaneos | `results/edge_scan_*`, `bar_edge_*`, `pattern_edge_*` |
-| Holdout EURUSD h3 | n=1.960, WR 48,7 %, EV −9,47 % | `docs/EDGE_FINDINGS.md` |
-| Holdout XAUUSD h3 | n=1.911, WR 47,8 %, EV −13,05 % | ídem |
+| Holdout extendido EURUSD h3 | n=2.107, WR 48,6 %, EV −9,60 % | `docs/EDGE_FINDINGS.md` |
+| Holdout extendido XAUUSD h3 | n=2.048, WR 48,2 %, EV −12,20 % | ídem |
+| Holdout pre-registrado (hasta 6-N) | n=1.967 / 1.921, WR 48,8 / 47,8 %, EV −9,32 / −12,93 % | ídem |
 | Producción real | EV entre −8,85 % y −18,74 % | ídem |
 | Veredicto | **sin edge confirmado; shadow** | este documento |
 
@@ -90,10 +93,10 @@ python tools/edge_scan.py --inputs results/eurusd_signals.csv \
 |---|---|---|
 | PIVOT supera el break-even en M15 | **No** | Holdout y producción negativos; 0/456 supervivientes |
 | El contexto H4/H1 aporta dirección | **No demostrado** | Ablación: PIVOT igual o por debajo de `siempre_long` (hasta 2,4 pp) |
-| `det_d5` h4 EURUSD es un edge | **No confirmado** | p=0,2803 en descubrimiento; p=0,0503 solo en ventana completa |
-| `h4_pullback` h4 EURUSD es un edge | **Falsificado** | +0,05 % en descubrimiento → −7,19 % en ventana completa |
+| `det_d5` h4 EURUSD es un edge | **No confirmado** | p=0,2803 en descubrimiento; p=0,0761 en ventana completa, q=1,0 y bootstrap cruza cero |
+| `h4_pullback` h4 EURUSD es un edge | **Falsificado** | +0,05 % en descubrimiento → −8,24 % en ventana completa |
 | EURUSD NYOR13 fade h1 | **No confirmado** | n=118, WR 58,47 %, p=0,1676, q=1,0 |
-| XAUUSD LOR4 fade h8 | **No concluyente** | n=71, p=0,0037, q=0,697 |
+| XAUUSD LOR4 fade h8 | **No concluyente** | n=70, p=0,0049, q=0,9075 |
 | EURUSD-OTC / D2_ANTICIPACION | **Falsificado** | n=88, EV −1,39 %, depende de un día |
 | XAUUSD-OTC / h1 alineado | **Hipótesis abierta** | n=133, EV +13,28 %, IC95 inferior < break-even |
 | Look-ahead en contexto superior | **Corregido; pendiente auditoría externa** | `docs/REFERENCE_FIX.md`, `tests/unit/test_contexto_superior.py` |
@@ -103,7 +106,7 @@ python tools/edge_scan.py --inputs results/eurusd_signals.csv \
 Tres fuentes independientes coinciden:
 
 1. **Escaneo masivo:** 456 tests EURUSD y 448/456 XAUUSD (descubrimiento/ventana completa) sobre señales PIVOT, más 464/462 tests a nivel de vela y 168/184 de patrones. **Cero supervivientes** tras BH-FDR al 10 % con los criterios adicionales.
-2. **Holdout temporal:** 1.960 señales EURUSD y 1.911 XAUUSD, EV negativo con intervalo de confianza enteramente negativo.
+2. **Holdout temporal:** 2.107 señales EURUSD y 2.048 XAUUSD (ventana extendida al 10-N), EV negativo con intervalo de confianza enteramente negativo. En la ventana pre-registrada hasta el 6-N: 1.967 / 1.921 señales, también negativas.
 3. **Producción real:** 959–1.089 resultados EURUSD y 878–990 XAUUSD según horizonte, todos con EV negativo.
 
 La habilidad direccional de PIVOT es estadísticamente indistinguible del drift incondicional. **No hay base para promover ningún filtro a demo ni a dinero real.**
@@ -295,7 +298,7 @@ Los detectores devuelven siempre una señal; los filtros fallidos se registran c
 | `tools/walkforward.py` | Estabilidad mensual de un filtro. |
 | `tools/validate_labels.py` | Compara etiquetas del replay con `senales_resultados`. |
 | `tools/replay_report.py` | Fidelidad replay vs producción: IDs, detector, dirección, convicción. |
-| `tools/make_replay_window.py` | Extrae las últimas 12.506 / 12.014 velas M15 del corpus. |
+| `tools/make_replay_window.py` | Extrae la ventana de replay desde una fecha de inicio fija (2026-05-05 08:30 UTC). |
 | `tools/otc_validate.py` | Valida filtros OTC con el payout real de cada señal. |
 | `tools/otc_context.py` | Reconstruye features de contexto para señales OTC. |
 | `tools/otc_forward_report.py` | Reporte de forward test OTC (solo lectura). |
@@ -310,6 +313,7 @@ Los detectores devuelven siempre una señal; los filtros fallidos se registran c
 | `README.md` | Este documento | Sí |
 | `docs/VALIDATION_PROTOCOL.md` | Protocolo pre-registrado, FDR, splits | Sí |
 | `docs/EDGE_FINDINGS.md` | Veredicto live, holdout, ablación, producción | Sí |
+| `docs/DETECTOR_PRECISION.md` | Auditoría de reglas, bugs de ventana, metadata y gates por detector | Sí |
 | `docs/OTC_FINDINGS.md` | Validación OTC y candidatos | Sí |
 | `docs/RESULTS_SUMMARY.md` | Resumen tabular de todos los estudios | Sí |
 | `docs/LIMITATIONS.md` | Sesgos, datos, etiquetas, deuda técnica | Sí |
@@ -317,6 +321,7 @@ Los detectores devuelven siempre una señal; los filtros fallidos se registran c
 | `docs/DATA_DICTIONARY.md` | Diccionario de las 177 columnas | Sí |
 | `docs/ARCHITECTURE.md` | Arquitectura y ciclo de una señal | Sí |
 | `docs/REFERENCE_FIX.md` | Corrección de referencias y re-baseline antes/después | Sí |
+| `docs/UPDATE_2026-11-10.md` | Extensión forward y ventana móvil del 10-N | Sí |
 | `docs/ANALYST_BRIEF.md` | Preguntas y entregables de la auditoría | Sí |
 | `docs/archive/` | Documentos históricos | **No**; prevalece el protocolo vigente |
 
@@ -324,13 +329,13 @@ Los detectores devuelven siempre una señal; los filtros fallidos se registran c
 
 | Ruta | Filas | Columnas | Contenido |
 |---|---:|---:|---|
-| `data/eurusd_M15.csv` | 24.202 | OHLCV + datetime | Velas M15 de 12 meses |
-| `data/xauusd_M15.csv` | 23.140 | OHLCV + datetime | Velas M15 de 12 meses |
-| `data/*_D1.csv` | 257 / 256 | OHLCV + datetime | Velas diarias |
-| `data/*_H1.csv` | 440 / 425 | OHLCV + datetime | Muestras recientes (no 12 meses) |
-| `data/*_H4.csv` | 214 / 214 | OHLCV + datetime | Muestras recientes (no 12 meses) |
-| `results/eurusd_signals.csv` | 8.957 | 177 | Señales + features + etiquetas |
-| `results/xauusd_signals.csv` | 8.933 | 177 | Ídem |
+| `data/eurusd_M15.csv` | 24.226 | OHLCV + datetime | Velas M15 de 12 meses (ventana móvil) |
+| `data/xauusd_M15.csv` | 23.160 | OHLCV + datetime | Velas M15 de 12 meses (ventana móvil) |
+| `data/*_D1.csv` | 258 / 257 | OHLCV + datetime | Velas diarias cerradas |
+| `data/*_H1.csv` | 398 / 383 | OHLCV + datetime | Muestras recientes (no 12 meses) |
+| `data/*_H4.csv` | 216 / 216 | OHLCV + datetime | Muestras recientes (no 12 meses) |
+| `results/eurusd_signals.csv` | 9.104 | 177 | Señales + features + etiquetas |
+| `results/xauusd_signals.csv` | 9.070 | 177 | Ídem |
 | `results/edge_scan_*_disc.csv` | 456 / 448 | 21 | Tests de descubrimiento |
 | `results/edge_scan_*_full.csv` | 456 / 456 | 21 | Tests de ventana completa |
 | `results/bar_edge_*.csv` | 464 / 462 | 18 | Escaneo a nivel de vela (12 meses) |
@@ -356,14 +361,14 @@ find data results -name '*.csv' -exec wc -l {} +
 
 | Archivo | Velas | Inicio (UTC) | Fin (UTC) | Fuente |
 |---|---:|---|---|---|
-| `data/eurusd_M15.csv` | 24.202 | 2025-11-07 03:00 | 2026-11-06 20:45 | Deriv `frxEURUSD` |
-| `data/xauusd_M15.csv` | 23.140 | 2025-11-07 03:00 | 2026-11-06 20:45 | Deriv `frxXAUUSD` |
-| `data/eurusd_D1.csv` | 257 | 2025-11-10 00:00 | 2026-11-05 00:00 | Deriv |
-| `data/xauusd_D1.csv` | 256 | 2025-11-10 00:00 | 2026-11-05 00:00 | Deriv |
-| `data/eurusd_H1.csv` | 440 | 2026-10-13 03:00 | 2026-11-06 19:00 | Deriv |
-| `data/xauusd_H1.csv` | 425 | 2026-10-13 03:00 | 2026-11-06 19:00 | Deriv |
-| `data/eurusd_H4.csv` | 214 | 2026-09-18 04:00 | 2026-11-06 16:00 | Deriv |
-| `data/xauusd_H4.csv` | 214 | 2026-09-18 04:00 | 2026-11-06 16:00 | Deriv |
+| `data/eurusd_M15.csv` | 24.226 | 2025-11-10 22:15 | 2026-11-10 22:00 | Deriv `frxEURUSD` |
+| `data/xauusd_M15.csv` | 23.160 | 2025-11-10 23:00 | 2026-11-10 21:45 | Deriv `frxXAUUSD` |
+| `data/eurusd_D1.csv` | 258 | 2025-11-11 00:00 | 2026-11-09 00:00 | Deriv |
+| `data/xauusd_D1.csv` | 257 | 2025-11-11 00:00 | 2026-11-09 00:00 | Deriv |
+| `data/eurusd_H1.csv` | 398 | 2026-10-19 00:00 | 2026-11-10 22:00 | Deriv |
+| `data/xauusd_H1.csv` | 383 | 2026-10-19 00:00 | 2026-11-10 20:00 | Deriv |
+| `data/eurusd_H4.csv` | 216 | 2026-09-22 00:00 | 2026-11-10 20:00 | Deriv |
+| `data/xauusd_H4.csv` | 216 | 2026-09-22 00:00 | 2026-11-10 20:00 | Deriv |
 
 - La API de Deriv devolvió **12 meses como máximo** para M15; no hay 24 meses.
 - Los H1/H4 incluidos **no** cubren 12 meses: son las últimas páginas. El replay deriva H1/H4 desde M15; los CSV H1/H4 son solo una muestra de contraste.
@@ -374,8 +379,8 @@ find data results -name '*.csv' -exec wc -l {} +
 
 | Archivo | Filas | Columnas | Rango de señales |
 |---|---:|---:|---|
-| `results/eurusd_signals.csv` | 8.957 | 177 | 2026-05-12 16:45 → 2026-11-06 18:15 UTC |
-| `results/xauusd_signals.csv` | 8.933 | 177 | 2026-05-12 20:30 → 2026-11-06 18:30 UTC |
+| `results/eurusd_signals.csv` | 9.104 | 177 | 2026-05-12 16:45 → 2026-11-10 19:45 UTC |
+| `results/xauusd_signals.csv` | 9.070 | 177 | 2026-05-12 20:30 → 2026-11-10 19:30 UTC |
 
 Cada fila incluye:
 
@@ -419,12 +424,12 @@ sha256sum data/eurusd_M15.csv data/xauusd_M15.csv \
 
 ### 6.4 Ventana exacta del replay
 
-El replay publicado **no usó los 12 meses completos**. Usó las últimas N velas del M15:
+El replay **no usa los 12 meses completos**: usa una ventana con **inicio fijo** el 2026-05-05 08:30 UTC y se extiende hasta el final del corpus. Así el descubrimiento no cambia cuando se actualizan los datos y el holdout crece solo por delante.
 
-| Activo | Velas M15 | Inicio | Fin | Señales |
-|---|---:|---|---|---:|
-| EURUSD | 12.506 | 2026-05-05 08:30 UTC | 2026-11-06 20:45 UTC | 8.957 |
-| XAUUSD | 12.014 | 2026-05-05 08:30 UTC | 2026-11-06 20:45 UTC | 8.933 |
+| Activo | Velas M15 | Inicio | Fin | Decisiones | Señales |
+|---|---:|---|---|---:|---:|
+| EURUSD | 12.691 | 2026-05-05 08:30 UTC | 2026-11-10 22:00 UTC | 12.182 | 9.104 |
+| XAUUSD | 12.194 | 2026-05-05 08:30 UTC | 2026-11-10 21:45 UTC | 11.685 | 9.070 |
 
 Warmup: 500 velas. Por eso la primera señal aparece el 2026-05-12. `results/*_meta.json` confirma `m15_total`, `replay_inicio`, `replay_fin` y `senales`.
 
@@ -434,6 +439,8 @@ Para reconstruir la ventana:
 python tools/make_replay_window.py --symbol EURUSD --out-dir /tmp/pivot-repro/data
 python tools/make_replay_window.py --symbol XAUUSD --out-dir /tmp/pivot-repro/data
 ```
+
+El modo histórico `--rows 12506` / `--rows 12014` reproduce el corte del 2026-11-06, que ya no es el vigente.
 
 ---
 
@@ -457,10 +464,10 @@ El protocolo está pre-registrado en [`docs/VALIDATION_PROTOCOL.md`](docs/VALIDA
 
 | Estudio | Descubrimiento | Validación | Test / holdout |
 |---|---|---|---|
-| Señales PIVOT (6 meses) | 2026-05-12 → 2026-09-29 | — | 2026-10-01 → 2026-11-06 |
-| Velas M15 (12 meses) | 2025-11-07 → 2026-09-30 | — | 2026-10-01 → 2026-11-06 |
-| Patrones intradía (12 meses) | 2025-11-07 → 2026-04-30 | 2026-05-01 → 2026-07-31 | 2026-08-01 → 2026-11-06 |
-| OTC | — | — | 2026-11-01 → 2026-11-07 (forward retrospectivo) |
+| Señales PIVOT | 2026-05-12 → 2026-09-29 | — | 2026-10-01 → 2026-11-10 (pre-registrado hasta 6-N) |
+| Velas M15 (12 meses móviles) | 2025-11-10 → 2026-09-30 | — | 2026-10-01 → 2026-11-10 |
+| Patrones intradía (12 meses móviles) | 2025-11-10 → 2026-04-30 | 2026-05-01 → 2026-07-31 | 2026-08-01 → 2026-11-10 |
+| OTC | — | — | 2026-11-01 → 2026-11-07 (forward retrospectivo, congelado) |
 
 Los cortes **no son intercambiables**: cada estudio tiene su propia familia de tests y su propia corrección.
 
@@ -489,22 +496,32 @@ Los datos son una serie temporal con autocorrelación y regímenes. Un k-fold al
 
 | Activo | Tests | Primarios n ≥ 100 | Supervivientes FDR | Mejor p bruto |
 |---|---:|---:|---:|---|
-| EURUSD | 456 | 220 | **0** | 0,2803 (`det_d5` h4) |
+| EURUSD (descubrimiento) | 456 | 220 | **0** | 0,2803 (`det_d5` h4) |
+| EURUSD (ventana completa) | 456 | 224 | **0** | 0,0761 (`det_d5` h4) |
 | XAUUSD (descubrimiento) | 448 | 220 | **0** | 0,7020 (`tipo_a` h4) |
-| XAUUSD (ventana completa) | 456 | 220 | **0** | 0,8960 (`tipo_a` h4) |
+| XAUUSD (ventana completa) | 456 | 220 | **0** | 0,9090 (`tipo_a` h4) |
 
 - Ningún test alcanzó `q < 0,10`.
-- El “casi” `det_d5` h4 EURUSD (n=324, WR 58,0 %, EV +8,51 %, p=0,0503) **no era significativo en descubrimiento** (p=0,2803) y su resultado completo depende de octubre. **No es un hallazgo confirmado.**
-- `h4_pullback` h4 pasa de +0,05 % en descubrimiento a −7,19 % en ventana completa.
+- El “casi” `det_d5` h4 EURUSD (n=331, WR 57,4 %, EV +7,34 %, p=0,0761 en ventana completa) **no era significativo en descubrimiento** (p=0,2803), tiene q=1,0 y su bootstrap cruza cero ([−4,60, +19,47]). **No es un hallazgo confirmado.**
+- `h4_pullback` h4 pasa de +0,05 % en descubrimiento a −8,24 % en ventana completa.
 
 ### 8.2 Holdout
 
+Holdout extendido (2026-10-01 → 2026-11-10):
+
 | Activo | Horizonte | n | WR | IC95 | EV | Bootstrap 95 % |
 |---|---|---:|---:|---|---:|---|
-| EURUSD | h3 (base) | 1.960 | 48,7 % | 46,5–50,9 | −9,47 % | [−15,41, −3,54] |
-| XAUUSD | h3 (base) | 1.911 | 47,8 % | 45,5–50,0 | −13,05 % | [−17,01, −8,59] |
+| EURUSD | h3 (base) | 2.107 | 48,6 % | 46,5–50,7 | −9,60 % | [−15,18, −4,28] |
+| XAUUSD | h3 (base) | 2.048 | 48,2 % | 46,1–50,4 | −12,20 % | [−16,28, −7,90] |
 
-Las 32 combinaciones a priori evaluadas en holdout son negativas en ambos activos. No había supervivientes que confirmar.
+Ventana pre-registrada original (2026-10-01 → 2026-11-06), re-medida con el corpus actualizado:
+
+| Activo | Horizonte | n | WR | IC95 | EV | Bootstrap 95 % |
+|---|---|---:|---:|---|---:|---|
+| EURUSD | h3 (base) | 1.967 | 48,8 % | 46,6–51,0 | −9,32 % | [−15,30, −3,40] |
+| XAUUSD | h3 (base) | 1.921 | 47,8 % | 45,6–50,1 | −12,93 % | [−16,94, −8,53] |
+
+Las 32 combinaciones a priori evaluadas en holdout son negativas en ambos activos. No había supervivientes que confirmar. La extensión forward (9–10 de noviembre: 140 señales EURUSD y 127 XAUUSD) también es negativa: EURUSD h3 EV −13,64 %; XAUUSD h3 EV −1,12 %, sin significación.
 
 ### 8.3 Ablación
 
@@ -512,14 +529,14 @@ Winrate h1–h4 (%):
 
 | Variante | EURUSD | XAUUSD |
 |---|---|---|
-| H4_only | 49,3 / 49,9 / 49,9 / 49,8 | 51,0 / 51,2 / 51,0 / 51,0 |
-| H1_only | 49,2 / 49,5 / 50,0 / 49,8 | 50,5 / 50,4 / 50,1 / 50,2 |
-| H4+H1 | 49,3 / 49,9 / 50,2 / 49,9 | 51,1 / 51,1 / 50,8 / 50,8 |
-| `siempre_long` | 48,7 / 48,8 / 48,8 / 48,7 | 50,6 / 50,1 / 50,0 / 50,2 |
-| PIVOT | 47,6 / 48,5 / 48,1 / 48,7 | 48,2 / 48,6 / 48,5 / 48,7 |
-| PIVOT+H4+H1 | 47,8 / 48,5 / 47,8 / 48,8 | 48,5 / 49,4 / 48,1 / 47,7 |
+| H4_only | 49,2 / 49,8 / 49,7 / 49,7 | 51,0 / 51,0 / 51,0 / 50,9 |
+| H1_only | 49,2 / 49,4 / 49,8 / 49,6 | 50,4 / 50,3 / 50,0 / 50,0 |
+| H4+H1 | 49,2 / 49,7 / 49,9 / 49,7 | 51,0 / 50,9 / 50,7 / 50,7 |
+| `siempre_long` | 48,7 / 48,8 / 48,8 / 48,7 | 50,5 / 50,0 / 49,9 / 50,0 |
+| PIVOT | 47,6 / 48,5 / 48,1 / 48,8 | 48,2 / 48,7 / 48,6 / 48,8 |
+| PIVOT+H4+H1 | 47,8 / 48,3 / 47,6 / 48,5 | 48,3 / 49,3 / 48,1 / 47,8 |
 
-Todos los EV son negativos (−6,2 % a −12,8 %). **PIVOT está igual o por debajo de `siempre_long`** (hasta 2,4 pp por debajo en XAUUSD h1): no hay habilidad direccional medible en esta muestra.
+Todos los EV son negativos (−6,8 % a −12,7 %). **PIVOT está igual o por debajo de `siempre_long`** (hasta 2,3 pp por debajo en XAUUSD h1): no hay habilidad direccional medible en esta muestra.
 
 ### 8.4 Producción real
 
@@ -542,10 +559,10 @@ Familias: calendario/hora/día, momentum/reversión, RSI14, volatilidad/ATR, EMA
 
 | Activo | Tests | Supervivientes FDR | Mejores señales nominales |
 |---|---:|---:|---|
-| EURUSD | 464 | **0** | `rsi_lt30_L` h3: n=879, WR 55,9 %, EV +3,90 %, p=0,1064, q=1,0; `hora_16_S` h4: n=928, WR 55,3 %, EV +3,37 %, p=0,1352, q=1,0 |
-| XAUUSD | 462 | **0** | `hora_21_S` h2: n=124, WR 58,1 %, EV +5,68 %, p=0,2425, q=1,0; `hora_21_S` h1: n=186, WR 56,5 %, EV +2,18 %, p=0,3707, q=1,0 |
+| EURUSD | 464 | **0** | `rsi_lt30_L` h3: n=880, WR 55,8 %, EV +3,78 %, p=0,1133, q=1,0; `hora_16_S` h4: n=920, WR 55,3 %, EV +3,46 %, p=0,1303, q=1,0 |
+| XAUUSD | 462 | **0** | `hora_21_S` h2: n=122, WR 59,0 %, EV +7,41 %, p=0,1830, q=1,0; `hora_21_S` h1: n=183, WR 57,4 %, EV +3,85 %, p=0,2813, q=1,0 |
 
-**Cambio de ventana:** el baseline anterior de esta tabla se generó con ~6 meses de M15 (n≈428 por hora), no con los 12 meses completos. El actual usa 12 meses (n≈928 por hora), así que las cifras de `n`, WR y p no son comparables con las anteriores. Con la misma ventana de 12 meses, el código anterior y el actual producen exactamente los mismos 464/462 tests: `bar_edge.py` no usa el contexto superior. Ver `docs/REFERENCE_FIX.md`.
+**Cambio de ventana:** el baseline anterior de esta tabla se generó con ~6 meses de M15 (n≈428 por hora). El corte del 9-N usó 12 meses fijos (n≈928 por hora) y el del 10-N usa una **ventana móvil de 12 meses** (2025-11-10 → 2026-11-10). Las cifras de `n`, WR y p no son comparables entre sí. Con la misma ventana, el código anterior y el actual producen exactamente los mismos 464/462 tests: `bar_edge.py` no usa el contexto superior. Ver `docs/REFERENCE_FIX.md` y `docs/UPDATE_2026-11-10.md`.
 
 Ningún resultado sobrevive FDR. Las horas concretas que se citaban antes (`hora_20_L`, `hora_09_L`, etc.) correspondían a la muestra de 6 meses y no deben presentarse como hallazgos de 12 meses. **No hay candidato promovible.**
 
@@ -555,8 +572,8 @@ Familias: ARB (rango asiático), LOR (opening range Londres), NYOR (opening rang
 
 | Activo | Tests | Supervivientes FDR | Mejor p bruto |
 |---|---:|---:|---|
-| EURUSD | 168 | **0** | `LOR3 break fade` h8: n=114, WR 64,9 %, EV +21,39 %, p=0,0072, q=0,717 |
-| XAUUSD | 184 | **0** | `LOR4 break fade` h8: n=71, WR 70,4 %, EV +28,87 %, p=0,0037, q=0,697 |
+| EURUSD | 168 | **0** | `LOR3 break fade` h8: n=112, WR 65,2 %, EV +21,88 %, p=0,0065, q=0,764 |
+| XAUUSD | 184 | **0** | `LOR4 break fade` h8: n=70, WR 70,0 %, EV +28,10 %, p=0,0049, q=0,907 |
 
 El candidato más comentado, **NYOR13 fade h1** (EURUSD, fade de la ruptura del opening range 13:00–13:45, expiry 15 min), tiene en descubrimiento:
 
@@ -667,7 +684,7 @@ python tools/feature_replay.py \
 
 Salidas esperadas:
 
-- `eurusd_signals.csv` / `xauusd_signals.csv` con 8.957 / 8.933 filas y 177 columnas.
+- `eurusd_signals.csv` / `xauusd_signals.csv` con 9.104 / 9.070 filas y 177 columnas.
 - `*_meta.json` con rango, velas, segundos y validación de etiquetas.
 - La validación contra producción devuelve `db no existe` si no se aporta `pivotradar_data/`; es esperado.
 
@@ -696,7 +713,7 @@ El script:
 
 | Elemento | ¿Reproducible? | Nota |
 |---|---|---|
-| Señales M15 (8.957/8.933) | Sí, con la ventana exacta | ~3,5 min por activo en esta máquina |
+| Señales M15 (9.104/9.070) | Sí, con la ventana exacta | ~3,3 min por activo en esta máquina |
 | Escaneos PIVOT | Sí | Desde los CSV de señales |
 | Holdout y ablación | Sí | Desde los CSV |
 | Escaneos de velas/patrones | Sí | Desde M15 de 12 meses |
@@ -724,9 +741,11 @@ Esta sección es la lista de cosas que un auditor **debe** saber antes de sacar 
 12. **El modelo binario no modela ticks, empates ni slippage intravela.** Asume payout fijo por horizonte y resolución al close.
 13. **12 meses es el máximo de Deriv para M15.** No hay 24 meses; cualquier análisis de ciclo largo está limitado.
 14. **Las familias de tests no se mezclan.** Señales PIVOT, velas, patrones y OTC tienen correcciones independientes; sumar p-valores entre ellas invalida el FDR.
-15. **El holdout ya fue observado.** No lo reutilices para seleccionar filtros; un nuevo holdout requiere datos posteriores a 2026-11-06.
-16. **La DB de producción no se distribuye.** Los números de producción son agregados verificables en `docs/EDGE_FINDINGS.md`, no recalculables desde este repo.
-17. **`DATABASE_URL` de producción apuntaba a una base efímera.** Es un riesgo operativo, no un resultado de investigación; no se tocó.
+15. **El holdout ya fue observado.** No lo reutilices para seleccionar filtros; un nuevo holdout requiere datos posteriores a 2026-11-10.
+16. **La ventana de 12 meses es móvil.** Al actualizar el corpus se pierden los primeros días y se ganan los últimos. Por eso `bar_edge` y `pattern_edge` no son comparables 1:1 entre cortes; los números vigentes son los del 10-N. El replay PIVOT usa inicio fijo para que el descubrimiento no cambie.
+17. **La extensión forward es de solo dos días de mercado.** Añade 140 señales EURUSD y 127 XAUUSD; sirve como confirmación débil, no como un holdout nuevo e independiente.
+18. **La DB de producción no se distribuye.** Los números de producción son agregados verificables en `docs/EDGE_FINDINGS.md`, no recalculables desde este repo.
+19. **`DATABASE_URL` de producción apuntaba a una base efímera.** Es un riesgo operativo, no un resultado de investigación; no se tocó.
 
 Detalle ampliado: [`docs/LIMITATIONS.md`](docs/LIMITATIONS.md).
 
@@ -793,8 +812,9 @@ Si dos documentos se contradicen, prevalece este orden:
 3. docs/OTC_FINDINGS.md            # resultados OTC
 4. docs/RESULTS_SUMMARY.md         # resumen tabular
 5. docs/REFERENCE_FIX.md           # corrección de referencias y re-baseline
-6. README.md                       # visión general
-7. docs/archive/                   # histórico; nunca prevalece
+6. docs/UPDATE_2026-11-10.md       # extensión forward y ventana móvil
+7. README.md                       # visión general
+8. docs/archive/                   # histórico; nunca prevalece
 ```
 
 Los documentos de `docs/archive/` pueden contener rutas de ejemplo, instrucciones de despliegue o afirmaciones anteriores al protocolo. **No son la referencia vigente.**
@@ -810,7 +830,7 @@ No hay edge confirmado. Cero supervivientes en todos los escaneos; holdout y pro
 No. El sistema no ejecuta órdenes y el modo es shadow. La licencia prohíbe operar con dinero real o presentarlo como estrategia rentable.
 
 **¿Por qué XAUUSD tiene 448 tests en una tabla y 456 en otra?**
-448 es la ventana de descubrimiento (hasta 2026-09-30). 456 es la ventana completa (hasta 2026-11-06), que habilita 8 combinaciones más. En ambas: 0 supervivientes.
+448 es la ventana de descubrimiento (hasta 2026-09-30). 456 es la ventana completa (hasta 2026-11-10), que habilita 8 combinaciones más. En ambas: 0 supervivientes.
 
 **¿Por qué 177 columnas?**
 Incluyen identidad, features de detector, contexto, calidad, confluencia, narrativa, filtros y etiquetas/MFE/MAE por horizonte. La columna adicional es `decision_time` (cierre de la vela de señal). Diccionario en `docs/DATA_DICTIONARY.md`.
@@ -819,7 +839,7 @@ Incluyen identidad, features de detector, contexto, calidad, confluencia, narrat
 Sí: OHLCV público de Deriv, 12 meses M15. Los checksums de la sección 6.3 permiten detectar alteraciones.
 
 **¿Puedo reutilizar el holdout?**
-No para seleccionar. Ya fue observado. Un test nuevo requiere datos posteriores a 2026-11-06.
+No para seleccionar. Ya fue observado. Un test nuevo requiere datos posteriores a 2026-11-10.
 
 **¿Qué hago si encuentro un bug?**
 Repórtalo con archivo, línea, comando, valor esperado y valor obtenido. No lo corrijas silenciosamente ni reejecutes los escaneos cambiando la familia de tests.

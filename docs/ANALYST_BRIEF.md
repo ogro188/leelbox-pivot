@@ -3,7 +3,7 @@
 **Proyecto:** PIVOT — sistema de señales para opciones binarias / forex.
 **Objetivo:** auditoría independiente del motor, los datos y el pipeline de validación.
 **Estado:** shadow, sin dinero real. No hay edge confirmado.
-**Fecha del corte:** 2026-11-07; re-baseline con contexto causal: 2026-11-09.
+**Fecha del corte:** 2026-11-10; re-baseline con contexto causal: 2026-11-09; extensión forward y ventana móvil: 2026-11-10.
 
 ---
 
@@ -34,7 +34,7 @@ Los análisis realizados hasta ahora concluyen que **no hay edge demostrado**. E
 
 5. **Familia de tests**: ¿está bien definida? ¿El FDR se aplica sobre la familia correcta? ¿h5–h8 deberían entrar?
 6. **Bootstrap por día**: ¿respeta la dependencia intra-día? ¿El remuestreo de días es suficiente con ~100–250 días?
-7. **Holdout**: ¿los cortes y la purga son suficientes? ¿Hay contaminación por usar el holdout en la ablación o en los resúmenes?
+7. **Holdout**: ¿los cortes y la purga son suficientes? ¿Hay contaminación por usar el holdout en la ablación o en los resúmenes? La extensión 9–10/N se añadió después de observar el holdout original: trátala como confirmación débil, no como test limpio.
 8. **Criterio de supervivencia**: `q ≤ 0,10`, `wr_lo > BE`, `ev_boot_lo > 0`, `n ≥ 100`. ¿Es demasiado laxo o demasiado estricto?
 9. **Multiplicidad no declarada**: ¿los escaneos exploratorios (velas, patrones, OTC) se usaron para elegir hipótesis que luego se presentan como pre-registradas?
 
@@ -48,14 +48,15 @@ Los análisis realizados hasta ahora concluyen que **no hay edge demostrado**. E
 
 13. **EURUSD NYOR13 fade h1**: n=118, WR 58,5 %, EV +8,18 %, p=0,168. ¿Tiene mecanismo o es ruido de selección?
 14. **EURUSD `hora_20_L` h4 / `ema_gt_2_S` h4**: eran nominalmente positivos con la muestra de 6 meses del baseline anterior. Con 12 meses no se reproducen como mejores; los top nominales actuales son `rsi_lt30_L` h3 y `hora_16_S` h4, ninguno sobrevive FDR. ¿La inestabilidad es ruido de selección?
-15. **XAUUSD LOR4 fade h8**: n=71, WR 70,4 %, EV +28,9 %, p=0,0037, q=0,697. ¿Es solo muestra pequeña?
+15. **XAUUSD LOR4 fade h8**: n=70, WR 70,0 %, EV +28,1 %, p=0,0049, q=0,907. ¿Es solo muestra pequeña?
 16. **XAUUSD-OTC h1 alineado h3**: n=133, WR 60,9 %, EV +13,3 %, IC95 inferior 52,4 % < BE 53,76 %, 5 días. ¿Merece forward test?
+17. **Extensión forward 9–10/N**: 140 señales EURUSD (h3 EV −13,64 %) y 127 XAUUSD (h3 EV −1,12 %, h4 +0,87 %). ¿Dos días aportan algo o solo confirman que el ruido domina?
 
 ### 2.5 Prioridad baja — código y operación
 
-17. Bugs, excepciones silenciosas, supuestos de tipos, divisiones por cero, uso de `iloc`/índices.
-18. Problemas de seguridad o datos personales en el repo (debería estar sanitizado).
-19. Riesgos operativos: base SQLite efímera, backups, migración pendiente, dependencia de un solo host.
+18. Bugs, excepciones silenciosas, supuestos de tipos, divisiones por cero, uso de `iloc`/índices.
+19. Problemas de seguridad o datos personales en el repo (debería estar sanitizado).
+20. Riesgos operativos: base SQLite efímera, backups, migración pendiente, dependencia de un solo host.
 
 ---
 

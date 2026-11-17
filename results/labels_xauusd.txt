@@ -1,1 +1,1 @@
-XAUUSD: replay=8933 db_ids_con_resultado=0 comunes=0
+XAUUSD: replay=9070 db_ids_con_resultado=0 comunes=0

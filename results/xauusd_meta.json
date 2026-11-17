@@ -1,13 +1,13 @@
 {
   "symbol": "XAUUSD",
-  "m15_total": 12014,
+  "m15_total": 12194,
   "replay_inicio": "2026-05-12 20:30:00+00:00",
-  "replay_fin": "2026-11-06 18:30:00+00:00",
-  "velas_replay": 11505,
+  "replay_fin": "2026-11-10 19:30:00+00:00",
+  "velas_replay": 11685,
   "warmup": 500,
-  "senales": 8933,
+  "senales": 9070,
   "sin_pos": 0,
-  "segundos": 188.7,
+  "segundos": 187.4,
   "point": 0.01,
   "columnas": [
     "id",

@@ -1,13 +1,13 @@
 {
   "symbol": "EURUSD",
-  "m15_total": 12506,
+  "m15_total": 12691,
   "replay_inicio": "2026-05-12 16:30:00+00:00",
-  "replay_fin": "2026-11-06 18:30:00+00:00",
-  "velas_replay": 11997,
+  "replay_fin": "2026-11-10 19:45:00+00:00",
+  "velas_replay": 12182,
   "warmup": 500,
-  "senales": 8957,
+  "senales": 9104,
   "sin_pos": 0,
-  "segundos": 209.2,
+  "segundos": 195.1,
   "point": 1e-05,
   "columnas": [
     "id",
