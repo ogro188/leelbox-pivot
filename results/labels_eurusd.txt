@@ -1,1 +1,1 @@
-EURUSD: replay=8957 db_ids_con_resultado=0 comunes=0
+EURUSD: replay=9104 db_ids_con_resultado=0 comunes=0

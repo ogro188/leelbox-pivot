@@ -1,14 +1,14 @@
 # Limitaciones
 
-**Corte:** 2026-11-07 UTC. Este documento enumera lo que el repositorio **no** permite concluir y los sesgos conocidos. Es parte del material de auditoría, no una lista de excusas.
+**Corte:** 2026-11-10 UTC. Este documento enumera lo que el repositorio **no** permite concluir y los sesgos conocidos. Es parte del material de auditoría, no una lista de excusas.
 
 ---
 
 ## 1. Datos
 
-1. **12 meses es el máximo disponible.** La API de Deriv devolvió 12 meses para M15; no hay 24. Cualquier afirmación sobre estabilidad de largo plazo es limitada.
-2. **Los CSV H1/H4 incluidos no cubren 12 meses.** Son las últimas páginas (440/425 y 214 velas). El replay deriva H1/H4 desde M15; los CSV H1/H4 son solo una muestra de contraste.
-3. **Volumen de forex = 0.** Deriv devuelve `volume=0` en `frxEURUSD`/`frxXAUUSD`. Las features que dependen de volumen (`sweep_volume_ratio`, `filtro_volumen_ratio`, `volume_ratio`) no son informativas en estos CSV.
+1. **12 meses es el máximo disponible.** La API de Deriv devolvió 12 meses para M15; no hay 24. Cualquier afirmación sobre estabilidad de largo plazo es limitada. El corpus del 10-N es una **ventana móvil** (2025-11-10 → 2026-11-10): se pierden los primeros días y se ganan los últimos respecto del corte anterior.
+2. **Los CSV H1/H4 incluidos no cubren 12 meses.** Son las últimas páginas (398/383 y 216/216 velas). El replay deriva H1/H4 desde M15; los CSV H1/H4 son solo una muestra de contraste.
+3. **Volumen de forex = 0.** Deriv devuelve `volume=0` en `frxEURUSD`/`frxXAUUSD`. Las features que dependen de volumen (`sweep_volume_ratio`, `filtro_volumen_ratio`, `volume_ratio`) no son informativas en estos CSV. Consecuencia: D1 falla el filtro de volumen en el 100 % de sus señales, D2 y D2_ANTICIPACION no pueden generar tipos A/B, y D5 no puede puntuar volumen. Ver `docs/DETECTOR_PRECISION.md`.
 4. **Precios públicos, no de un broker concreto.** El payout y la ejecución reales pueden diferir de los de Deriv/IQ Option.
 5. **OTC tiene ~6 días de historia** (581 velas M15 por activo) y warmup insuficiente para H1/H4; la muestra efectiva es ~4 días. No hay base para conclusiones de meses.
 6. **La historia OTC no se distribuye.** El auditor solo puede revisar los agregados de `results/otc_validation.csv` y `results/otc_features.csv`; no puede recalcular el payout real desde las DB originales.
@@ -19,11 +19,12 @@
 
 1. **El replay cubre ~82,5 % (EURUSD) y ~80,6 % (XAUUSD) de las señales de producción.** Emite además señales extra. El porcentaje se midió sobre el replay anterior; el replay corregido cambia 2–3 señales de borde por activo. Las conclusiones se apoyan en el replay **y** en los resultados reales de producción, pero el sesgo de selección del replay no es cero.
 2. **h4 no está validado contra producción.** Solo hay 3 filas EURUSD y 6 XAUUSD con `h4` medido en producción; las conclusiones de h4 son replay-only.
-3. **El replay publicado usó 6 meses, no 12.** Los CSV de señales cubren 2026-05-12 → 2026-11-06. El M15 de 12 meses incluido es un superconjunto; para reproducir exactamente hay que usar el subconjunto descrito en `docs/REPRODUCIBILITY.md`.
-4. **El replay usa `fast_engine.py`.** Se validó contra el motor sin acelerar, pero una diferencia sutil de implementación podría afectar los conteos. El auditor debe revisar esa equivalencia.
-5. **D1 EMA200 no existe antes de ~septiembre 2026.** `trend_d1` es `NEUTRO` en los primeros meses; los filtros D1 no son utilizables en toda la muestra.
-6. **El motor no se ejecutó con la misma versión de pandas/numpy en todos los entornos.** Diferencias de redondeo o de resample pueden cambiar algunas señales de borde.
-7. **El contexto superior ya es causal, pero la auditoría externa debe verificarlo.** `kernel/contexto_superior.py` agrega el bucket H1/H4/D1 en formación solo con M15 cerradas hasta `decision_time`; los tests envenenan velas futuras. Aun así, es el punto más delicado del replay.
+3. **El replay usa una ventana fija, no los 12 meses completos.** Los CSV de señales cubren 2026-05-12 → 2026-11-10, con inicio fijo el 2026-05-05. El M15 de 12 meses incluido es un superconjunto; para reproducir exactamente hay que usar la ventana descrita en `docs/REPRODUCIBILITY.md`.
+4. **La extensión forward es de dos días de mercado.** Añade 140 señales EURUSD y 127 XAUUSD (9–10/N). Es confirmación débil, no un holdout nuevo e independiente.
+5. **El replay usa `fast_engine.py`.** Se validó contra el motor sin acelerar, pero una diferencia sutil de implementación podría afectar los conteos. El auditor debe revisar esa equivalencia.
+6. **D1 EMA200 no existe antes de ~septiembre 2026.** `trend_d1` es `NEUTRO` en los primeros meses; los filtros D1 no son utilizables en toda la muestra.
+7. **El motor no se ejecutó con la misma versión de pandas/numpy en todos los entornos.** Diferencias de redondeo o de resample pueden cambiar algunas señales de borde.
+8. **El contexto superior ya es causal, pero la auditoría externa debe verificarlo.** `kernel/contexto_superior.py` agrega el bucket H1/H4/D1 en formación solo con M15 cerradas hasta `decision_time`; los tests envenenan velas futuras. Aun así, es el punto más delicado del replay.
 
 ---
 
@@ -46,9 +47,10 @@
 3. **El bootstrap remuestrea días.** Con ~100–250 días, el intervalo es grueso y puede subestimar la dependencia entre días consecutivos.
 4. **Muestras pequeñas.** Varios candidatos tienen n < 150 (NYOR13 n=118, LOR4 n=71, OTC n=133). Un p-valor nominal bajo en estas muestras es frágil.
 5. **Selección post-hoc.** Los escaneos exploratorios (velas, patrones, OTC) se miraron después del escaneo principal. Aunque cada familia tenga su propio FDR, la decisión de qué mirar está influida por los resultados. El brief pide auditar este punto.
-6. **El holdout no es infinito.** Se usó para confirmar el baseline y las hipótesis a priori; no para tuning. Aun así, el mismo período se usó en varios resúmenes, y eso reduce su valor como test limpio.
+6. **El holdout no es infinito.** Se usó para confirmar el baseline y las hipótesis a priori; no para tuning. Aun así, el mismo período se usó en varios resúmenes, y eso reduce su valor como test limpio. La extensión al 2026-11-10 ya fue observada y **no debe reutilizarse** para seleccionar filtros.
 7. **Los resultados de producción no son un OOS limpio.** Provienen del mismo sistema y del mismo período; además, la DB de producción no se distribuye. Son un contraste independiente del replay, no una validación externa.
 8. **No se optimizaron TP/SL.** El análisis de salidas es posterior y separado; no se usó para seleccionar. Si alguien optimiza TP/SL sobre estos datos, el resultado no es comparable.
+9. **La ventana móvil rompe la comparabilidad entre cortes.** `bar_edge` y `pattern_edge` se recalcularon sobre 12 meses móviles; sus `n`, WR y p no son comparables 1:1 con los del corte del 9-N. Los números vigentes son los del 10-N.
 
 ---
 
@@ -82,6 +84,7 @@
 - El contexto H4/H1 no mejora la dirección; PIVOT está al nivel de `siempre_long`.
 - Los escaneos de velas y patrones no producen supervivientes FDR.
 - El candidato OTC EURUSD / D2_ANTICIPACION no se sostiene; el de XAUUSD / h1 alineado es solo una hipótesis.
+- La extensión forward 9–10/N no cambia el veredicto: EURUSD sigue negativo y XAUUSD queda cerca de cero sin significación.
 
 **No se puede concluir:**
 

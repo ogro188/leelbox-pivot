@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """D5 — Market Structure Shift H4 + Sweep (intravela). Filtros informacionales."""
+from datetime import timedelta
+
 from core.estructuras import Signal
 from core.base import Contexto, Detector
 
 
 class DetectorD5(Detector):
     nombre = "D5"
+
+    def __init__(self):
+        # Último barrido emitido: (entry_time, dirección, nivel). Evita que el
+        # mismo barrido se re-emita una vela después al pasar de shift 1 a 2.
+        self._ultimo_barrido = None
 
     def detectar(self, ctx: Contexto) -> Signal:
         ok_mss, mss_bars, mss_dir, mss_level = ctx.detect_mss_h4()
@@ -70,8 +77,8 @@ class DetectorD5(Detector):
             if ri <= 0:
                 continue
 
-            ph = ctx._i_high(ctx.df_m15, i + 2)
-            pl = ctx._i_low(ctx.df_m15, i + 2)
+            ph = ctx._i_high(ctx.df_m15, i + 1)
+            pl = ctx._i_low(ctx.df_m15, i + 1)
             for k in range(i + 2, i + ctx.inp_sweep_n + 1):
                 hk = ctx._i_high(ctx.df_m15, k)
                 lk = ctx._i_low(ctx.df_m15, k)
@@ -117,6 +124,8 @@ class DetectorD5(Detector):
         sig.direction = mss_dir_int
         sig.level_swept = level
         sig.sweep_wick_ratio = wick_found
+        sig.sweep_bars_ago = sweep_bar
+        sig.sweep_volume_ratio = ctx.get_volume_ratio_cached(sweep_bar, max(ctx.inp_n_ruptura, ctx.inp_sweep_n, 10))
         sig.filtro_wick_ratio = wick_found
         if wick_found >= ctx.inp_sweep_wick_min:
             sig.filtros_pasados.append("wick_ratio")
@@ -151,7 +160,23 @@ class DetectorD5(Detector):
         sig.displacement_post_sweep = self._detectar_displacement(ctx, sweep_bar, mss_dir_int)
 
         sig.tipo = self.clasificar(sig, ctx, mss_bars, wick_found, br_reclaim)
+        duplicado = self._es_barrido_duplicado(sig)
+        self._ultimo_barrido = (sig.entry_time, sig.direction, float(sig.level_swept))
+        if duplicado:
+            sig.direction = 0
+            sig.filtros_fallados.append("barrido_duplicado")
+            sig.tipo = "D"
         return sig
+
+    def _es_barrido_duplicado(self, sig: Signal) -> bool:
+        """True si la señal repite el barrido emitido en la vela anterior."""
+        if self._ultimo_barrido is None or sig.direction == 0:
+            return False
+        entry_time, direction, level = self._ultimo_barrido
+        if sig.entry_time - entry_time != timedelta(minutes=15):
+            return False
+        return (sig.direction == direction
+                and abs(float(sig.level_swept) - level) <= 1e-9)
 
     def clasificar(self, sig: Signal, ctx: Contexto, mss_bars: int = None, wick: float = None, reclaim: float = None) -> str:
         if mss_bars is None:

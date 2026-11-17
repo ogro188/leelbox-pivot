@@ -4,6 +4,8 @@
 **Estado:** shadow; producción intacta; sin promoción de candidatos.
 **Motivo:** la auditoría interna detectó tres desfases de referencia entre producción, replay y alertas. Este documento registra qué se corrigió, qué cambió en los resultados y qué **no** cambió.
 
+> **Vigencia:** este documento describe el corte del **2026-11-09**. Las cifras vigentes al **2026-11-10** (ventana móvil, 9.104/9.070 señales y holdout extendido) están en `docs/UPDATE_2026-11-10.md` y `docs/EDGE_FINDINGS.md`. La corrección metodológica aquí descrita sigue siendo válida; solo cambió la ventana de datos.
+
 ---
 
 ## 1. Resumen ejecutivo
@@ -227,7 +229,7 @@ python tools/feature_replay.py --symbol XAUUSD \
 OUT=/tmp/pivot-repro/results bash tools/run_full_analysis.sh
 ```
 
-Salidas esperadas: **8.957** señales EURUSD y **8.933** XAUUSD, **177 columnas**, 0 supervivientes, holdout h3 EURUSD −9,47 % y XAUUSD −13,05 %.
+Salidas esperadas en el corte del 9-N: **8.957** señales EURUSD y **8.933** XAUUSD, **177 columnas**, 0 supervivientes, holdout h3 EURUSD −9,47 % y XAUUSD −13,05 %. El corte vigente del 10-N produce **9.104/9.070** señales y holdout de **−9,60 %/−12,20 %** (ver `docs/UPDATE_2026-11-10.md`).
 
 ---
 

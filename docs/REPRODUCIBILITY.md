@@ -57,25 +57,25 @@ Los resultados deben coincidir con `results/` en las columnas `n`, `wins`, `wr`,
 
 ## 3. Replay completo
 
-### 3.1 Ventana original
+### 3.1 Ventana del replay
 
-Los CSV de señales se generaron con un subconjunto de **6 meses**:
+Los CSV de señales se generan con una ventana de **inicio fijo** y extensión hasta el final del corpus:
 
-| Activo | Velas M15 | Inicio | Fin | Señales |
-|---|---:|---|---|---:|
-| EURUSD | 12.506 | 2026-05-05 08:30 UTC | 2026-11-06 20:45 UTC | 8.957 |
-| XAUUSD | 12.014 | 2026-05-05 08:30 UTC | 2026-11-06 20:45 UTC | 8.933 |
+| Activo | Velas M15 | Inicio | Fin | Decisiones | Señales |
+|---|---:|---|---|---:|---:|
+| EURUSD | 12.691 | 2026-05-05 08:30 UTC | 2026-11-10 22:00 UTC | 12.182 | 9.104 |
+| XAUUSD | 12.194 | 2026-05-05 08:30 UTC | 2026-11-10 21:45 UTC | 11.685 | 9.070 |
 
-Ese subconjunto son las **últimas N filas** del M15 de 12 meses incluido. El `m15_total` de `results/*_meta.json` lo confirma. El warmup es de 500 velas; por eso la primera señal aparece el 2026-05-12. El replay corregido usa contexto superior causal (`kernel/contexto_superior.py`); ver `docs/REFERENCE_FIX.md`.
+El `m15_total` de `results/*_meta.json` lo confirma. El warmup es de 500 velas; por eso la primera señal aparece el 2026-05-12. El replay usa contexto superior causal (`kernel/contexto_superior.py`); ver `docs/REFERENCE_FIX.md` y `docs/UPDATE_2026-11-10.md`.
 
-### 3.2 Reconstruir el subconjunto
+### 3.2 Reconstruir la ventana
 
 ```bash
 python tools/make_replay_window.py --symbol EURUSD --out-dir /tmp/pivot-repro/data
 python tools/make_replay_window.py --symbol XAUUSD --out-dir /tmp/pivot-repro/data
 ```
 
-El script copia las últimas 12.506 / 12.014 filas del M15 y deja `eurusd_M15.csv` / `xauusd_M15.csv` listos para el replay.
+El script copia todas las filas desde `--desde` (por defecto `2026-05-05T08:30:00+00:00`) y deja `eurusd_M15.csv` / `xauusd_M15.csv` listos para el replay. Para reproducir el corte histórico del 2026-11-06, usar `--rows 12506` / `--rows 12014`; ese modo ya no es el vigente.
 
 ### 3.3 Ejecutar el replay
 
@@ -95,11 +95,11 @@ python tools/feature_replay.py \
   --out-dir /tmp/pivot-repro/results
 ```
 
-Tiempo de referencia: en el host ARM original, **1.576,8 s** EURUSD y **1.549,6 s** XAUUSD (~26 min por activo) con el replay anterior. El replay corregido tardó **~3,5 min EURUSD** y **~3,2 min XAUUSD** en la máquina x86 usada para el re-baseline. El tiempo depende de CPU y versión de pandas/numpy.
+Tiempo de referencia: en el host ARM original, **1.576,8 s** EURUSD y **1.549,6 s** XAUUSD (~26 min por activo) con el replay anterior. El replay corregido del corte 9-N tardó **~3,5 min EURUSD** y **~3,2 min XAUUSD**; el del corte 10-N, **195,1 s EURUSD** y **187,4 s XAUUSD** (~3,3/3,1 min) en la máquina x86 usada. El tiempo depende de CPU y versión de pandas/numpy.
 
 Salidas esperadas:
 
-- `eurusd_signals.csv` / `xauusd_signals.csv` con 8.957 / 8.933 filas y 177 columnas (incluye `decision_time`).
+- `eurusd_signals.csv` / `xauusd_signals.csv` con 9.104 / 9.070 filas y 177 columnas (incluye `decision_time`).
 - `*_meta.json` con rango, velas, segundos y validación de etiquetas.
 - La validación de etiquetas contra producción devuelve `db no existe` si no se aporta `pivotradar_data/`; es esperado.
 
@@ -152,7 +152,7 @@ EOF
 
 | Elemento | ¿Reproducible? | Nota |
 |---|---|---|
-| Señales M15 (8.957/8.933) | Sí, con el subconjunto exacto | ~3,5 min EURUSD y ~3,2 min XAUUSD en la máquina del re-baseline. |
+| Señales M15 (9.104/9.070) | Sí, con la ventana exacta | 195,1 s EURUSD y 187,4 s XAUUSD (~3,3/3,1 min) en la máquina del corte 10-N. |
 | Escaneos PIVOT | Sí | Desde los CSV de señales. |
 | Holdout y ablación | Sí | Desde los CSV. |
 | Escaneos de velas/patrones | Sí | Desde M15 de 12 meses. |

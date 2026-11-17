@@ -1,6 +1,6 @@
 # Diccionario de datos
 
-**Corte:** 2026-11-07 UTC. **Fuente:** Deriv (`frxEURUSD`, `frxXAUUSD`) e IQ Option público para OTC.
+**Corte:** 2026-11-10 UTC. **Fuente:** Deriv (`frxEURUSD`, `frxXAUUSD`) e IQ Option público para OTC.
 
 Este documento describe los CSV de `data/`, las 177 columnas de `results/*_signals.csv` y las columnas derivadas de los archivos de resultados.
 
@@ -23,6 +23,8 @@ epoch,datetime,open,high,low,close,volume
 | `volume` | float | contratos | Tick volume; Deriv devuelve 0 en forex. No usar como señal. |
 
 Los M15 incluidos no tienen duplicados de `epoch` ni valores nulos. Los fines de semana no hay velas. Los H1/H4 incluidos son muestras recientes; el replay deriva H1/H4 desde M15. Ver `data/README.md`.
+
+Conteos del corte 2026-11-10: `eurusd_M15.csv` 24.226 velas (2025-11-10 22:15 → 2026-11-10 22:00 UTC), `xauusd_M15.csv` 23.160 (2025-11-10 23:00 → 2026-11-10 21:45 UTC), D1 258/257 velas cerradas, H1 398/383 y H4 216/216. La ventana de 12 meses es móvil: al actualizar el corpus se pierden los primeros días y se ganan los últimos.
 
 ---
 

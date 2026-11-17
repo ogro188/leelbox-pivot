@@ -1,0 +1,196 @@
+AUDITORIA DE PRECISION PIVOT
+split descubrimiento/holdout: 2026-10-01
+bootstrap por dia: 2000 replicas
+
+==============================================================================
+EURUSD
+-- D1: {"n": 2950, "cumple_ventana_4": 2950, "cumple_ventana_5": 2950, "direccion_distinta_con_4": 0, "faltantes_con_ventana_4": 351, "faltantes_long": 165, "faltantes_short": 186, "faltantes_ejemplos": [["2026-05-12 16:45:00+00:00", -1, 0], ["2026-05-12 17:45:00+00:00", 1, 0], ["2026-05-12 20:00:00+00:00", -1, 0], ["2026-05-13 00:45:00+00:00", 1, 0], ["2026-05-13 04:15:00+00:00", -1, 0], ["2026-05-13 13:45:00+00:00", 1, 0], ["2026-05-14 03:15:00+00:00", 1, 0], ["2026-05-15 02:30:00+00:00", 1, 0]]}
+-- D2: {"n": 594, "reproduce_ventana_codigo": 594, "violan_ventana_6": 72, "violan_ejemplos": [["2026-05-13 02:15:00+00:00", -1, 0, 1.17395, 0.0], ["2026-05-14 23:45:00+00:00", 1, 0, 1.1663, 0.0], ["2026-05-18 10:30:00+00:00", 1, 0, 1.16352, 0.0], ["2026-05-20 15:00:00+00:00", -1, 0, 1.16202, 0.0], ["2026-05-20 19:15:00+00:00", -1, 0, 1.16329, 0.0], ["2026-05-22 07:00:00+00:00", 1, 0, 1.16073, 0.0], ["2026-05-27 07:15:00+00:00", -1, 0, 1.16465, 0.0], ["2026-06-02 11:15:00+00:00", -1, 0, 1.16455, 0.0]], "faltantes_ventana_6": 232, "faltantes_long": 128, "faltantes_short": 104, "faltantes_ejemplos": [["2026-05-14 13:45:00+00:00", 1, 1.16923, 0.7717], ["2026-05-14 15:30:00+00:00", 1, 1.16733, 0.7907], ["2026-05-14 20:00:00+00:00", 1, 1.16701, 0.7391], ["2026-05-15 01:45:00+00:00", 1, 1.16492, 0.55], ["2026-05-18 10:15:00+00:00", 1, 1.16352, 0.6522], ["2026-05-18 16:00:00+00:00", -1, 1.16493, 0.5921], ["2026-05-18 22:15:00+00:00", -1, 1.1661, 0.7586], ["2026-05-19 21:45:00+00:00", -1, 1.1608, 0.8462]]}
+-- D5: {"n": 331, "barrido_inferido_1": 194, "barrido_inferido_2": 137, "no_reproduce_ventana_codigo": 0, "violan_ventana_6": 61, "violan_ejemplos": [["2026-05-20 12:00:00+00:00", 1, -1, 0, 1.16029, 0.0], ["2026-05-20 15:00:00+00:00", 1, -1, 0, 1.16202, 0.0], ["2026-05-20 15:15:00+00:00", 2, -1, 0, 1.16202, 0.0], ["2026-05-20 19:15:00+00:00", 1, -1, 0, 1.16329, 0.0], ["2026-05-20 19:30:00+00:00", 2, -1, 0, 1.16329, 0.0], ["2026-06-02 00:30:00+00:00", 1, 1, 0, 1.1633, 0.0], ["2026-06-05 04:45:00+00:00", 1, -1, 0, 1.16158, 0.0], ["2026-06-19 15:30:00+00:00", 1, -1, 0, 1.14701, 0.0]], "duplicados_shift2": 136, "sweep_bars_ago_cero": 331, "sweep_volume_ratio_cero": 331}
+-- D2_ANTICIPACION: {"n": 2451, "violan_ventana_6": 124, "violan_ejemplos": [["2026-05-13 06:30:00+00:00", 1, 0], ["2026-05-19 06:15:00+00:00", -1, 0], ["2026-05-19 15:00:00+00:00", 1, 0], ["2026-05-19 23:45:00+00:00", 1, 0], ["2026-06-01 00:15:00+00:00", 1, 0], ["2026-06-02 22:00:00+00:00", 1, 0], ["2026-06-03 01:15:00+00:00", -1, 0], ["2026-06-03 05:30:00+00:00", 1, 0]]}
+-- D3: {"D3": {"n": 74, "direccion_no_reproducida": 0, "top_no_reproducido": 0, "bottom_no_reproducido": 0, "size_atr_no_reproducido": 0}, "D3_DEF": {"n": 2700, "direccion_no_reproducida": 0, "top_no_reproducido": 0, "bottom_no_reproducido": 0, "size_atr_no_reproducido": 0}}
+-- D4: {"n": 4, "geometria_no_reproducida": 0, "duplicados_3_velas": 2}
+
+==============================================================================
+XAUUSD
+-- D1: {"n": 2930, "cumple_ventana_4": 2930, "cumple_ventana_5": 2930, "direccion_distinta_con_4": 0, "faltantes_con_ventana_4": 334, "faltantes_long": 155, "faltantes_short": 179, "faltantes_ejemplos": [["2026-05-13 03:30:00+00:00", 1, 0], ["2026-05-13 08:15:00+00:00", -1, 0], ["2026-05-13 10:00:00+00:00", 1, 0], ["2026-05-13 11:30:00+00:00", 1, 0], ["2026-05-13 23:30:00+00:00", -1, 0], ["2026-05-14 07:45:00+00:00", -1, 0], ["2026-05-14 09:45:00+00:00", 1, 0], ["2026-05-14 18:00:00+00:00", -1, 0]]}
+-- D2: {"n": 569, "reproduce_ventana_codigo": 569, "violan_ventana_6": 72, "violan_ejemplos": [["2026-05-12 20:30:00+00:00", -1, 0, 4715.53, 0.0], ["2026-05-13 00:30:00+00:00", -1, 0, 4723.88, 0.0], ["2026-05-13 13:00:00+00:00", 1, 0, 4683.64, 0.0], ["2026-05-13 14:15:00+00:00", 1, 0, 4673.39, 0.0], ["2026-05-18 11:30:00+00:00", 1, 0, 4532.3, 0.0], ["2026-05-21 06:00:00+00:00", 1, 0, 4521.76, 0.0], ["2026-05-26 20:30:00+00:00", -1, 0, 4509.93, 0.0], ["2026-05-27 18:00:00+00:00", -1, 0, 4453.32, 0.0]], "faltantes_ventana_6": 256, "faltantes_long": 144, "faltantes_short": 112, "faltantes_ejemplos": [["2026-05-13 06:30:00+00:00", -1, 4712.63, 0.5516], ["2026-05-14 04:45:00+00:00", -1, 4706.83, 0.7142], ["2026-05-15 05:30:00+00:00", 1, 4588.89, 0.5584], ["2026-05-15 17:30:00+00:00", -1, 4557.98, 0.6855], ["2026-05-15 20:30:00+00:00", 1, 4536.42, 0.8739], ["2026-05-18 07:45:00+00:00", -1, 4550.92, 0.7765], ["2026-05-18 15:00:00+00:00", 1, 4539.4, 0.8537], ["2026-05-18 23:30:00+00:00", -1, 4586.79, 0.5562]]}
+-- D5: {"n": 308, "barrido_inferido_1": 174, "barrido_inferido_2": 134, "no_reproduce_ventana_codigo": 0, "violan_ventana_6": 52, "violan_ejemplos": [["2026-05-20 15:45:00+00:00", 1, -1, 0, 4537.27, 0.0], ["2026-05-27 18:00:00+00:00", 1, -1, 0, 4453.32, 0.0], ["2026-05-27 18:15:00+00:00", 2, -1, 0, 4453.32, 0.0], ["2026-05-28 13:30:00+00:00", 1, -1, 0, 4433.27, 0.0], ["2026-05-28 13:45:00+00:00", 2, -1, 0, 4433.27, 0.0], ["2026-06-01 12:45:00+00:00", 1, 1, 0, 4500.07, 0.0], ["2026-06-01 13:00:00+00:00", 2, 1, 0, 4500.07, 0.0], ["2026-06-02 02:15:00+00:00", 1, 1, 0, 4474.12, 0.0]], "duplicados_shift2": 133, "sweep_bars_ago_cero": 308, "sweep_volume_ratio_cero": 308}
+-- D2_ANTICIPACION: {"n": 2604, "violan_ventana_6": 8, "violan_ejemplos": [["2026-05-28 04:15:00+00:00", 1, 0], ["2026-06-01 06:45:00+00:00", 1, 0], ["2026-06-09 13:30:00+00:00", 1, 0], ["2026-08-03 04:15:00+00:00", -1, 0], ["2026-08-06 11:30:00+00:00", 1, 0], ["2026-08-31 23:45:00+00:00", -1, 0], ["2026-09-18 03:45:00+00:00", -1, 0], ["2026-10-12 08:15:00+00:00", 1, 0]]}
+-- D3: {"D3": {"n": 32, "direccion_no_reproducida": 0, "top_no_reproducido": 0, "bottom_no_reproducido": 0, "size_atr_no_reproducido": 0}, "D3_DEF": {"n": 2608, "direccion_no_reproducida": 0, "top_no_reproducido": 0, "bottom_no_reproducido": 0, "size_atr_no_reproducido": 0}}
+-- D4: {"n": 19, "geometria_no_reproducida": 0, "duplicados_3_velas": 12}
+
+==============================================================================
+GATES (total / descubrimiento / holdout, h3 y h4)
+
+EURUSD
+-- D1
+   todos h3: tot n=2950 WR=45.8 EV=-14.9 boot[-19.0,-10.9] | des n=2240 WR=45.4 EV=-15.6 boot[-20.1,-11.0] | hol n=710 WR=46.9 EV=-12.8 boot[-21.6,-4.1]
+   todos h4: tot n=2950 WR=46.8 EV=-12.5 boot[-16.1,-9.0] | des n=2240 WR=46.5 EV=-13.0 boot[-17.2,-8.9] | hol n=710 WR=47.6 EV=-11.0 boot[-19.0,-3.6]
+   penetracion>=0.50 h3: tot n=1015 WR=44.9 EV=-16.4 boot[-22.9,-10.1] | des n=758 WR=44.2 EV=-17.8 boot[-24.8,-10.4] | hol n=257 WR=47.1 EV=-12.4 boot[-26.1,+1.1]
+   penetracion>=0.50 h4: tot n=1015 WR=46.5 EV=-13.0 boot[-19.0,-7.2] | des n=758 WR=45.8 EV=-14.4 boot[-20.9,-7.5] | hol n=257 WR=48.6 EV=-9.1 boot[-21.8,+3.0]
+   body>=0.40 h3: tot n=2523 WR=45.7 EV=-15.0 boot[-19.5,-10.4] | des n=1911 WR=45.4 EV=-15.6 boot[-20.7,-10.6] | hol n=612 WR=46.7 EV=-13.1 boot[-21.8,-4.1]
+   body>=0.40 h4: tot n=2523 WR=46.6 EV=-12.8 boot[-16.8,-8.8] | des n=1911 WR=46.5 EV=-13.0 boot[-17.9,-8.5] | hol n=612 WR=46.9 EV=-12.3 boot[-20.5,-4.2]
+   retest h3: tot n=2928 WR=45.9 EV=-14.7 boot[-18.9,-10.6] | des n=2225 WR=45.5 EV=-15.4 boot[-19.9,-10.8] | hol n=703 WR=47.1 EV=-12.4 boot[-21.5,-4.1]
+   retest h4: tot n=2928 WR=46.9 EV=-12.4 boot[-16.1,-8.4] | des n=2225 WR=46.6 EV=-12.8 boot[-16.8,-8.7] | hol n=703 WR=47.5 EV=-11.2 boot[-19.1,-3.5]
+   pen&body h3: tot n=997 WR=44.6 EV=-17.0 boot[-23.9,-10.1] | des n=744 WR=43.7 EV=-18.8 boot[-26.5,-11.1] | hol n=253 WR=47.4 EV=-11.8 boot[-25.5,+2.2]
+   pen&body h4: tot n=997 WR=46.0 EV=-13.9 boot[-20.3,-7.8] | des n=744 WR=45.4 EV=-15.1 boot[-21.4,-8.1] | hol n=253 WR=47.8 EV=-10.6 boot[-23.5,+2.4]
+   pen&body&retest h3: tot n=982 WR=44.8 EV=-16.7 boot[-23.9,-10.1] | des n=732 WR=43.9 EV=-18.4 boot[-26.5,-10.8] | hol n=250 WR=47.6 EV=-11.5 boot[-25.5,+1.4]
+   pen&body&retest h4: tot n=982 WR=46.1 EV=-13.7 boot[-19.9,-7.5] | des n=732 WR=45.6 EV=-14.7 boot[-21.3,-7.8] | hol n=250 WR=47.6 EV=-11.0 boot[-24.1,+1.9]
+-- D2
+   todos h3: tot n=594 WR=51.4 EV=-4.5 boot[-11.4,+2.7] | des n=473 WR=51.0 EV=-5.2 boot[-12.5,+2.5] | hol n=121 WR=52.9 EV=-1.6 boot[-22.4,+16.4]
+   todos h4: tot n=594 WR=52.2 EV=-2.4 boot[-10.0,+5.3] | des n=473 WR=51.6 EV=-3.5 boot[-12.0,+5.3] | hol n=121 WR=54.5 EV=+2.0 boot[-15.7,+18.5]
+   reclaim h3: tot n=126 WR=44.4 EV=-17.3 boot[-32.6,-2.5] | des n=100 WR=45.0 EV=-16.3 boot[-32.0,+0.4] | hol n=26 WR=42.3 EV=-21.3 boot[-58.0,+18.4]
+   reclaim h4: tot n=126 WR=50.8 EV=-5.0 boot[-20.9,+10.4] | des n=100 WR=49.0 EV=-8.4 boot[-26.3,+8.6] | hol n=26 WR=57.7 EV=+7.9 boot[-25.2,+42.1]
+   cuerpo>=0.55 h3: tot n=247 WR=51.4 EV=-4.4 boot[-16.2,+7.7] | des n=187 WR=51.3 EV=-4.5 boot[-17.7,+8.5] | hol n=60 WR=51.7 EV=-3.9 boot[-32.9,+25.7]
+   cuerpo>=0.55 h4: tot n=247 WR=53.0 EV=-0.8 boot[-12.3,+11.0] | des n=187 WR=51.3 EV=-4.0 boot[-18.0,+10.2] | hol n=60 WR=58.3 EV=+9.1 boot[-14.2,+29.5]
+   distancia<=2ATR h3: tot n=582 WR=51.4 EV=-4.4 boot[-11.8,+3.0] | des n=466 WR=50.9 EV=-5.4 boot[-13.1,+2.5] | hol n=116 WR=53.5 EV=-0.6 boot[-21.5,+19.7]
+   distancia<=2ATR h4: tot n=582 WR=52.6 EV=-1.7 boot[-9.1,+6.1] | des n=466 WR=51.7 EV=-3.3 boot[-11.6,+5.1] | hol n=116 WR=56.0 EV=+4.8 boot[-13.3,+21.7]
+   reclaim&distancia<=2ATR h3: tot n=117 WR=45.3 EV=-15.7 boot[-31.4,-0.6] | des n=94 WR=44.7 EV=-16.9 boot[-33.4,+0.8] | hol n=23 WR=47.8 EV=-11.0 boot[-51.1,+26.8]
+   reclaim&distancia<=2ATR h4: tot n=117 WR=53.0 EV=-0.9 boot[-18.7,+15.9] | des n=94 WR=50.0 EV=-6.5 boot[-25.2,+13.4] | hol n=23 WR=65.2 EV=+22.0 boot[-10.9,+53.0]
+   reclaim&distancia<=1ATR h3: tot n=41 WR=48.8 EV=-9.3 boot[-36.5,+17.9] | des n=37 WR=43.2 EV=-19.6 boot[-49.7,+8.5] | hol n=4 WR=100.0 EV=+86.0 boot[+86.0,+86.0]
+   reclaim&distancia<=1ATR h4: tot n=41 WR=53.7 EV=+0.3 boot[-28.1,+29.1] | des n=37 WR=48.6 EV=-9.0 boot[-37.7,+19.9] | hol n=4 WR=100.0 EV=+87.0 boot[+87.0,+87.0]
+   cuerpo>=0.55&distancia<=1ATR h3: tot n=146 WR=54.1 EV=+0.6 boot[-15.8,+18.0] | des n=114 WR=51.8 EV=-3.7 boot[-21.8,+13.9] | hol n=32 WR=62.5 EV=+16.2 boot[-16.0,+51.1]
+   cuerpo>=0.55&distancia<=1ATR h4: tot n=146 WR=55.5 EV=+3.8 boot[-11.4,+19.2] | des n=114 WR=51.8 EV=-3.2 boot[-21.1,+14.6] | hol n=32 WR=68.8 EV=+28.6 boot[-1.0,+55.8]
+-- D2_ANTICIPACION
+   todos h3: tot n=2451 WR=51.0 EV=-5.2 boot[-8.9,-1.5] | des n=1930 WR=51.1 EV=-5.0 boot[-9.3,-0.6] | hol n=521 WR=50.5 EV=-6.1 boot[-14.4,+1.9]
+   todos h4: tot n=2451 WR=50.5 EV=-5.6 boot[-9.5,-1.7] | des n=1930 WR=50.8 EV=-5.0 boot[-9.6,-0.3] | hol n=521 WR=49.1 EV=-8.1 boot[-15.9,-0.3]
+   confluencias>=1 h3: tot n=870 WR=50.9 EV=-5.3 boot[-12.4,+1.8] | des n=686 WR=49.9 EV=-7.3 boot[-14.9,+0.8] | hol n=184 WR=54.9 EV=+2.1 boot[-15.4,+18.5]
+   confluencias>=1 h4: tot n=870 WR=50.9 EV=-4.8 boot[-11.7,+2.4] | des n=686 WR=51.0 EV=-4.6 boot[-12.1,+2.6] | hol n=184 WR=50.5 EV=-5.5 boot[-22.6,+13.2]
+   confluencias>=2 h3: tot n=63 WR=60.3 EV=+12.2 boot[-16.0,+37.2] | des n=51 WR=60.8 EV=+13.1 boot[-19.1,+42.2] | hol n=12 WR=58.3 EV=+8.5 boot[-38.0,+48.8]
+   confluencias>=2 h4: tot n=63 WR=60.3 EV=+12.8 boot[-8.1,+33.6] | des n=51 WR=62.8 EV=+17.3 boot[-6.5,+40.2] | hol n=12 WR=50.0 EV=-6.5 boot[-58.4,+36.0]
+   wick>=0.55 h3: tot n=777 WR=51.0 EV=-5.2 boot[-11.4,+1.2] | des n=617 WR=50.2 EV=-6.5 boot[-13.4,+0.2] | hol n=160 WR=53.8 EV=-0.0 boot[-16.0,+16.2]
+   wick>=0.55 h4: tot n=777 WR=49.8 EV=-6.9 boot[-13.8,+0.3] | des n=617 WR=49.1 EV=-8.2 boot[-15.4,-0.9] | hol n=160 WR=52.5 EV=-1.8 boot[-17.0,+12.7]
+   confluencias>=2&wick>=0.55 h3: tot n=30 WR=60.0 EV=+11.6 boot[-19.4,+43.1] | des n=24 WR=58.3 EV=+8.5 boot[-30.2,+45.6] | hol n=6 WR=66.7 EV=+24.0 boot[-7.0,+86.0]
+   confluencias>=2&wick>=0.55 h4: tot n=30 WR=56.7 EV=+6.0 boot[-21.6,+33.6] | des n=24 WR=58.3 EV=+9.1 boot[-23.9,+42.1] | hol n=6 WR=50.0 EV=-6.5 boot[-62.6,+49.6]
+-- D3
+   todos h3: tot n=74 WR=41.9 EV=-22.1 boot[-44.0,-1.7] | des n=59 WR=42.4 EV=-21.2 boot[-45.5,+0.9] | hol n=15 WR=40.0 EV=-25.6 boot[-65.1,+24.0]
+   todos h4: tot n=74 WR=37.8 EV=-29.2 boot[-50.0,-9.0] | des n=59 WR=39.0 EV=-27.1 boot[-50.6,-4.8] | hol n=15 WR=33.3 EV=-37.7 boot[-78.0,+6.9]
+   size>=0.20ATR h3: tot n=41 WR=43.9 EV=-18.3 boot[-44.2,+8.9] | des n=36 WR=47.2 EV=-12.2 boot[-39.8,+16.9] | hol n=5 WR=20.0 EV=-62.8 boot[-100.0,+11.6]
+   size>=0.20ATR h4: tot n=41 WR=34.1 EV=-36.1 boot[-63.5,-6.5] | des n=36 WR=38.9 EV=-27.3 boot[-60.3,+3.3] | hol n=5 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+   body>=0.55 h3: tot n=65 WR=43.1 EV=-19.9 boot[-41.9,+1.9] | des n=51 WR=45.1 EV=-16.1 boot[-41.9,+8.5] | hol n=14 WR=35.7 EV=-33.6 boot[-73.4,+14.5]
+   body>=0.55 h4: tot n=65 WR=36.9 EV=-30.9 boot[-52.5,-9.3] | des n=51 WR=39.2 EV=-26.7 boot[-51.5,-1.2] | hol n=14 WR=28.6 EV=-46.6 boot[-86.6,+0.7]
+   dir_ok h3: tot n=73 WR=42.5 EV=-21.0 boot[-42.2,+0.8] | des n=58 WR=43.1 EV=-19.8 boot[-43.5,+3.0] | hol n=15 WR=40.0 EV=-25.6 boot[-65.1,+19.6]
+   dir_ok h4: tot n=73 WR=38.4 EV=-28.3 boot[-48.8,-7.8] | des n=58 WR=39.7 EV=-25.8 boot[-47.1,-2.2] | hol n=15 WR=33.3 EV=-37.7 boot[-76.6,+6.9]
+   size&body h3: tot n=37 WR=46.0 EV=-14.5 boot[-42.8,+12.6] | des n=32 WR=50.0 EV=-7.0 boot[-38.0,+25.7] | hol n=5 WR=20.0 EV=-62.8 boot[-100.0,+11.6]
+   size&body h4: tot n=37 WR=35.1 EV=-34.3 boot[-65.5,-2.0] | des n=32 WR=40.6 EV=-24.0 boot[-57.8,+7.7] | hol n=5 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+   size&body&dir h3: tot n=37 WR=46.0 EV=-14.5 boot[-43.2,+12.6] | des n=32 WR=50.0 EV=-7.0 boot[-38.0,+22.1] | hol n=5 WR=20.0 EV=-62.8 boot[-100.0,+11.6]
+   size&body&dir h4: tot n=37 WR=35.1 EV=-34.3 boot[-64.6,-4.0] | des n=32 WR=40.6 EV=-24.0 boot[-59.1,+9.1] | hol n=5 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+   size&body&dir&mss h3: tot n=22 WR=45.5 EV=-15.4 boot[-53.5,+21.3] | des n=17 WR=52.9 EV=-1.5 boot[-41.9,+42.2] | hol n=5 WR=20.0 EV=-62.8 boot[-100.0,+11.6]
+   size&body&dir&mss h4: tot n=22 WR=40.9 EV=-23.5 boot[-64.4,+16.9] | des n=17 WR=52.9 EV=-1.0 boot[-50.1,+40.2] | hol n=5 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+-- D3_DEF
+   todos h3: tot n=2700 WR=46.9 EV=-12.8 boot[-16.8,-8.8] | des n=2037 WR=46.8 EV=-12.9 boot[-17.8,-8.4] | hol n=663 WR=47.1 EV=-12.5 boot[-20.5,-4.4]
+   todos h4: tot n=2700 WR=47.9 EV=-10.5 boot[-14.2,-6.6] | des n=2037 WR=47.1 EV=-12.0 boot[-16.3,-7.8] | hol n=663 WR=50.2 EV=-6.1 boot[-14.1,+2.5]
+   size>=0.20ATR h3: tot n=1726 WR=47.7 EV=-11.3 boot[-16.2,-6.3] | des n=1300 WR=48.1 EV=-10.6 boot[-16.2,-4.9] | hol n=426 WR=46.5 EV=-13.6 boot[-23.2,-3.4]
+   size>=0.20ATR h4: tot n=1726 WR=48.0 EV=-10.2 boot[-14.9,-5.8] | des n=1300 WR=47.3 EV=-11.5 boot[-16.9,-6.4] | hol n=426 WR=50.2 EV=-6.1 boot[-15.2,+4.4]
+   body>=0.55 h3: tot n=2096 WR=46.9 EV=-12.9 boot[-17.5,-8.0] | des n=1579 WR=47.3 EV=-12.0 boot[-17.1,-6.8] | hol n=517 WR=45.5 EV=-15.4 boot[-24.6,-6.8]
+   body>=0.55 h4: tot n=2096 WR=48.1 EV=-10.0 boot[-14.3,-5.8] | des n=1579 WR=47.9 EV=-10.5 boot[-15.4,-5.5] | hol n=517 WR=48.9 EV=-8.5 boot[-17.1,+0.3]
+   dir_ok h3: tot n=2682 WR=46.9 EV=-12.8 boot[-16.7,-8.6] | des n=2024 WR=46.8 EV=-12.9 boot[-17.5,-8.5] | hol n=658 WR=47.1 EV=-12.4 boot[-20.7,-3.6]
+   dir_ok h4: tot n=2682 WR=47.9 EV=-10.5 boot[-14.7,-6.7] | des n=2024 WR=47.1 EV=-11.9 boot[-16.3,-7.6] | hol n=658 WR=50.1 EV=-6.2 boot[-14.5,+2.6]
+   size&body h3: tot n=1483 WR=47.7 EV=-11.2 boot[-17.1,-5.9] | des n=1114 WR=48.0 EV=-10.7 boot[-17.0,-4.2] | hol n=369 WR=46.9 EV=-12.8 boot[-23.8,-0.9]
+   size&body h4: tot n=1483 WR=48.6 EV=-9.1 boot[-14.0,-4.3] | des n=1114 WR=47.8 EV=-10.7 boot[-16.0,-5.4] | hol n=369 WR=51.2 EV=-4.2 boot[-14.3,+6.1]
+   size&body&dir h3: tot n=1481 WR=47.7 EV=-11.3 boot[-16.7,-5.8] | des n=1112 WR=47.9 EV=-10.8 boot[-17.4,-4.5] | hol n=369 WR=46.9 EV=-12.8 boot[-23.8,-0.9]
+   size&body&dir h4: tot n=1481 WR=48.5 EV=-9.2 boot[-14.0,-4.6] | des n=1112 WR=47.7 EV=-10.9 boot[-16.6,-5.4] | hol n=369 WR=51.2 EV=-4.2 boot[-14.1,+6.3]
+   size&body&dir&mss h3: tot n=926 WR=48.5 EV=-9.8 boot[-17.1,-2.3] | des n=703 WR=47.9 EV=-10.8 boot[-19.4,-2.3] | hol n=223 WR=50.2 EV=-6.6 boot[-21.2,+9.8]
+   size&body&dir&mss h4: tot n=926 WR=49.0 EV=-8.3 boot[-14.1,-2.2] | des n=703 WR=48.2 EV=-9.8 boot[-16.7,-3.2] | hol n=223 WR=51.6 EV=-3.6 boot[-16.1,+9.2]
+-- D5
+   todos h3: tot n=331 WR=52.9 EV=-1.7 boot[-13.8,+9.7] | des n=255 WR=50.6 EV=-5.9 boot[-18.1,+7.2] | hol n=76 WR=60.5 EV=+12.6 boot[-13.8,+35.5]
+   todos h4: tot n=331 WR=57.4 EV=+7.3 boot[-5.1,+19.7] | des n=255 WR=55.3 EV=+3.4 boot[-9.9,+17.1] | hol n=76 WR=64.5 EV=+20.6 boot[-4.0,+45.1]
+   reclaim h3: tot n=62 WR=53.2 EV=-1.0 boot[-25.6,+23.0] | des n=48 WR=50.0 EV=-7.0 boot[-32.4,+19.9] | hol n=14 WR=64.3 EV=+19.6 boot[-42.8,+62.8]
+   reclaim h4: tot n=62 WR=61.3 EV=+14.6 boot[-9.6,+39.5] | des n=48 WR=56.2 EV=+5.2 boot[-22.8,+33.0] | hol n=14 WR=78.6 EV=+46.9 boot[-6.5,+87.0]
+   cuerpo>=0.55 h3: tot n=130 WR=53.1 EV=-1.3 boot[-17.3,+14.3] | des n=94 WR=50.0 EV=-7.0 boot[-25.2,+12.0] | hol n=36 WR=61.1 EV=+13.7 boot[-19.4,+41.1]
+   cuerpo>=0.55 h4: tot n=130 WR=61.5 EV=+15.1 boot[-0.4,+29.8] | des n=94 WR=59.6 EV=+11.4 boot[-7.4,+28.6] | hol n=36 WR=66.7 EV=+24.7 boot[+0.0,+54.5]
+   distancia<=2ATR h3: tot n=331 WR=52.9 EV=-1.7 boot[-12.8,+9.7] | des n=255 WR=50.6 EV=-5.9 boot[-18.4,+6.8] | hol n=76 WR=60.5 EV=+12.6 boot[-12.2,+35.8]
+   distancia<=2ATR h4: tot n=331 WR=57.4 EV=+7.3 boot[-4.5,+20.0] | des n=255 WR=55.3 EV=+3.4 boot[-10.1,+17.6] | hol n=76 WR=64.5 EV=+20.6 boot[-2.5,+46.7]
+   reclaim&distancia<=2ATR h3: tot n=62 WR=53.2 EV=-1.0 boot[-25.6,+24.0] | des n=48 WR=50.0 EV=-7.0 boot[-33.0,+20.1] | hol n=14 WR=64.3 EV=+19.6 boot[-38.0,+62.8]
+   reclaim&distancia<=2ATR h4: tot n=62 WR=61.3 EV=+14.6 boot[-9.5,+37.8] | des n=48 WR=56.2 EV=+5.2 boot[-22.1,+30.9] | hol n=14 WR=78.6 EV=+46.9 boot[-6.5,+87.0]
+   reclaim&distancia<=1ATR h3: tot n=25 WR=60.0 EV=+11.6 boot[-22.5,+47.2] | des n=19 WR=52.6 EV=-2.1 boot[-41.3,+37.0] | hol n=6 WR=83.3 EV=+55.0 boot[-25.6,+86.0]
+   reclaim&distancia<=1ATR h4: tot n=25 WR=64.0 EV=+19.7 boot[-14.4,+52.4] | des n=19 WR=57.9 EV=+8.3 boot[-31.1,+47.6] | hol n=6 WR=83.3 EV=+55.8 boot[-25.2,+87.0]
+   cuerpo>=0.55&distancia<=1ATR h3: tot n=83 WR=55.4 EV=+3.1 boot[-14.2,+19.6] | des n=60 WR=51.7 EV=-3.9 boot[-25.6,+16.6] | hol n=23 WR=65.2 EV=+21.3 boot[-11.0,+56.6]
+   cuerpo>=0.55&distancia<=1ATR h4: tot n=83 WR=65.1 EV=+21.7 boot[+5.6,+37.6] | des n=60 WR=63.3 EV=+18.4 boot[-1.8,+37.6] | hol n=23 WR=69.6 EV=+30.1 boot[-0.3,+67.3]
+
+XAUUSD
+-- D1
+   todos h3: tot n=2930 WR=47.8 EV=-13.1 boot[-16.6,-9.7] | des n=2257 WR=47.7 EV=-13.2 boot[-17.4,-9.4] | hol n=673 WR=48.0 EV=-12.7 boot[-19.2,-6.3]
+   todos h4: tot n=2930 WR=47.9 EV=-12.4 boot[-15.8,-8.8] | des n=2257 WR=48.6 EV=-11.1 boot[-15.0,-7.1] | hol n=673 WR=45.6 EV=-16.5 boot[-25.7,-7.8]
+   penetracion>=0.50 h3: tot n=970 WR=48.2 EV=-12.2 boot[-18.2,-6.3] | des n=762 WR=47.4 EV=-13.8 boot[-20.7,-7.0] | hol n=208 WR=51.4 EV=-6.4 boot[-18.1,+5.1]
+   penetracion>=0.50 h4: tot n=970 WR=49.1 EV=-10.2 boot[-16.3,-4.1] | des n=762 WR=49.6 EV=-9.2 boot[-16.2,-2.7] | hol n=208 WR=47.1 EV=-13.8 boot[-26.8,-1.5]
+   body>=0.40 h3: tot n=2438 WR=47.5 EV=-13.6 boot[-16.9,-10.2] | des n=1872 WR=47.4 EV=-13.7 boot[-17.9,-9.6] | hol n=566 WR=47.7 EV=-13.2 boot[-19.4,-7.2]
+   body>=0.40 h4: tot n=2438 WR=47.6 EV=-12.9 boot[-16.6,-9.2] | des n=1872 WR=47.9 EV=-12.3 boot[-16.6,-8.1] | hol n=566 WR=46.5 EV=-15.0 boot[-23.1,-7.1]
+   retest h3: tot n=2910 WR=47.8 EV=-12.9 boot[-16.5,-9.6] | des n=2240 WR=47.8 EV=-13.1 boot[-17.0,-9.1] | hol n=670 WR=48.1 EV=-12.5 boot[-19.3,-5.8]
+   retest h4: tot n=2910 WR=47.9 EV=-12.3 boot[-15.8,-8.7] | des n=2240 WR=48.6 EV=-11.0 boot[-15.1,-6.9] | hol n=670 WR=45.7 EV=-16.4 boot[-25.1,-8.1]
+   pen&body h3: tot n=937 WR=48.1 EV=-12.4 boot[-18.9,-6.3] | des n=738 WR=47.1 EV=-14.2 boot[-20.9,-7.2] | hol n=199 WR=51.8 EV=-5.8 boot[-17.3,+4.8]
+   pen&body h4: tot n=937 WR=49.4 EV=-9.6 boot[-16.1,-3.4] | des n=738 WR=49.6 EV=-9.2 boot[-16.4,-2.3] | hol n=199 WR=48.7 EV=-10.8 boot[-24.6,+1.5]
+   pen&body&retest h3: tot n=925 WR=48.2 EV=-12.2 boot[-18.5,-6.1] | des n=729 WR=47.2 EV=-14.1 boot[-20.9,-7.3] | hol n=196 WR=52.0 EV=-5.3 boot[-17.4,+6.2]
+   pen&body&retest h4: tot n=925 WR=49.5 EV=-9.4 boot[-15.6,-3.2] | des n=729 WR=49.7 EV=-9.1 boot[-16.3,-2.4] | hol n=196 WR=49.0 EV=-10.4 boot[-25.0,+2.8]
+-- D2
+   todos h3: tot n=569 WR=51.0 EV=-7.2 boot[-14.8,+0.8] | des n=448 WR=51.1 EV=-7.0 boot[-15.7,+1.2] | hol n=121 WR=50.4 EV=-8.2 boot[-24.4,+6.4]
+   todos h4: tot n=569 WR=50.3 EV=-8.0 boot[-15.5,-1.0] | des n=448 WR=50.5 EV=-7.7 boot[-16.2,+0.9] | hol n=121 WR=49.6 EV=-9.3 boot[-21.8,+4.3]
+   reclaim h3: tot n=115 WR=48.7 EV=-11.4 boot[-30.3,+6.7] | des n=88 WR=47.7 EV=-13.1 boot[-34.8,+8.8] | hol n=27 WR=51.9 EV=-5.6 boot[-37.0,+26.0]
+   reclaim h4: tot n=115 WR=53.9 EV=-1.3 boot[-17.5,+13.8] | des n=88 WR=54.5 EV=-0.2 boot[-20.3,+18.5] | hol n=27 WR=51.9 EV=-5.1 boot[-34.6,+22.0]
+   cuerpo>=0.55 h3: tot n=236 WR=52.1 EV=-5.1 boot[-17.1,+5.9] | des n=185 WR=52.4 EV=-4.6 boot[-17.9,+8.6] | hol n=51 WR=51.0 EV=-7.2 boot[-27.9,+15.4]
+   cuerpo>=0.55 h4: tot n=236 WR=54.2 EV=-0.8 boot[-11.3,+9.6] | des n=185 WR=54.0 EV=-1.1 boot[-12.8,+10.9] | hol n=51 WR=54.9 EV=+0.5 boot[-18.2,+18.7]
+   distancia<=2ATR h3: tot n=553 WR=50.6 EV=-7.8 boot[-16.0,-0.4] | des n=436 WR=50.5 EV=-8.2 boot[-17.5,+0.5] | hol n=117 WR=51.3 EV=-6.7 boot[-22.0,+8.6]
+   distancia<=2ATR h4: tot n=553 WR=50.3 EV=-8.0 boot[-15.3,-0.9] | des n=436 WR=50.2 EV=-8.1 boot[-16.6,+0.1] | hol n=117 WR=50.4 EV=-7.7 boot[-20.1,+4.8]
+   reclaim&distancia<=2ATR h3: tot n=103 WR=46.6 EV=-15.2 boot[-33.8,+3.0] | des n=79 WR=44.3 EV=-19.4 boot[-41.7,+2.8] | hol n=24 WR=54.2 EV=-1.4 boot[-35.8,+32.4]
+   reclaim&distancia<=2ATR h4: tot n=103 WR=53.4 EV=-2.3 boot[-18.7,+14.4] | des n=79 WR=53.2 EV=-2.7 boot[-22.6,+17.8] | hol n=24 WR=54.2 EV=-0.9 boot[-32.6,+28.1]
+   reclaim&distancia<=1ATR h3: tot n=38 WR=50.0 EV=-9.0 boot[-39.3,+24.3] | des n=31 WR=51.6 EV=-6.1 boot[-41.3,+29.2] | hol n=7 WR=42.9 EV=-22.0 boot[-79.8,+51.7]
+   reclaim&distancia<=1ATR h4: tot n=38 WR=55.3 EV=+1.1 boot[-31.4,+32.7] | des n=31 WR=58.1 EV=+6.3 boot[-26.8,+40.3] | hol n=7 WR=42.9 EV=-21.6 boot[-79.7,+52.5]
+   cuerpo>=0.55&distancia<=1ATR h3: tot n=144 WR=57.6 EV=+4.9 boot[-9.6,+19.6] | des n=115 WR=59.1 EV=+7.6 boot[-8.2,+22.5] | hol n=29 WR=51.7 EV=-5.9 boot[-39.3,+29.2]
+   cuerpo>=0.55&distancia<=1ATR h4: tot n=144 WR=58.3 EV=+6.8 boot[-6.7,+20.6] | des n=115 WR=58.3 EV=+6.6 boot[-8.5,+22.0] | hol n=29 WR=58.6 EV=+7.3 boot[-20.7,+37.2]
+-- D2_ANTICIPACION
+   todos h3: tot n=2604 WR=48.9 EV=-11.0 boot[-15.1,-6.7] | des n=2006 WR=49.3 EV=-10.3 boot[-14.6,-5.8] | hol n=598 WR=47.7 EV=-13.3 boot[-23.1,-3.8]
+   todos h4: tot n=2604 WR=48.5 EV=-11.2 boot[-14.7,-7.4] | des n=2006 WR=48.8 EV=-10.7 boot[-14.9,-6.8] | hol n=598 WR=47.7 EV=-12.8 boot[-20.0,-5.8]
+   confluencias>=1 h3: tot n=921 WR=50.5 EV=-8.1 boot[-14.6,-1.6] | des n=736 WR=50.1 EV=-8.8 boot[-16.1,-1.1] | hol n=185 WR=51.9 EV=-5.6 boot[-20.9,+10.6]
+   confluencias>=1 h4: tot n=921 WR=49.1 EV=-10.2 boot[-16.0,-3.9] | des n=736 WR=49.3 EV=-9.7 boot[-16.5,-2.8] | hol n=185 WR=48.1 EV=-12.0 boot[-25.4,+1.8]
+   confluencias>=2 h3: tot n=58 WR=44.8 EV=-18.4 boot[-44.2,+7.4] | des n=44 WR=47.7 EV=-13.1 boot[-42.1,+15.1] | hol n=14 WR=35.7 EV=-35.0 boot[-83.5,+21.3]
+   confluencias>=2 h4: tot n=58 WR=41.4 EV=-24.3 boot[-50.4,+2.4] | des n=44 WR=43.2 EV=-21.0 boot[-48.9,+8.3] | hol n=14 WR=35.7 EV=-34.6 boot[-87.8,+33.1]
+   wick>=0.55 h3: tot n=754 WR=50.9 EV=-7.3 boot[-14.2,-0.6] | des n=594 WR=50.2 EV=-8.7 boot[-16.2,-1.3] | hol n=160 WR=53.8 EV=-2.2 boot[-18.4,+14.7]
+   wick>=0.55 h4: tot n=754 WR=51.1 EV=-6.6 boot[-12.8,-0.0] | des n=594 WR=50.7 EV=-7.3 boot[-14.7,-0.4] | hol n=160 WR=52.5 EV=-3.9 boot[-18.6,+10.3]
+   confluencias>=2&wick>=0.55 h3: tot n=29 WR=31.0 EV=-43.5 boot[-74.0,-12.1] | des n=22 WR=27.3 EV=-50.4 boot[-81.8,-17.3] | hol n=7 WR=42.9 EV=-22.0 boot[-100.0,+45.6]
+   confluencias>=2&wick>=0.55 h4: tot n=29 WR=31.0 EV=-43.2 boot[-73.9,-8.5] | des n=22 WR=27.3 EV=-50.1 boot[-82.6,-17.6] | hol n=7 WR=42.9 EV=-21.6 boot[-100.0,+46.4]
+-- D3
+   todos h3: tot n=32 WR=46.9 EV=-14.7 boot[-49.4,+23.3] | des n=24 WR=58.3 EV=+6.2 boot[-31.8,+45.6] | hol n=8 WR=12.5 EV=-77.2 boot[-100.0,-9.0]
+   todos h4: tot n=32 WR=46.9 EV=-14.2 boot[-42.8,+15.9] | des n=24 WR=50.0 EV=-8.5 boot[-41.8,+24.8] | hol n=8 WR=37.5 EV=-31.4 boot[-77.1,+22.0]
+   size>=0.20ATR h3: tot n=16 WR=56.2 EV=+2.4 boot[-45.4,+47.9] | des n=13 WR=69.2 EV=+26.0 boot[-22.0,+82.0] | hol n=3 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+   size>=0.20ATR h4: tot n=16 WR=50.0 EV=-8.5 boot[-51.2,+34.2] | des n=13 WR=53.9 EV=-1.5 boot[-47.8,+40.8] | hol n=3 WR=33.3 EV=-39.0 boot[-100.0,+83.0]
+   body>=0.55 h3: tot n=26 WR=50.0 EV=-9.0 boot[-46.1,+31.0] | des n=20 WR=60.0 EV=+9.2 boot[-33.0,+51.7] | hol n=6 WR=16.7 EV=-69.7 boot[-100.0,+9.2]
+   body>=0.55 h4: tot n=26 WR=46.1 EV=-15.5 boot[-46.6,+17.1] | des n=20 WR=50.0 EV=-8.5 boot[-45.1,+28.1] | hol n=6 WR=33.3 EV=-39.0 boot[-100.0,+22.0]
+   dir_ok h3: tot n=30 WR=46.7 EV=-15.1 boot[-49.4,+21.3] | des n=23 WR=56.5 EV=+2.9 boot[-36.7,+42.4] | hol n=7 WR=14.3 EV=-74.0 boot[-100.0,+9.2]
+   dir_ok h4: tot n=30 WR=43.3 EV=-20.7 boot[-47.7,+9.8] | des n=23 WR=47.8 EV=-12.5 boot[-46.6,+22.0] | hol n=7 WR=28.6 EV=-47.7 boot[-100.0,+9.8]
+   size&body h3: tot n=14 WR=57.1 EV=+4.0 boot[-48.0,+54.0] | des n=12 WR=66.7 EV=+21.3 boot[-33.8,+82.0] | hol n=2 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+   size&body h4: tot n=14 WR=42.9 EV=-21.6 boot[-60.8,+26.7] | des n=12 WR=50.0 EV=-8.5 boot[-54.2,+37.2] | hol n=2 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+   size&body&dir h3: tot n=14 WR=57.1 EV=+4.0 boot[-48.0,+54.0] | des n=12 WR=66.7 EV=+21.3 boot[-31.8,+82.0] | hol n=2 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+   size&body&dir h4: tot n=14 WR=42.9 EV=-21.6 boot[-60.8,+26.7] | des n=12 WR=50.0 EV=-8.5 boot[-54.2,+37.2] | hol n=2 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+   size&body&dir&mss h3: tot n=10 WR=60.0 EV=+9.2 boot[-45.4,+63.8] | des n=8 WR=75.0 EV=+36.5 boot[-31.8,+82.0] | hol n=2 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+   size&body&dir&mss h4: tot n=10 WR=50.0 EV=-8.5 boot[-63.4,+46.4] | des n=8 WR=62.5 EV=+14.4 boot[-54.2,+60.1] | hol n=2 WR=0.0 EV=-100.0 boot[-100.0,-100.0]
+-- D3_DEF
+   todos h3: tot n=2608 WR=48.8 EV=-11.2 boot[-14.6,-7.7] | des n=2012 WR=48.8 EV=-11.3 boot[-15.5,-7.4] | hol n=596 WR=48.8 EV=-11.1 boot[-18.2,-4.1]
+   todos h4: tot n=2608 WR=50.0 EV=-8.6 boot[-11.7,-5.4] | des n=2012 WR=50.6 EV=-7.4 boot[-11.2,-3.9] | hol n=596 WR=47.8 EV=-12.5 boot[-18.9,-6.2]
+   size>=0.20ATR h3: tot n=1611 WR=49.6 EV=-9.7 boot[-14.2,-5.1] | des n=1246 WR=49.6 EV=-9.7 boot[-14.7,-4.7] | hol n=365 WR=49.6 EV=-9.8 boot[-20.3,-0.7]
+   size>=0.20ATR h4: tot n=1611 WR=50.6 EV=-7.3 boot[-11.6,-3.0] | des n=1246 WR=51.2 EV=-6.3 boot[-11.3,-1.2] | hol n=365 WR=48.8 EV=-10.8 boot[-19.0,-2.8]
+   body>=0.55 h3: tot n=1970 WR=48.9 EV=-11.0 boot[-15.1,-7.1] | des n=1513 WR=49.2 EV=-10.5 boot[-15.1,-5.9] | hol n=457 WR=47.9 EV=-12.8 boot[-20.9,-4.7]
+   body>=0.55 h4: tot n=1970 WR=49.8 EV=-9.0 boot[-12.6,-5.4] | des n=1513 WR=50.6 EV=-7.3 boot[-11.6,-3.2] | hol n=457 WR=46.8 EV=-14.3 boot[-21.8,-6.7]
+   dir_ok h3: tot n=2579 WR=48.9 EV=-11.0 boot[-14.6,-7.5] | des n=1989 WR=48.8 EV=-11.2 boot[-15.4,-6.9] | hol n=590 WR=49.1 EV=-10.5 boot[-17.8,-3.6]
+   dir_ok h4: tot n=2579 WR=50.0 EV=-8.5 boot[-11.6,-5.2] | des n=1989 WR=50.5 EV=-7.5 boot[-11.1,-3.9] | hol n=590 WR=48.1 EV=-11.9 boot[-18.4,-5.3]
+   size&body h3: tot n=1394 WR=49.0 EV=-10.8 boot[-15.7,-6.2] | des n=1068 WR=49.2 EV=-10.4 boot[-16.0,-5.1] | hol n=326 WR=48.2 EV=-12.3 boot[-22.7,-2.2]
+   size&body h4: tot n=1394 WR=49.6 EV=-9.3 boot[-13.9,-4.8] | des n=1068 WR=50.3 EV=-8.0 boot[-13.6,-2.9] | hol n=326 WR=47.2 EV=-13.6 boot[-22.2,-5.3]
+   size&body&dir h3: tot n=1384 WR=49.2 EV=-10.4 boot[-15.4,-5.5] | des n=1061 WR=49.4 EV=-10.1 boot[-15.7,-4.8] | hol n=323 WR=48.6 EV=-11.5 boot[-22.3,-1.9]
+   size&body&dir h4: tot n=1384 WR=49.7 EV=-9.0 boot[-13.6,-4.5] | des n=1061 WR=50.3 EV=-7.9 boot[-13.6,-2.6] | hol n=323 WR=47.7 EV=-12.8 boot[-21.5,-4.4]
+   size&body&dir&mss h3: tot n=859 WR=49.0 EV=-10.8 boot[-16.6,-4.4] | des n=695 WR=49.9 EV=-9.1 boot[-15.6,-2.5] | hol n=164 WR=45.1 EV=-17.9 boot[-35.4,-1.1]
+   size&body&dir&mss h4: tot n=859 WR=50.5 EV=-7.5 boot[-13.4,-1.5] | des n=695 WR=51.8 EV=-5.2 boot[-11.7,+1.8] | hol n=164 WR=45.1 EV=-17.4 boot[-31.2,-4.4]
+-- D5
+   todos h3: tot n=308 WR=48.0 EV=-12.6 boot[-22.5,-1.5] | des n=259 WR=46.7 EV=-15.0 boot[-26.6,-2.3] | hol n=49 WR=55.1 EV=+0.3 boot[-22.4,+30.0]
+   todos h4: tot n=308 WR=47.7 EV=-12.7 boot[-24.2,-1.5] | des n=259 WR=46.0 EV=-15.9 boot[-28.2,-3.1] | hol n=49 WR=57.1 EV=+4.6 boot[-26.0,+36.3]
+   reclaim h3: tot n=56 WR=53.6 EV=-2.5 boot[-25.1,+20.3] | des n=50 WR=54.0 EV=-1.7 boot[-24.8,+20.1] | hol n=6 WR=50.0 EV=-9.0 boot[-100.0,+59.2]
+   reclaim h4: tot n=56 WR=51.8 EV=-5.2 boot[-28.8,+18.6] | des n=50 WR=52.0 EV=-4.8 boot[-30.5,+18.6] | hol n=6 WR=50.0 EV=-8.5 boot[-100.0,+60.1]
+   cuerpo>=0.55 h3: tot n=129 WR=48.1 EV=-12.5 boot[-26.6,+2.6] | des n=113 WR=47.8 EV=-13.0 boot[-28.2,+2.3] | hol n=16 WR=50.0 EV=-9.0 boot[-57.2,+45.6]
+   cuerpo>=0.55 h4: tot n=129 WR=49.6 EV=-9.2 boot[-24.0,+7.3] | des n=113 WR=48.7 EV=-10.9 boot[-27.5,+5.7] | hol n=16 WR=56.2 EV=+2.9 boot[-39.0,+46.4]
+   distancia<=2ATR h3: tot n=308 WR=48.0 EV=-12.6 boot[-22.9,-1.9] | des n=259 WR=46.7 EV=-15.0 boot[-26.5,-2.8] | hol n=49 WR=55.1 EV=+0.3 boot[-22.4,+29.3]
+   distancia<=2ATR h4: tot n=308 WR=47.7 EV=-12.7 boot[-24.1,-1.2] | des n=259 WR=46.0 EV=-15.9 boot[-28.4,-3.1] | hol n=49 WR=57.1 EV=+4.6 boot[-25.1,+36.1]
+   reclaim&distancia<=2ATR h3: tot n=56 WR=53.6 EV=-2.5 boot[-24.4,+20.3] | des n=50 WR=54.0 EV=-1.7 boot[-26.4,+21.3] | hol n=6 WR=50.0 EV=-9.0 boot[-100.0,+59.2]
+   reclaim&distancia<=2ATR h4: tot n=56 WR=51.8 EV=-5.2 boot[-30.1,+18.8] | des n=50 WR=52.0 EV=-4.8 boot[-30.5,+19.5] | hol n=6 WR=50.0 EV=-8.5 boot[-100.0,+60.1]
+   reclaim&distancia<=1ATR h3: tot n=25 WR=56.0 EV=+1.9 boot[-34.5,+34.8] | des n=22 WR=54.5 EV=-0.7 boot[-39.3,+36.5] | hol n=3 WR=66.7 EV=+21.3 boot[-100.0,+82.0]
+   reclaim&distancia<=1ATR h4: tot n=25 WR=60.0 EV=+9.8 boot[-26.8,+44.9] | des n=22 WR=59.1 EV=+8.1 boot[-30.3,+43.2] | hol n=3 WR=66.7 EV=+22.0 boot[-100.0,+83.0]
+   cuerpo>=0.55&distancia<=1ATR h3: tot n=87 WR=47.1 EV=-14.2 boot[-30.5,+3.4] | des n=75 WR=46.7 EV=-15.1 boot[-32.7,+4.3] | hol n=12 WR=50.0 EV=-9.0 boot[-66.9,+48.9]
+   cuerpo>=0.55&distancia<=1ATR h4: tot n=87 WR=51.7 EV=-5.3 boot[-23.1,+13.6] | des n=75 WR=50.7 EV=-7.3 boot[-26.3,+14.4] | hol n=12 WR=58.3 EV=+6.8 boot[-47.7,+66.4]

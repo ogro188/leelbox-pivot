@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """D4 — Order Block confluence (intravela). Filtros informacionales."""
+from datetime import timedelta
+
 from core.estructuras import Signal
 from core.base import Contexto, Detector
 
 
 class DetectorD4(Detector):
     nombre = "D4"
+
+    def __init__(self):
+        # Último OB emitido: (entry_time, dirección, ob_high, ob_low). Evita
+        # que el mismo OB se re-emita mientras envejece de shift 2 a 4.
+        self._ultimo_ob = None
 
     def detectar(self, ctx: Contexto) -> Signal:
         close0 = ctx._i_close(ctx.df_m15, 0)
@@ -136,7 +143,24 @@ class DetectorD4(Detector):
             sig.filtros_fallados.append("ob_distancia")
 
         sig.tipo = self.clasificar(sig, ctx, ob_impulse, ob_vol, ob_bar)
+        duplicado = self._es_ob_duplicado(sig)
+        self._ultimo_ob = (sig.entry_time, sig.direction, float(sig.ob_high), float(sig.ob_low))
+        if duplicado:
+            sig.direction = 0
+            sig.filtros_fallados.append("ob_duplicado")
+            sig.tipo = "D"
         return sig
+
+    def _es_ob_duplicado(self, sig: Signal) -> bool:
+        """True si la señal repite el OB emitido en la vela anterior."""
+        if self._ultimo_ob is None or sig.direction == 0:
+            return False
+        entry_time, direction, ob_high, ob_low = self._ultimo_ob
+        if sig.entry_time - entry_time != timedelta(minutes=15):
+            return False
+        return (sig.direction == direction
+                and abs(float(sig.ob_high) - ob_high) <= 1e-9
+                and abs(float(sig.ob_low) - ob_low) <= 1e-9)
 
     def clasificar(self, sig: Signal, ctx: Contexto, impulso: float = None, vol: float = None, ob_bars: int = None) -> str:
         if impulso is None:

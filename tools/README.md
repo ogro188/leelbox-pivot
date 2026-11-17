@@ -22,7 +22,8 @@ python tools/<script>.py --help
 | Paso | Script | Entrada | Salida |
 |---:|---|---|---|
 | 1 | `fetch_history.py` | API Deriv | `data/{symbol}_{TF}.csv` |
-| 2 | `feature_replay.py` | `data/*_M15.csv` + `data/*_D1.csv` | `results/{symbol}_signals.csv`, `*_meta.json` |
+| 1b | `make_replay_window.py` | `data/*_M15.csv` | ventana M15 con inicio fijo |
+| 2 | `feature_replay.py` | ventana M15 + `data/*_D1.csv` | `results/{symbol}_signals.csv`, `*_meta.json` |
 | 3 | `edge_scan.py` | `results/*_signals.csv` | `results/edge_scan_*.csv`, `scan_*.txt` |
 | 4 | `ablation.py` | `data/` + señales | `results/ablation_*.csv` |
 | 5 | `holdout.py` | señales + scan de descubrimiento | `results/holdout_*.csv` |
@@ -31,6 +32,7 @@ python tools/<script>.py --help
 | 8 | `pattern_edge.py` | `data/*_M15.csv` | `results/pattern_edge_*.csv` |
 | 9 | `otc_validate.py` | DB OTC + `otc_features.csv` | `results/otc_validation.csv` |
 | 10 | `summarize.py` | resultados | `results/summary.txt` |
+| 11 | `detector_precision.py` | `data/*_M15.csv` + `results/*_signals.csv` | `results/detector_precision/` |
 
 `run_full_analysis.sh` encadena los pasos 2–6 y 10. Los pasos 1, 7, 8 y 9 se ejecutan aparte porque requieren red o bases OTC. Acepta `PYTHON`, `OUT` y `BOOTSTRAP` como variables de entorno; por defecto usa `python3`, `results` y 2.000 remuestreos. Si no existe `pivotradar_data/`, omite los pasos de fidelidad contra producción.
 
@@ -39,7 +41,8 @@ python tools/<script>.py --help
 ### Datos y replay
 
 - **`fetch_history.py`** — descarga velas M15/H1/H4/D1 desde Deriv. Solo lectura. La API limita M15 a 12 meses.
-- **`feature_replay.py`** — recorre las velas con el motor real en proceso, captura 177 columnas por señal (incluye `decision_time`) y calcula etiquetas h1–h8. Usa contexto superior causal. Tiempo: ~3,5 min EURUSD y ~3,2 min XAUUSD en la máquina x86 del re-baseline; ~26 min por activo en el host ARM original.
+- **`feature_replay.py`** — recorre las velas con el motor real en proceso, captura 177 columnas por señal (incluye `decision_time`) y calcula etiquetas h1–h8. Usa contexto superior causal. Tiempo del corte 10-N: 195,1 s EURUSD y 187,4 s XAUUSD (~3,3/3,1 min) en la máquina x86; ~26 min por activo en el host ARM original.
+- **`make_replay_window.py`** — extrae la ventana de replay desde una fecha de inicio fija (`--desde`, por defecto 2026-05-05 08:30 UTC). `--rows` conserva el modo histórico del corte 6-N.
 - **`fast_engine.py`** — aceleradores del motor usados por el replay. No cambia la lógica; se valida contra el motor sin acelerar.
 - **`replay_harness.py` / `replay_fast_test.py` / `replay_profile.py`** — utilidades de desarrollo para comparar y perfilar el replay.
 - **`replay_report.py`** — compara el replay con la base de producción. Requiere `pivotradar_data/`; no está incluido.
@@ -56,6 +59,7 @@ python tools/<script>.py --help
 - **`exit_analysis.py`** — análisis posterior de salidas (TP/SL); no se usa para seleccionar.
 - **`payout_ev.py`** — calcula EV con payout real por señal.
 - **`summarize.py`** — genera el resumen de texto.
+- **`detector_precision.py`** — audita el cumplimiento de reglas de D1/D2/D5/D2A/D3/D4, detecta duplicados y metadata rota, y calcula WR/EV por gate, horizonte y periodo con IC Wilson y bootstrap por día. No modifica el motor ni producción. Resultado: `results/detector_precision/`.
 - **`query_bar_edge.py` / `inspect_scan.py` / `detector_counts.py`** — utilidades de consulta y conteo.
 
 ### OTC
